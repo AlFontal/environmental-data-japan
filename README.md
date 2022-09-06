@@ -24,7 +24,7 @@ Since the repository includes data for over 2000 stations, the measured variable
 | **NO2**      	| Nitrogen Dioxide                     	| ppm       	| Daily Mean              	|
 | **NOX**      	| Nitrogen Oxides                      	| ppm       	| Daily Mean              	|
 | **CO**       	| Carbon Monoxide                      	| ppm       	| Daily Mean              	|
-| **OX**       	|                                      	| ppm       	| Daily Mean              	|
+| **OX**       	|    Photochemical Oxidants                                  	| ppm       	| Daily Mean              	|
 | **NMHC**     	| Non-methane Hydrocarbons             	| ppmC      	| Daily Mean              	|
 | **CH4**      	| Methane                              	| ppmC      	| Daily Mean              	|
 | **THC**      	| Total Hydrocarbons                   	| ppmC      	| Daily Mean              	|
@@ -34,3 +34,11 @@ Since the repository includes data for over 2000 stations, the measured variable
 | **HUM**      	| Relative Humidity                    	| %         	| Daily Mean              	|
 | **RAIN**     	| Total Precipitation                  	| mm        	| Daily Sum               	|
 
+
+## Datasets
+
+Daily data for each station and its measured variables from 2011-01-01 to 2018-12-31 can be accessed in the `data/air_pollution_stations/clean` folder, classified in subfolders according to the prefecture where they are located.
+
+## WIP
+
+The objective is to be able to obtain a prefecture-wide daily weighted average for each of the measured variables using the information from the available stations. This is a work in progres. 
