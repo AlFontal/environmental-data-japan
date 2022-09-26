@@ -127,3 +127,13 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+data/air_pollution/stations/raw/
+data/air_pollution/stations/doc/TM20180000.txt
+data/air_pollution/stations/doc/TM20170000.txt
+data/air_pollution/stations/doc/TM20160000.txt
+data/air_pollution/stations/doc/TM20150000.txt
+data/air_pollution/stations/doc/TM20140000.txt
+data/air_pollution/stations/doc/TM20130000.txt
+data/air_pollution/stations/doc/TM20120000.txt
+data/air_pollution/stations/doc/TM20110000.txt
