@@ -6,12 +6,12 @@ Here, we have downloaded and processed the data available through the site made 
 
 More specifically, we have downloaded the Air Pollution Monitoring data for a total of 2039 stations located around the whole country (represented as red dots in the map below):
 
-<img src="https://github.com/AlFontal/environmental-data-japan/raw/main/data/air_pollution_stations/doc/stations_map.png" alt="Japanese Monitoring Stations Map" title="Japanese Monitoring Stations Map">
+<img src="https://github.com/AlFontal/environmental-data-japan/raw/main/data/air_pollution/stations/doc/stations_map.png" alt="Japanese Monitoring Stations Map" title="Japanese Monitoring Stations Map">
 
 
 ## The stations
 
-Information for the exact location of each station (latitude, longitude and altitude) and the environmental variables available can be found in the table in [`/data/air_pollution_stations/doc/stations_info.csv`](data/air_pollution_stations/doc/stations_info.csv)
+Information for the exact location of each station (latitude, longitude and altitude) and the environmental variables available can be found in the table in [`/data/air_pollution/stations/doc/stations_info.csv`](data/air_pollution_stations/doc/stations_info.csv)
 
 ## Variables measured
 
@@ -37,8 +37,15 @@ Since the repository includes data for over 2000 stations, the measured variable
 
 ## Datasets
 
-Daily data for each station and its measured variables from 2011-01-01 to 2018-12-31 can be accessed in the `data/air_pollution_stations/clean` folder, classified in subfolders according to the prefecture where they are located.
+
+### Station data
+
+Daily data for each station and its measured variables from 2011-01-01 to 2018-12-31 can be accessed in the `data/air_pollution/stations/clean` folder, classified in subfolders according to the prefecture where they are located.
+
+### Municipalities 
+
+Averaged daily data for all stations within each municipality in Japan during the same period can be found in the `data/air_pollution/municipalities` folder, with the first 2 digits of each CSV file indicating the prefecture code and the last 3 digits indicating the municipal code.
 
 ## WIP
 
-The objective is to be able to obtain a prefecture-wide daily weighted average for each of the measured variables using the information from the available stations. This is a work in progres. 
+The objective is to be able to obtain a prefecture-wide daily weighted average for each of the measured variables using the information from the available stations. This is a work in progress. 
