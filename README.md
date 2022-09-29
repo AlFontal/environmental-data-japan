@@ -11,7 +11,7 @@ More specifically, we have downloaded the Air Pollution Monitoring data for a to
 
 ## The stations
 
-Information for the exact location of each station (latitude, longitude and altitude) and the environmental variables available can be found in the table in [`/data/air_pollution/stations/doc/stations_info.csv`](data/air_pollution_stations/doc/stations_info.csv)
+Information for the exact location of each station (latitude, longitude and altitude) and the environmental variables available can be found in the table in [`/data/air_pollution/stations/doc/stations_info.csv`](data/air_pollution/stations/doc/stations_info.csv)
 
 ## Variables measured
 
@@ -40,12 +40,13 @@ Since the repository includes data for over 2000 stations, the measured variable
 
 ### Station data
 
-Daily data for each station and its measured variables from 2011-01-01 to 2018-12-31 can be accessed in the `data/air_pollution/stations/clean` folder, classified in subfolders according to the prefecture where they are located.
+Daily data for each station and its measured variables from 2011-01-01 to 2018-12-31 can be accessed in the [`data/air_pollution/stations/clean`](data/air_pollution/stations/clean) folder, classified in subfolders according to the prefecture where they are located.
 
 ### Municipalities 
 
-Averaged daily data for all stations within each municipality in Japan during the same period can be found in the `data/air_pollution/municipalities` folder, with the first 2 digits of each CSV file indicating the prefecture code and the last 3 digits indicating the municipal code.
+Averaged daily data for all stations within each municipality in Japan during the same period can be found in the [`data/air_pollution/municipalities`](data/air_pollution/municipalities/) folder, with the first 2 digits of each CSV file indicating the prefecture code and the last 3 digits indicating the municipal code.
 
-## WIP
+### Prefectures
 
-The objective is to be able to obtain a prefecture-wide daily weighted average for each of the measured variables using the information from the available stations. This is a work in progress. 
+Averaged daily data for all municipalities within each prefecture in Japan can be found in the [`data/air_pollution/prefectures`](data/air_pollution/prefectures/) folder. Since the objective of the prefectural averages is to represent the *exposure* of the population to the measured environmental variables, the municipal values are averaged weighting by the share of population living in them. At this moment, the only available values are those averaged weighting by the population of children under 5 years old in each municipal term, but more will likely be added.
+
