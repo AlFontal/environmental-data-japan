@@ -137,3 +137,6 @@ data/air_pollution/stations/doc/TM20140000.txt
 data/air_pollution/stations/doc/TM20130000.txt
 data/air_pollution/stations/doc/TM20120000.txt
 data/air_pollution/stations/doc/TM20110000.txt
+
+# Japanese e-Stat site API key
+.appID
