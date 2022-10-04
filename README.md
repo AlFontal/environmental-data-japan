@@ -14,7 +14,7 @@ Here, we have downloaded and processed the data available through the site made 
 
 More specifically, we have downloaded the Air Pollution Monitoring data for a total of 2039 stations located around the whole country (represented as red dots in the map below):
 
-<img src="https://github.com/AlFontal/environmental-data-japan/raw/main/data/air_pollution/stations/doc/stations_map.png" alt="Japanese Monitoring Stations Map" title="Japanese Monitoring Stations Map" width=400px>
+<img src="https://github.com/AlFontal/environmental-data-japan/raw/main/data/air_pollution/stations/doc/stations_map.png" alt="Japanese Monitoring Stations Map" title="Japanese Monitoring Stations Map" width=500px>
 
 ## The stations
 
@@ -31,14 +31,14 @@ Since the repository includes data for over 2000 stations, the measured variable
 | **NO2**       | Nitrogen Dioxide                      | ppm        | Daily Mean               |
 | **NOX**       | Nitrogen Oxides                       | ppm        | Daily Mean               |
 | **CO**        | Carbon Monoxide                       | ppm        | Daily Mean               |
-| **OX**        |    Photochemical Oxidants             | ppm        | Daily Mean               |
+| **OX**        | Photochemical Oxidants                | ppm        | Daily Mean               |
 | **NMHC**      | Non-methane Hydrocarbons              | ppmC       | Daily Mean               |
 | **CH4**       | Methane                               | ppmC       | Daily Mean               |
 | **THC**       | Total Hydrocarbons                    | ppmC       | Daily Mean               |
 | **SPM**       | Suspended Particulate Matter (<10µm)  | mg/m³      | Daily Mean               |
 | **PM2.5**     | Particulate matter (<2.5µm)           | µg/m³      | Daily Mean               |
 | **TEMP**      | Temperature                           | °C         | Daily Min, Mean and Max  |
-| **HUM**       | Relative Humidity                     | %          | Daily Min, Mean and Max   |
+| **HUM**       | Relative Humidity                     | %          | Daily Min, Mean and Max  |
 | **RAIN**      | Total Precipitation                   | mm         | Daily Sum                |
 
 
