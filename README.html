@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Japan’s environmental Data — KD and Tokyo's air sources</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet"/>
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet"/>
+
+    
+  <link href="_static/vendor/fontawesome/5.13.0/css/all.min.css" rel="stylesheet"/>
+  <link as="font" crossorigin="" href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+  <link as="font" crossorigin="" href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+
+    
+      
+
+    
+    <link href="_static/pygments.css" rel="stylesheet" type="text/css"/>
+    <link href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" rel="stylesheet" type="text/css"/>
+    <link href="_static/togglebutton.css" rel="stylesheet" type="text/css"/>
+    <link href="_static/copybutton.css" rel="stylesheet" type="text/css"/>
+    <link href="_static/mystnb.css" rel="stylesheet" type="text/css"/>
+    <link href="_static/sphinx-thebe.css" rel="stylesheet" type="text/css"/>
+    <link href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" rel="stylesheet" type="text/css"/>
+    <link href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" rel="stylesheet" type="text/css"/>
+    
+  <link as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js" rel="preload"/>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script kind="utterances">
+
+    var commentsRunWhenDOMLoaded = cb => {
+    if (document.readyState != 'loading') {
+        cb()
+    } else if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', cb)
+    } else {
+        document.attachEvent('onreadystatechange', function() {
+        if (document.readyState == 'complete') cb()
+        })
+    }
+}
+
+var addUtterances = () => {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://utteranc.es/client.js";
+    script.async = "async";
+
+    script.setAttribute("repo", "AlFontal/vasculitis2022-conference");
+    script.setAttribute("issue-term", "pathname");
+    script.setAttribute("theme", "github-light");
+    script.setAttribute("label", "💬 comment");
+    script.setAttribute("crossorigin", "anonymous");
+
+    sections = document.querySelectorAll("div.section");
+    if (sections !== null) {
+        section = sections[sections.length-1];
+        section.appendChild(script);
+    }
+}
+commentsRunWhenDOMLoaded(addUtterances);
+</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link href="https://alfontal.github.io/vasculitis2022-conference/README.html" rel="canonical"/>
+    <link href="genindex.html" rel="index" title="Index"/>
+    <link href="search.html" rel="search" title="Search"/>
+    <link href="prefecture_weighted_averages.html" rel="next" title="Computing prefecture-wise weighted averages of Pollution data"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta content="None" name="docsearch:language"/>
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-TC2X861BC8"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-TC2X861BC8');
+                </script>
+
+  </head>
+  <body data-offset="80" data-spy="scroll" data-target="#bd-toc-nav">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">KD and Tokyo's air sources</h1>
+      
+    </a>
+</div><form action="search.html" class="bd-search d-flex align-items-center" method="get">
+  <i class="icon fas fa-search"></i>
+  <input aria-label="Search this book..." autocomplete="off" class="form-control" id="search-input" name="q" placeholder="Search this book..." type="search"/>
+</form><nav aria-label="Main" class="bd-links" id="bd-docs-nav">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1 current">
+  <a class="reference internal" href="#">
+   Japan’s environmental Data
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="prefecture_weighted_averages.html">
+   From station to prefectural data
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+<div>           
+<hr/>
+<a href="https://helical-itn.eu/">
+<img src="https://helical-itn.eu/wp-content/uploads/2020/01/cropped-HELICAL_logo-3.png" width="200px"/>
+</a>
+<p></p>
+<a href="https://www.isglobal.org/en/-/clima-y-salud">
+<img src="https://www.isglobal.org/isglobal-new-theme/assets/images/isglobal/logo-isglobal-en.png" width="200px"/>
+</a>
+<hr/>
+<a href="https://www.linkedin.com/in/alfontal/">
+<img alt="Alejandro Fontal" class="profile" src="https://avatars.githubusercontent.com/u/10958332?s=400&amp;u=51edd1406d2af0c2f1723a0bf8f111d48a1b7fe7&amp;v=4"/>
+<p style="text-align: center; font-size:16px"><b>Alejandro Fontal</b></p>
+</a>
+<a class="fa fa-github" href="https://github.com/AlFontal" style="font-size: 25px;"></a>
+<a class="fa fa-linkedin" href="https://www.linkedin.com/in/alfontal/" style="font-size: 25px;"></a>
+<a class="fa fa-twitter" href="https://twitter.com/alefontal" style="font-size: 25px;"></a>
+<a class="fa fa-envelope" href="mailto:alejandro.fontal.92@gmail.com" style="font-size: 25px;"></a>
+</div>
+
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button aria-controls="navbar-menu" aria-expanded="true" aria-label="Toggle navigation" class="navbar-toggler ml-0" data-placement="bottom" data-target=".site-navigation" data-toggle="collapse" id="navbar-toggler" title="Toggle navigation" type="button">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button aria-label="Download this page" class="btn btn-secondary topbarbtn" id="dropdown-buttons-trigger"><i class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/README.md"><button class="btn btn-secondary topbarbtn" data-placement="left" data-toggle="tooltip" title="Download source file" type="button">.md</button></a>
+        <!-- Download PDF via print -->
+        <button class="btn btn-secondary topbarbtn" data-placement="left" data-toggle="tooltip" id="download-print" onclick="printPdf(this)" title="Print to PDF" type="button">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button aria-label="Connect with source repository" class="btn btn-secondary topbarbtn" id="dropdown-buttons-trigger"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button" href="https://github.com/AlFontal/vasculitis2022-conference"><button class="btn btn-secondary topbarbtn" data-placement="left" data-toggle="tooltip" title="Source repository" type="button"><i class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button" href="https://github.com/AlFontal/vasculitis2022-conference/issues/new?title=Issue%20on%20page%20%2FREADME.html&amp;body=Your%20issue%20content%20here."><button class="btn btn-secondary topbarbtn" data-placement="left" data-toggle="tooltip" title="Open an issue" type="button"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button aria-label="Fullscreen mode" class="btn btn-secondary topbarbtn" data-placement="bottom" data-toggle="tooltip" onclick="toggleFullScreen()" title="Fullscreen mode" type="button"><i class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav aria-label="Page" id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-stations">
+   The stations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#variables-measured">
+   Variables measured
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#datasets">
+   Datasets
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#station-data">
+     (1) Station data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#municipalities">
+     (2) Municipalities
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#prefectures">
+     (3) Prefectures
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div class="row" id="main-content">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div class="onlyprint" id="jb-print-docs-body">
+                <h1>Japan’s environmental Data</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-stations">
+   The stations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#variables-measured">
+   Variables measured
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#datasets">
+   Datasets
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#station-data">
+     (1) Station data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#municipalities">
+     (2) Municipalities
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#prefectures">
+     (3) Prefectures
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="japan-s-environmental-data">
+<h1>Japan’s environmental Data<a class="headerlink" href="#japan-s-environmental-data" title="Permalink to this headline">¶</a></h1>
+<p>Repository collecting and organizing environmental data sources for Japan.</p>
+<p>Here, we have downloaded and processed the data available through the site made available by the Japanese National Institute for Environmental Studies (NIES) (<a class="reference external" href="https://tenbou.nies.go.jp/download/">https://tenbou.nies.go.jp/download/</a>).</p>
+<p>More specifically, we have downloaded the Air Pollution Monitoring data for a total of 2039 stations located around the whole country (represented as red dots in the map below):</p>
+<img alt="Japanese Monitoring Stations Map" src="https://github.com/AlFontal/environmental-data-japan/raw/main/data/air_pollution/stations/doc/stations_map.png" title="Japanese Monitoring Stations Map" width="800px"/>
+<div class="section" id="the-stations">
+<h2>The stations<a class="headerlink" href="#the-stations" title="Permalink to this headline">¶</a></h2>
+<p>Information for the exact location of each station (latitude, longitude and altitude) and the environmental variables available can be found in the table in <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/data/air_pollution/stations/doc/stations_info.csv</span></code></span></p>
+</div>
+<div class="section" id="variables-measured">
+<h2>Variables measured<a class="headerlink" href="#variables-measured" title="Permalink to this headline">¶</a></h2>
+<p>Since the repository includes data for over 2000 stations, the measured variables in each of them are rather heterogeneous. The data is provided in hourly format by the Japanese NIES, and the processed files available in this repository provide the data with a daily frequency, so an aggregation method has been used. The following table summarizes the selected variables, their units, and the aggregation method used to summarize them.</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:center head"><p><strong>Variable</strong></p></th>
+<th class="head"><p><strong>Name</strong></p></th>
+<th class="text-align:center head"><p><strong>Units</strong></p></th>
+<th class="text-align:center head"><p><strong>Aggregation Method</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:center"><p><strong>SO2</strong></p></td>
+<td><p>Sulfur Dioxide</p></td>
+<td class="text-align:center"><p>ppm</p></td>
+<td class="text-align:center"><p>Daily Mean</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:center"><p><strong>NO</strong></p></td>
+<td><p>Nitric Oxide</p></td>
+<td class="text-align:center"><p>ppm</p></td>
+<td class="text-align:center"><p>Daily Mean</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:center"><p><strong>NO2</strong></p></td>
+<td><p>Nitrogen Dioxide</p></td>
+<td class="text-align:center"><p>ppm</p></td>
+<td class="text-align:center"><p>Daily Mean</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:center"><p><strong>NOX</strong></p></td>
+<td><p>Nitrogen Oxides</p></td>
+<td class="text-align:center"><p>ppm</p></td>
+<td class="text-align:center"><p>Daily Mean</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:center"><p><strong>CO</strong></p></td>
+<td><p>Carbon Monoxide</p></td>
+<td class="text-align:center"><p>ppm</p></td>
+<td class="text-align:center"><p>Daily Mean</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:center"><p><strong>OX</strong></p></td>
+<td><p>Photochemical Oxidants</p></td>
+<td class="text-align:center"><p>ppm</p></td>
+<td class="text-align:center"><p>Daily Mean</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:center"><p><strong>NMHC</strong></p></td>
+<td><p>Non-methane Hydrocarbons</p></td>
+<td class="text-align:center"><p>ppmC</p></td>
+<td class="text-align:center"><p>Daily Mean</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:center"><p><strong>CH4</strong></p></td>
+<td><p>Methane</p></td>
+<td class="text-align:center"><p>ppmC</p></td>
+<td class="text-align:center"><p>Daily Mean</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:center"><p><strong>THC</strong></p></td>
+<td><p>Total Hydrocarbons</p></td>
+<td class="text-align:center"><p>ppmC</p></td>
+<td class="text-align:center"><p>Daily Mean</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:center"><p><strong>SPM</strong></p></td>
+<td><p>Suspended Particulate Matter (&lt;10µm)</p></td>
+<td class="text-align:center"><p>mg/m³</p></td>
+<td class="text-align:center"><p>Daily Mean</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:center"><p><strong>PM2.5</strong></p></td>
+<td><p>Particulate matter (&lt;2.5µm)</p></td>
+<td class="text-align:center"><p>µg/m³</p></td>
+<td class="text-align:center"><p>Daily Mean</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:center"><p><strong>TEMP</strong></p></td>
+<td><p>Temperature</p></td>
+<td class="text-align:center"><p>°C</p></td>
+<td class="text-align:center"><p>Daily Min, Mean and Max</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:center"><p><strong>HUM</strong></p></td>
+<td><p>Relative Humidity</p></td>
+<td class="text-align:center"><p>%</p></td>
+<td class="text-align:center"><p>Daily Min, Mean and Max</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:center"><p><strong>RAIN</strong></p></td>
+<td><p>Total Precipitation</p></td>
+<td class="text-align:center"><p>mm</p></td>
+<td class="text-align:center"><p>Daily Sum</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="datasets">
+<h2>Datasets<a class="headerlink" href="#datasets" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="station-data">
+<h3>(1) Station data<a class="headerlink" href="#station-data" title="Permalink to this headline">¶</a></h3>
+<p>Daily data for each station and its measured variables from 2011-01-01 to 2018-12-31 can be accessed in the <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">data/air_pollution/stations/clean</span></code></span> folder, classified in subfolders according to the prefecture where they are located.</p>
+</div>
+<div class="section" id="municipalities">
+<h3>(2) Municipalities<a class="headerlink" href="#municipalities" title="Permalink to this headline">¶</a></h3>
+<p>Averaged daily data for all stations within each municipality in Japan during the same period can be found in the <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">data/air_pollution/municipalities</span></code></span> folder, with the first 2 digits of each CSV file indicating the prefecture code and the last 3 digits indicating the municipal code.</p>
+</div>
+<div class="section" id="prefectures">
+<h3>(3) Prefectures<a class="headerlink" href="#prefectures" title="Permalink to this headline">¶</a></h3>
+<p>Estimates of the daily data for each prefecture have been estimated by averaging over the municipal averages in each prefecture.</p>
+<p>At this point, three different methods have been used to compute the averages, weighing the municipalities differently according to diverse criteria:</p>
+<ul class="simple">
+<li><p><strong>Area-based weighted averages</strong>: These averages are completely population-naïve and try to better estimate the overall values for each variable across the whole area of the prefecture, wheighing high and low population density areas exactly the same. The time-series for these can be found in <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">data/air_pollution/prefectures/area_weighted</span></code></span>.</p></li>
+<li><p><strong>Population-weighted averages</strong>: These averages are computed trying to estimate the values of each variable that represent the most accurate exposure of the population of each prefecture to each pollutant/meteorological variable. For these purpose, the values for each variable have been averaged weighing every municipal term according to their population share in the prefecture. The time-series for these can be found in <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">data/air_pollution/prefectures/population_weighted</span></code></span>.</p></li>
+<li><p><strong>Infant population-weighted averages</strong>: Following the same principal as the previous averages, these include the daily prefecture-level estimates of each measured variable based on the share of <em>children under 5 years old</em> in each municipal term. The time-series for these can be found in <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">data/air_pollution/prefectures/under_5_weighted</span></code></span>.</p></li>
+</ul>
+</div>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="right-next" href="prefecture_weighted_averages.html" id="next-link" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Computing prefecture-wise weighted averages of Pollution data</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Alejandro Fontal<br/>
+    
+        © Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  
+</body></html>
