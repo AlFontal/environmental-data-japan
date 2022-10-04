@@ -1,0 +1,7 @@
+format: jb-article
+root: index
+sections:
+- file: prefecture_weighted_averages
+  title: From station to prefectural data
+
+

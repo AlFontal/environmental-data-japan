@@ -137,6 +137,17 @@ data/air_pollution/stations/doc/TM20140000.txt
 data/air_pollution/stations/doc/TM20130000.txt
 data/air_pollution/stations/doc/TM20120000.txt
 data/air_pollution/stations/doc/TM20110000.txt
+data/doc/images/*
 
 # Japanese e-Stat site API key
 .appID
+data/shapefiles/administrative_boundaries/municipality_shapes.cpg
+data/shapefiles/administrative_boundaries/municipality_shapes.dbf
+data/shapefiles/administrative_boundaries/municipality_shapes.prj
+data/shapefiles/administrative_boundaries/municipality_shapes.shp
+data/shapefiles/administrative_boundaries/municipality_shapes.shx
+data/shapefiles/administrative_boundaries/prefecture_shapes.cpg
+data/shapefiles/administrative_boundaries/prefecture_shapes.dbf
+data/shapefiles/administrative_boundaries/prefecture_shapes.prj
+data/shapefiles/administrative_boundaries/prefecture_shapes.shp
+data/shapefiles/administrative_boundaries/prefecture_shapes.shx

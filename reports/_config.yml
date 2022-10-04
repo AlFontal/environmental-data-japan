@@ -1,0 +1,62 @@
+# yaml-language-server: $schema=./_config.yaml
+#######################################################################################
+# A default configuration that will be loaded for all jupyter books
+# See the documentation for help and more options: 
+# https://jupyterbook.org/customize/config.html
+
+#######################################################################################
+# Book settings
+title                       : Japan's Environmental Data  # The title of the book. Will be placed in the left navbar.
+author                      : Alejandro Fontal  # The author of the book
+copyright                   : "2022"  # Copyright year to be placed in the footer
+logo                        : images/logo.png # A path to the book logo
+
+execute:
+  execute_notebooks: "off"
+
+repository:
+  url: https://github.com/AlFontal/environmental-data-japan
+  branch: main
+html:
+  use_repository_button: true
+  use_issues_button: true
+  favicon: images/favicon.ico
+  baseurl: 'https://alfontal.github.io/environmental-data-japan'
+  comments:
+    utterances: 
+      repo: 'AlFontal/environmental-data-japan'
+  extra_navbar: |
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <div>           
+            <hr>
+            <a href="https://helical-itn.eu/">
+            <img src="https://helical-itn.eu/wp-content/uploads/2020/01/cropped-HELICAL_logo-3.png" width=200px>
+            </a>
+            <p></p>
+            <a href="https://www.isglobal.org/en/-/clima-y-salud">
+            <img src="https://www.isglobal.org/isglobal-new-theme/assets/images/isglobal/logo-isglobal-en.png" width=200px>
+            </a>
+            <hr>
+            <a href="https://www.linkedin.com/in/alfontal/">
+            <img class="profile" src="https://avatars.githubusercontent.com/u/10958332?s=400&amp;u=51edd1406d2af0c2f1723a0bf8f111d48a1b7fe7&amp;v=4" alt="Alejandro Fontal">
+            <p style="text-align: center; font-size:16px"><b>Alejandro Fontal</b></p>
+            </a>
+            <a href="https://github.com/AlFontal" class="fa fa-github" style="font-size: 25px;"></a>
+            <a href="https://www.linkedin.com/in/alfontal/" class="fa fa-linkedin" style="font-size: 25px;"></a></a>
+            <a href="https://twitter.com/alefontal" class="fa fa-twitter" style="font-size: 25px;"></a></a>
+            <a href="mailto:alejandro.fontal.92@gmail.com" class="fa fa-envelope" style="font-size: 25px;"></a></a>
+            </div>
+
+bibtex_bibfiles: references.bib
+
+sphinx:
+  config:
+    html_js_files:
+      - https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js
+    bibtex_reference_style: author_year
+    
+    html_baseurl: 'https://alfontal.github.io/environmental-data-japan/'
+  
+  extra_extensions:
+   - sphinx_sitemap
+
