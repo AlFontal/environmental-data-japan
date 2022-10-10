@@ -254,6 +254,13 @@ const thebe_selector_output = ".output, .cell_output"
     <a class="reference internal nav-link" href="#prefectures">
      (3) Prefectures
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#population-coverage">
+       Population coverage
+      </a>
+     </li>
+    </ul>
    </li>
   </ul>
  </li>
@@ -306,6 +313,13 @@ const thebe_selector_output = ".output, .cell_output"
     <a class="reference internal nav-link" href="#prefectures">
      (3) Prefectures
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#population-coverage">
+       Population coverage
+      </a>
+     </li>
+    </ul>
    </li>
   </ul>
  </li>
@@ -329,7 +343,7 @@ const thebe_selector_output = ".output, .cell_output"
 <p>Repository collecting and organizing environmental data sources for Japan.</p>
 <p>Here, we have downloaded and processed the data available through the site made available by the Japanese National Institute for Environmental Studies (NIES) (<a class="reference external" href="https://tenbou.nies.go.jp/download/">https://tenbou.nies.go.jp/download/</a>).</p>
 <p>More specifically, we have downloaded the Air Pollution Monitoring data for a total of 2039 stations located around the whole country (represented as red dots in the map below):</p>
-<img alt="Japanese Monitoring Stations Map" src="https://github.com/AlFontal/environmental-data-japan/raw/main/data/air_pollution/stations/doc/stations_map.png" title="Japanese Monitoring Stations Map" width="500px"/>
+<img alt="Japanese Monitoring Stations Map" src="https://github.com/AlFontal/environmental-data-japan/raw/main/data/air_pollution/stations/doc/stations_map.png" title="Japanese Monitoring Stations Map" width="800px"/>
 <div class="section" id="the-stations">
 <h2>The stations<a class="headerlink" href="#the-stations" title="Permalink to this headline">¶</a></h2>
 <p>Information for the exact location of each station (latitude, longitude and altitude) and the environmental variables available can be found in the table in <a class="reference external" href="https://github.com/AlFontal/environmental-data-japan/data/air_pollution/stations/doc/stations_info.csv"><code class="docutils literal notranslate"><span class="pre">/data/air_pollution/stations/doc/stations_info.csv</span></code></a></p>
@@ -435,9 +449,13 @@ const thebe_selector_output = ".output, .cell_output"
 <p>At this point, three different methods have been used to compute the averages, weighing the municipalities differently according to diverse criteria:</p>
 <ul class="simple">
 <li><p><strong>Area-based weighted averages</strong>: These averages are completely population-naïve and try to better estimate the overall values for each variable across the whole area of the prefecture, wheighing high and low population density areas exactly the same. The time-series for these can be found in <a class="reference external" href="https://github.com/AlFontal/environmental-data-japan/data/air_pollution/prefectures/area_weighted"><code class="docutils literal notranslate"><span class="pre">data/air_pollution/prefectures/area_weighted</span></code></a>.</p></li>
-<li><p><strong>Population-weighted averages</strong>: These averages are computed trying to estimate the values of each variable that represent the most accurate exposure of the population of each prefecture to each pollutant/meteorological variable. For these purpose, the values for each variable have been averaged weighing every municipal term according to their population share in the prefecture. The time-series for these can be found in <a class="reference external" href="https://github.com/AlFontal/environmental-data-japan/data/air_pollution/prefectures/population_weighted"><code class="docutils literal notranslate"><span class="pre">data/air_pollution/prefectures/population_weighted</span></code></a>.</p></li>
+<li><p><strong>Population-weighted averages</strong>: These averages are computed trying to estimate the values of each variable that represent the most accurate exposure of the population of each prefecture to each pollutant/meteorological variable. For this purpose, the values for each variable have been averaged weighing every municipal term according to their population share in the prefecture. The time-series for these can be found in <a class="reference external" href="https://github.com/AlFontal/environmental-data-japan/data/air_pollution/prefectures/population_weighted"><code class="docutils literal notranslate"><span class="pre">data/air_pollution/prefectures/population_weighted</span></code></a>.</p></li>
 <li><p><strong>Infant population-weighted averages</strong>: Following the same principal as the previous averages, these include the daily prefecture-level estimates of each measured variable based on the share of <em>children under 5 years old</em> in each municipal term. The time-series for these can be found in <a class="reference external" href="https://github.com/AlFontal/environmental-data-japan/data/air_pollution/prefectures/under_5_weighted"><code class="docutils literal notranslate"><span class="pre">data/air_pollution/prefectures/under_5_weighted</span></code></a>.</p></li>
 </ul>
+<div class="section" id="population-coverage">
+<h4>Population coverage<a class="headerlink" href="#population-coverage" title="Permalink to this headline">¶</a></h4>
+<p>The following figure shows the ratio of population covered by the stations in each prefecture (as a ratio of the people living in municipalities with at least one monitoring station):</p>
+<img alt="Coverage of Japanese Monitoring Stations" src="https://github.com/AlFontal/environmental-data-japan/raw/main/data/doc/images/prefectures_vertical.png" title="Coverage of Japanese Monitoring Stations" width="900px"/></div>
 </div>
 </div>
 <div class="toctree-wrapper compound">
