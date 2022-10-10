@@ -939,7 +939,11 @@ should enable us to compute population weighted averages of the station data per
 <p>While there are many stations, not all variables are measured with the same consistency. The following table shows how many stations measure each variable in each prefecture:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">variable_map</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'NOX'</span><span class="p">:</span> <span class="s1">'NO$_</span><span class="si">{x}</span><span class="s1">$'</span><span class="p">,</span> <span class="s1">'PM25'</span><span class="p">:</span> <span class="s1">'PM$_</span><span class="si">{2.5}</span><span class="s1">$'</span><span class="p">,</span> <span class="s1">'SO2'</span><span class="p">:</span> <span class="s1">'SO$_2$'</span><span class="p">,</span> <span class="s1">'CO2'</span><span class="p">:</span> <span class="s1">'CO$_2$'</span><span class="p">,</span> <span class="s1">'SPM'</span><span class="p">:</span> <span class="s1">'PM$_</span><span class="si">{10}</span><span class="s1">$'</span><span class="p">}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">variable_map</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'NOX'</span><span class="p">:</span> <span class="s1">'NO$_</span><span class="si">{x}</span><span class="s1">$'</span><span class="p">,</span>
+                <span class="s1">'PM25'</span><span class="p">:</span> <span class="s1">'PM$_</span><span class="si">{2.5}</span><span class="s1">$'</span><span class="p">,</span>
+                <span class="s1">'SO2'</span><span class="p">:</span> <span class="s1">'SO$_2$'</span><span class="p">,</span>
+                <span class="s1">'CO2'</span><span class="p">:</span> <span class="s1">'CO$_2$'</span><span class="p">,</span>
+                <span class="s1">'SPM'</span><span class="p">:</span> <span class="s1">'PM$_</span><span class="si">{10}</span><span class="s1">$'</span><span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -958,8 +962,14 @@ should enable us to compute population weighted averages of the station data per
  <span class="o">.</span><span class="n">melt</span><span class="p">([</span><span class="s1">'prefecture'</span><span class="p">,</span> <span class="s1">'prefecture_code'</span><span class="p">])</span>
  <span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">'not variable.isin(["NO", "NO2", "CH4", "NMHC"])'</span><span class="p">)</span>
  <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">variable_map</span><span class="p">)</span>
- <span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">monitoring_stations</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'prefecture_code'</span><span class="p">)</span><span class="o">.</span><span class="n">station_code</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">'n_stations'</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">())</span>
- <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">pref_name</span><span class="o">=</span><span class="k">lambda</span> <span class="n">dd</span><span class="p">:</span> <span class="n">dd</span><span class="o">.</span><span class="n">prefecture</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'-'</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">' ('</span> <span class="o">+</span> <span class="n">dd</span><span class="o">.</span><span class="n">n_stations</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="s1">')'</span><span class="p">)</span>
+ <span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">monitoring_stations</span>
+        <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'prefecture_code'</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">station_code</span>
+        <span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">'n_stations'</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">reset_index</span><span class="p">())</span>
+ <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">pref_name</span><span class="o">=</span><span class="k">lambda</span> <span class="n">dd</span><span class="p">:</span> <span class="n">dd</span><span class="o">.</span><span class="n">prefecture</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'-'</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> 
+                                <span class="s1">' ('</span> <span class="o">+</span> <span class="n">dd</span><span class="o">.</span><span class="n">n_stations</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="s1">')'</span><span class="p">)</span>
  <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="k">lambda</span> <span class="n">dd</span><span class="p">:</span> <span class="n">p9</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dd</span><span class="p">)</span> 
                 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">'reorder(variable, value, ascending=True)'</span><span class="p">,</span>
                          <span class="n">y</span><span class="o">=</span><span class="s1">'reorder(pref_name, value, ascending=False)'</span><span class="p">,</span>
@@ -1059,13 +1069,6 @@ municipal terms can often be really small).</p>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jp_munis</span> <span class="o">=</span> <span class="n">jp_munis</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'PREF'</span><span class="p">,</span> <span class="n">group_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">dd</span><span class="p">:</span> <span class="n">dd</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">relative_weight</span><span class="o">=</span><span class="p">(</span><span class="n">dd</span><span class="o">.</span><span class="n">population</span> <span class="o">/</span> <span class="n">dd</span><span class="o">.</span><span class="n">population</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">())))</span>
-</pre></div>
-</div>
-</div>
-</div>
 <div class="section" id="population-map">
 <h4><a class="toc-backref" href="#id16">Population map</a><a class="headerlink" href="#population-map" title="Permalink to this headline">¶</a></h4>
 <div class="cell docutils container">
@@ -1083,14 +1086,14 @@ municipal terms can often be really small).</p>
            <span class="n">legend_key_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
            <span class="n">legend_position</span><span class="o">=</span><span class="p">(</span><span class="mf">.35</span><span class="p">,</span> <span class="mf">.75</span><span class="p">),</span>
            <span class="n">legend_direction</span><span class="o">=</span><span class="s1">'vertical'</span><span class="p">,</span>
-           <span class="n">legend_title</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'white'</span><span class="p">),</span>
-           <span class="n">legend_text</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">'baseline'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'white'</span><span class="p">),)</span>
+           <span class="n">legend_title</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">6</span><span class="p">),</span>
+           <span class="n">legend_text</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">'baseline'</span><span class="p">),)</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/prefecture_weighted_averages_72_0.png" src="_images/prefecture_weighted_averages_72_0.png"/>
+<img alt="_images/prefecture_weighted_averages_71_0.png" src="_images/prefecture_weighted_averages_71_0.png"/>
 
 </div>
 </div>
@@ -1118,7 +1121,7 @@ municipal terms can often be really small).</p>
 </div>
 <div class="cell_output docutils container">
 
-<img alt="_images/prefecture_weighted_averages_74_1.png" src="_images/prefecture_weighted_averages_74_1.png"/>
+<img alt="_images/prefecture_weighted_averages_73_1.png" src="_images/prefecture_weighted_averages_73_1.png"/>
 </div>
 </div>
 </div>
@@ -1184,7 +1187,7 @@ later on merged together in a single figure with Inkscape. Notice how in most ca
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/prefecture_weighted_averages_79_0.png" src="_images/prefecture_weighted_averages_79_0.png"/>
+<img alt="_images/prefecture_weighted_averages_78_0.png" src="_images/prefecture_weighted_averages_78_0.png"/>
 </div>
 </div>
 </div>
