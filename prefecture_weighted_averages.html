@@ -304,14 +304,36 @@ const thebe_selector_output = ".output, .cell_output"
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#visualizing-coverage-of-the-data">
-   Visualizing coverage of the data
+  <a class="reference internal nav-link" href="#visualizing-the-data">
+   Visualizing the data
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#number-of-stations-per-variable-per-prefecture">
      Number of stations per variable per prefecture
     </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#estimation-of-population-coverage-per-prefecture">
+     Estimation of population coverage per prefecture
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#population-map">
+       Population map
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#stations-map">
+       Stations map
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#population-coverage-map">
+       Population coverage map
+      </a>
+     </li>
+    </ul>
    </li>
   </ul>
  </li>
@@ -402,14 +424,36 @@ const thebe_selector_output = ".output, .cell_output"
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#visualizing-coverage-of-the-data">
-   Visualizing coverage of the data
+  <a class="reference internal nav-link" href="#visualizing-the-data">
+   Visualizing the data
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#number-of-stations-per-variable-per-prefecture">
      Number of stations per variable per prefecture
     </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#estimation-of-population-coverage-per-prefecture">
+     Estimation of population coverage per prefecture
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#population-map">
+       Population map
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#stations-map">
+       Stations map
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#population-coverage-map">
+       Population coverage map
+      </a>
+     </li>
+    </ul>
    </li>
   </ul>
  </li>
@@ -447,9 +491,16 @@ const thebe_selector_output = ".output, .cell_output"
 <li><p><a class="reference internal" href="#weighting-by-full-population-density" id="id12">Weighting by full population density</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#visualizing-coverage-of-the-data" id="id13">Visualizing coverage of the data</a></p>
+<li><p><a class="reference internal" href="#visualizing-the-data" id="id13">Visualizing the data</a></p>
 <ul>
 <li><p><a class="reference internal" href="#number-of-stations-per-variable-per-prefecture" id="id14">Number of stations per variable per prefecture</a></p></li>
+<li><p><a class="reference internal" href="#estimation-of-population-coverage-per-prefecture" id="id15">Estimation of population coverage per prefecture</a></p>
+<ul>
+<li><p><a class="reference internal" href="#population-map" id="id16">Population map</a></p></li>
+<li><p><a class="reference internal" href="#stations-map" id="id17">Stations map</a></p></li>
+<li><p><a class="reference internal" href="#population-coverage-map" id="id18">Population coverage map</a></p></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -467,8 +518,12 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">plotnine</span> <span class="k">as</span> <span class="nn">p9</span>
 <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">box</span><span class="p">,</span> <span class="n">Point</span>
 <span class="kn">from</span> <span class="nn">mizani.formatters</span> <span class="kn">import</span> <span class="n">date_format</span><span class="p">,</span> <span class="n">percent_format</span><span class="p">,</span> <span class="n">custom_format</span>
 </pre></div>
@@ -483,7 +538,6 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tqdm</span><span class="o">.</span><span class="n">pandas</span><span class="p">()</span>
 <span class="n">p9</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">'dpi'</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>
 <span class="n">p9</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">'figure_size'</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-<span class="n">p9</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">'base_family'</span><span class="p">,</span> <span class="s1">'Bitstream Vera Serif'</span><span class="p">)</span>
 <span class="n">p9</span><span class="o">.</span><span class="n">theme_set</span><span class="p">(</span><span class="n">p9</span><span class="o">.</span><span class="n">theme_bw</span><span class="p">()</span> <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="n">axis_text</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">7</span><span class="p">),</span>
                                       <span class="n">axis_title</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">9</span><span class="p">),</span>
                                       <span class="n">title</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">11</span><span class="p">)))</span>
@@ -545,7 +599,8 @@ should enable us to compute population weighted averages of the station data per
     <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">geom_map</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">prefecture_shapes</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">.15</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">custom_format</span><span class="p">(</span><span class="s1">'</span><span class="si">{:0g}</span><span class="s1">°N'</span><span class="p">),</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">45</span><span class="p">))</span>
     <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">custom_format</span><span class="p">(</span><span class="s1">'</span><span class="si">{:0g}</span><span class="s1">°E'</span><span class="p">),</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="mi">129</span><span class="p">,</span> <span class="mf">145.5</span><span class="p">))</span>
-    <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="n">figure_size</span><span class="o">=</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">),</span>
+    <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
+               <span class="n">figure_size</span><span class="o">=</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">),</span>
                <span class="n">axis_text</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
                <span class="n">panel_grid</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_blank</span><span class="p">())</span>
 <span class="p">)</span>
@@ -674,19 +729,12 @@ should enable us to compute population weighted averages of the station data per
 <p>Since my main interest lies on relating the environmental variables to Kawasaki Disease incidence in Japan, I am going to use the municipal population of children under 5 years old to weight the importance of each municipal term in the prefecture averages:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">population_variable</span> <span class="o">=</span> <span class="s1">'Population (0-5, Total)'</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jp_pops</span> <span class="o">=</span> <span class="p">(</span><span class="n">full_population_df</span>
-            <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-            <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">'area_code'</span><span class="p">:</span> <span class="s1">'code'</span><span class="p">})</span>
-            <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="k">lambda</span> <span class="n">dd</span><span class="p">:</span> <span class="n">dd</span><span class="o">.</span><span class="n">code</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
-            <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">population</span><span class="o">=</span><span class="k">lambda</span> <span class="n">dd</span><span class="p">:</span> <span class="n">dd</span><span class="p">[</span><span class="n">population_variable</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
-            <span class="p">[[</span><span class="s1">'code'</span><span class="p">,</span> <span class="s1">'population'</span><span class="p">]]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jp_pops_kids</span> <span class="o">=</span> <span class="p">(</span><span class="n">full_population_df</span>
+                <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">'area_code'</span><span class="p">:</span> <span class="s1">'code'</span><span class="p">})</span>
+                <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="k">lambda</span> <span class="n">dd</span><span class="p">:</span> <span class="n">dd</span><span class="o">.</span><span class="n">code</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+                <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">population</span><span class="o">=</span><span class="k">lambda</span> <span class="n">dd</span><span class="p">:</span> <span class="n">dd</span><span class="p">[</span><span class="s1">'Population (0-5, Total)'</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+                <span class="p">[[</span><span class="s1">'code'</span><span class="p">,</span> <span class="s1">'population'</span><span class="p">]]</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -716,27 +764,13 @@ should enable us to compute population weighted averages of the station data per
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jp_munis</span> <span class="o">=</span> <span class="n">jp_munis</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">jp_pops</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'code'</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
 <p>We can now load the monitoring stations information, and use their coordinates to assign a municipal boundary to each of them. This way, we will be able to average a value for each municipality using the values of the monitoring stations within its boundaries.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">monitoring_stations</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'../data/air_pollution/stations/doc/stations_info.csv'</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">monitoring_stations</span> <span class="o">=</span> <span class="p">(</span><span class="n">monitoring_stations</span>
-                        <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="k">lambda</span> <span class="n">dd</span><span class="p">:</span> <span class="p">[</span><span class="n">Point</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]))</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">monitoring_stations</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'../data/air_pollution/stations/doc/stations_info.csv'</span><span class="p">)</span>
+                       <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="k">lambda</span> <span class="n">dd</span><span class="p">:</span> <span class="p">[</span><span class="n">Point</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]))</span> 
                                                      <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dd</span><span class="o">.</span><span class="n">longitude</span><span class="p">,</span> <span class="n">dd</span><span class="o">.</span><span class="n">latitude</span><span class="p">)])</span>
-                        <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="k">lambda</span> <span class="n">dd</span><span class="p">:</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">dd</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s1">'geometry'</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s1">'EPSG:4612'</span><span class="p">))</span>
+                       <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="k">lambda</span> <span class="n">dd</span><span class="p">:</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">dd</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s1">'geometry'</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s1">'EPSG:4612'</span><span class="p">))</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -780,7 +814,7 @@ should enable us to compute population weighted averages of the station data per
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">municipal_pollution_dfs</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="p">(</span><span class="n">pref</span><span class="p">,</span> <span class="n">city</span><span class="p">),</span> <span class="n">stations</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">stations_per_city</span><span class="o">.</span><span class="n">iteritems</span><span class="p">(),</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">stations_per_city</span><span class="p">)):</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">pref</span><span class="p">,</span> <span class="n">city</span><span class="p">),</span> <span class="n">stations</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">stations_per_city</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">stations_per_city</span><span class="p">)):</span>
     <span class="n">municipal_stations</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">pref_name</span> <span class="o">=</span> <span class="n">prefectures_map</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">pref</span><span class="p">)]</span>
     <span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">stations</span><span class="p">:</span>
@@ -794,18 +828,21 @@ should enable us to compute population weighted averages of the station data per
                           <span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">'D'</span><span class="p">)</span>
                           <span class="o">.</span><span class="n">mean</span><span class="p">())</span>
     <span class="n">municipal_pollution_dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">municipal_stations</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">pref</span><span class="o">=</span><span class="n">pref</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="n">city</span><span class="p">))</span>
-    <span class="n">municipal_stations</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">'../data/air_pollution/municipalities/</span><span class="si">{</span><span class="n">pref</span><span class="si">}{</span><span class="n">city</span><span class="si">}</span><span class="s1">.csv'</span><span class="p">)</span>
+    <span class="n">municipal_stations</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">'../data/air_pollution/municipalities/</span><span class="si">{</span><span class="n">pref</span><span class="si">}{</span><span class="n">city</span><span class="si">}</span><span class="s1">.csv'</span><span class="p">)</span>
 <span class="n">municipal_pollution_dfs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">municipal_pollution_dfs</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 905/905 [00:06&lt;00:00, 133.10it/s]
+</pre></div>
+</div>
 </div>
 </div>
 </div>
 <div class="section" id="generating-the-daily-averaged-prefectural-estimates">
 <h2><a class="toc-backref" href="#id9">Generating the daily averaged prefectural estimates</a><a class="headerlink" href="#generating-the-daily-averaged-prefectural-estimates" title="Permalink to this headline">¶</a></h2>
+<p>Now, by using the municipal values and weighting them by different factors, we will be able to obtain prefecture-level estimates:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">long_pollution_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">municipal_pollution_dfs</span>
@@ -820,6 +857,7 @@ should enable us to compute population weighted averages of the station data per
 </div>
 <div class="section" id="area-weighted-averages">
 <h3><a class="toc-backref" href="#id10">Area-weighted averages</a><a class="headerlink" href="#area-weighted-averages" title="Permalink to this headline">¶</a></h3>
+<p>The first prefectural estimates we will estimate will be population agnostic, that is, each municipality will have a weight proportional to its area:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jp_areas</span> <span class="o">=</span> <span class="p">(</span><span class="n">jp_munis</span>
@@ -851,12 +889,13 @@ should enable us to compute population weighted averages of the station data per
 </div>
 <div class="section" id="weighting-by-population-of-children-under-5-years-old">
 <h3><a class="toc-backref" href="#id11">Weighting by population of children under 5 years old</a><a class="headerlink" href="#weighting-by-population-of-children-under-5-years-old" title="Permalink to this headline">¶</a></h3>
+<p>In this case we will weigh its municipality proportional to the relative amount of children under 5 years old living in it:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">prefecture</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">long_pollution_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'pref'</span><span class="p">):</span>
     <span class="n">pref_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'date'</span><span class="p">,</span> <span class="s1">'variable'</span><span class="p">])</span>
                  <span class="o">.</span><span class="n">progress_apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span>
-                                        <span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">jp_pops</span><span class="p">)</span>
+                                        <span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">jp_pops_kids</span><span class="p">)</span>
                                         <span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s1">'weight = population / population.sum()'</span><span class="p">)</span>
                                         <span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s1">'value = value * weight'</span><span class="p">)</span>
                                         <span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
@@ -872,6 +911,7 @@ should enable us to compute population weighted averages of the station data per
 </div>
 <div class="section" id="weighting-by-full-population-density">
 <h3><a class="toc-backref" href="#id12">Weighting by full population density</a><a class="headerlink" href="#weighting-by-full-population-density" title="Permalink to this headline">¶</a></h3>
+<p>In the last case, we will weigh each municipality proportional to the total population living in each term.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">prefecture</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">long_pollution_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'pref'</span><span class="p">):</span>
@@ -892,11 +932,18 @@ should enable us to compute population weighted averages of the station data per
 </div>
 </div>
 </div>
-<div class="section" id="visualizing-coverage-of-the-data">
-<h2><a class="toc-backref" href="#id13">Visualizing coverage of the data</a><a class="headerlink" href="#visualizing-coverage-of-the-data" title="Permalink to this headline">¶</a></h2>
-<p>While there are many stations, not all variables are measured with the same consistency. The following table shows how many stations measure each variable in each prefecture:</p>
+<div class="section" id="visualizing-the-data">
+<h2><a class="toc-backref" href="#id13">Visualizing the data</a><a class="headerlink" href="#visualizing-the-data" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="number-of-stations-per-variable-per-prefecture">
 <h3><a class="toc-backref" href="#id14">Number of stations per variable per prefecture</a><a class="headerlink" href="#number-of-stations-per-variable-per-prefecture" title="Permalink to this headline">¶</a></h3>
+<p>While there are many stations, not all variables are measured with the same consistency. The following table shows how many stations measure each variable in each prefecture:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">variable_map</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'NOX'</span><span class="p">:</span> <span class="s1">'NO$_</span><span class="si">{x}</span><span class="s1">$'</span><span class="p">,</span> <span class="s1">'PM25'</span><span class="p">:</span> <span class="s1">'PM$_</span><span class="si">{2.5}</span><span class="s1">$'</span><span class="p">,</span> <span class="s1">'SO2'</span><span class="p">:</span> <span class="s1">'SO$_2$'</span><span class="p">,</span> <span class="s1">'CO2'</span><span class="p">:</span> <span class="s1">'CO$_2$'</span><span class="p">,</span> <span class="s1">'SPM'</span><span class="p">:</span> <span class="s1">'PM$_</span><span class="si">{10}</span><span class="s1">$'</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">monitoring_stations</span>
@@ -910,12 +957,15 @@ should enable us to compute population weighted averages of the station data per
  <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
  <span class="o">.</span><span class="n">melt</span><span class="p">([</span><span class="s1">'prefecture'</span><span class="p">,</span> <span class="s1">'prefecture_code'</span><span class="p">])</span>
  <span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">'not variable.isin(["NO", "NO2", "CH4", "NMHC"])'</span><span class="p">)</span>
- <span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="s1">'NOX'</span><span class="p">:</span> <span class="s1">'NO$_</span><span class="si">{x}</span><span class="s1">$'</span><span class="p">,</span> <span class="s1">'PM25'</span><span class="p">:</span> <span class="s1">'PM$_</span><span class="si">{2.5}</span><span class="s1">$'</span><span class="p">,</span> <span class="s1">'SO2'</span><span class="p">:</span> <span class="s1">'SO$_2$'</span><span class="p">,</span> <span class="s1">'CO2'</span><span class="p">:</span> <span class="s1">'CO$_2$'</span><span class="p">})</span>
-<span class="c1">#  .append(monitoring_stations.groupby('prefecture').size().rename('value').reset_index().assign(variable='Total (n)'))</span>
+ <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">variable_map</span><span class="p">)</span>
+ <span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">monitoring_stations</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'prefecture_code'</span><span class="p">)</span><span class="o">.</span><span class="n">station_code</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">'n_stations'</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">())</span>
+ <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">pref_name</span><span class="o">=</span><span class="k">lambda</span> <span class="n">dd</span><span class="p">:</span> <span class="n">dd</span><span class="o">.</span><span class="n">prefecture</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'-'</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">' ('</span> <span class="o">+</span> <span class="n">dd</span><span class="o">.</span><span class="n">n_stations</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="s1">')'</span><span class="p">)</span>
  <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="k">lambda</span> <span class="n">dd</span><span class="p">:</span> <span class="n">p9</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dd</span><span class="p">)</span> 
-                <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="s1">'reorder(variable, value, ascending=True)'</span><span class="p">,</span> <span class="s1">'reorder(prefecture.str.split("-").str[0], value, ascending=False)'</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">'value'</span><span class="p">)</span> 
+                <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">'reorder(variable, value, ascending=True)'</span><span class="p">,</span>
+                         <span class="n">y</span><span class="o">=</span><span class="s1">'reorder(pref_name, value, ascending=False)'</span><span class="p">,</span>
+                         <span class="n">fill</span><span class="o">=</span><span class="s1">'value'</span><span class="p">)</span> 
                 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">geom_tile</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'black'</span><span class="p">)</span>
-                <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">geom_text</span><span class="p">(</span><span class="n">p9</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">'value.round(0).astype(int).astype(str) + ""'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'value &gt; 70'</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>      
+                <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">geom_text</span><span class="p">(</span><span class="n">p9</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">'value.round(0).astype(int)'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'value &gt; 70'</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>      
                 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">theme_minimal</span><span class="p">()</span>
                 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="s1">'black'</span><span class="p">,</span> <span class="s1">'white'</span><span class="p">])</span>
                 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">scale_fill_continuous</span><span class="p">(</span><span class="s1">'Oranges'</span><span class="p">)</span>
@@ -924,7 +974,7 @@ should enable us to compute population weighted averages of the station data per
                 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">coord_flip</span><span class="p">()</span>
                 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="n">figure_size</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span>
                            <span class="n">title</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
-                           <span class="n">axis_text_x</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">angle</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="p">{</span><span class="s1">'t'</span><span class="p">:</span> <span class="o">-</span><span class="mi">10</span><span class="p">}),</span>
+                           <span class="n">axis_text_x</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">angle</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="p">{</span><span class="s1">'t'</span><span class="p">:</span> <span class="o">-</span><span class="mi">10</span><span class="p">}),</span>
                            <span class="n">axis_text_y</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'right'</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="p">{</span><span class="s1">'r'</span><span class="p">:</span> <span class="o">-</span><span class="mi">10</span><span class="p">}),</span>
                            <span class="n">panel_grid</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_blank</span><span class="p">())</span>
 <span class="p">)</span>
@@ -933,10 +983,11 @@ should enable us to compute population weighted averages of the station data per
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/prefecture_weighted_averages_59_0.png" src="_images/prefecture_weighted_averages_59_0.png"/>
+<img alt="_images/prefecture_weighted_averages_61_0.png" src="_images/prefecture_weighted_averages_61_0.png"/>
 
 </div>
 </div>
+<p>Only NOx, SPM (or PM10), SO2 and PM2.5 are variables measured by over 50% of all stations, the rest are present in smaller numbers, which might limit the accuracy of the prefecture-level estimates:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">monitoring_stations</span>
@@ -949,7 +1000,7 @@ should enable us to compute population weighted averages of the station data per
  <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">'ratio'</span><span class="p">)</span>
  <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
  <span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">'not index.isin(["NO", "NO2", "CH4", "NMHC"])'</span><span class="p">)</span>
- <span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="s1">'NOX'</span><span class="p">:</span> <span class="s1">'NO$_</span><span class="si">{x}</span><span class="s1">$'</span><span class="p">,</span> <span class="s1">'PM25'</span><span class="p">:</span> <span class="s1">'PM$_</span><span class="si">{2.5}</span><span class="s1">$'</span><span class="p">,</span> <span class="s1">'SO2'</span><span class="p">:</span> <span class="s1">'SO$_2$'</span><span class="p">,</span> <span class="s1">'CO2'</span><span class="p">:</span> <span class="s1">'CO$_2$'</span><span class="p">})</span>
+ <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">variable_map</span><span class="p">)</span>
  <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="k">lambda</span> <span class="n">dd</span><span class="p">:</span> <span class="n">p9</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dd</span><span class="p">)</span> 
                 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="s1">'reorder(index, ratio)'</span><span class="p">,</span> <span class="s1">'ratio'</span><span class="p">)</span> 
                 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">geom_col</span><span class="p">()</span> 
@@ -957,6 +1008,8 @@ should enable us to compute population weighted averages of the station data per
                 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">''</span><span class="p">)</span>
                 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">percent_format</span><span class="p">())</span> 
                 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="n">figure_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span>
+                           <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+                           <span class="n">axis_text</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
                            <span class="n">panel_grid</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_blank</span><span class="p">())</span>
  <span class="p">)</span>
 <span class="p">)</span>
@@ -964,10 +1017,17 @@ should enable us to compute population weighted averages of the station data per
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/prefecture_weighted_averages_60_0.png" src="_images/prefecture_weighted_averages_60_0.png"/>
+<img alt="_images/prefecture_weighted_averages_63_0.png" src="_images/prefecture_weighted_averages_63_0.png"/>
 
 </div>
 </div>
+</div>
+<div class="section" id="estimation-of-population-coverage-per-prefecture">
+<h3><a class="toc-backref" href="#id15">Estimation of population coverage per prefecture</a><a class="headerlink" href="#estimation-of-population-coverage-per-prefecture" title="Permalink to this headline">¶</a></h3>
+<p>We will apply a quite naïve (and probably conservative) method to estimate the percentage of population ‘covered’ by
+monitoring stations: the % of population in a municipality with at least a station. The population living in
+municipalities without any station will be considered as <em>uncovered</em> by this metric (which might be a tad unfair as
+municipal terms can often be really small).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jp_munis</span> <span class="o">=</span> <span class="n">jp_munis</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">has_station</span><span class="o">=</span><span class="k">lambda</span> <span class="n">dd</span><span class="p">:</span> <span class="n">dd</span><span class="o">.</span><span class="n">code</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">station_munis</span><span class="o">.</span><span class="n">code</span><span class="p">))</span>
@@ -978,11 +1038,12 @@ should enable us to compute population weighted averages of the station data per
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pop_coverage</span> <span class="o">=</span> <span class="p">(</span><span class="n">jp_munis</span>
- <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'PREF'</span><span class="p">)</span>
- <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">dd</span><span class="p">:</span> <span class="n">dd</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">'has_station'</span><span class="p">)</span><span class="o">.</span><span class="n">population</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">dd</span><span class="o">.</span><span class="n">population</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
- <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">'pop_coverage'</span><span class="p">)</span>
- <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
- <span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'PREF'</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">jp_pops_full</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'PREF'</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">dd</span><span class="p">:</span> <span class="n">dd</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">'has_station'</span><span class="p">)</span><span class="o">.</span><span class="n">population</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">dd</span><span class="o">.</span><span class="n">population</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+                <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">'pop_coverage'</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'PREF'</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -1000,152 +1061,69 @@ should enable us to compute population weighted averages of the station data per
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jp_munis</span> <span class="o">=</span> <span class="n">jp_munis</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">jp_pops_full</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jp_munis</span> <span class="o">=</span> <span class="n">jp_munis</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'PREF'</span><span class="p">,</span> <span class="n">group_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">dd</span><span class="p">:</span> <span class="n">dd</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">relative_weight</span><span class="o">=</span><span class="p">(</span><span class="n">dd</span><span class="o">.</span><span class="n">population</span> <span class="o">/</span> <span class="n">dd</span><span class="o">.</span><span class="n">population</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">())))</span>
 </pre></div>
 </div>
 </div>
 </div>
+<div class="section" id="population-map">
+<h4><a class="toc-backref" href="#id16">Population map</a><a class="headerlink" href="#population-map" title="Permalink to this headline">¶</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">p9</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">jp_munis</span><span class="p">)</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">p9</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">jp_munis</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">jp_pops_full</span><span class="p">))</span>
 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">geom_map</span><span class="p">(</span><span class="n">p9</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s1">'population'</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mf">.01</span><span class="p">)</span> 
 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">geom_map</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">prefecture_shapes</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">.05</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="c1"># + p9.geom_point(p9.aes(x='longitude', y='latitude'), data=monitoring_stations, size=.3, stroke=0, alpha=.7, color='lime')</span>
-<span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">scale_fill_continuous</span><span class="p">(</span><span class="s1">'Oranges'</span><span class="p">)</span>
+<span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">scale_fill_continuous</span><span class="p">(</span><span class="s1">'Oranges'</span><span class="p">,</span> <span class="n">breaks</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">250_000</span><span class="p">,</span> <span class="mi">500_000</span><span class="p">,</span> <span class="mi">750_000</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">'0'</span><span class="p">,</span> <span class="s1">'250k'</span><span class="p">,</span> <span class="s1">'500k'</span><span class="p">,</span> <span class="s1">'750k'</span><span class="p">])</span>
 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">custom_format</span><span class="p">(</span><span class="s1">'</span><span class="si">{:0g}</span><span class="s1">°N'</span><span class="p">),</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">45</span><span class="p">))</span>
 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">custom_format</span><span class="p">(</span><span class="s1">'</span><span class="si">{:0g}</span><span class="s1">°E'</span><span class="p">),</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="mi">129</span><span class="p">,</span> <span class="mf">145.5</span><span class="p">))</span>
-<span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">guides</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">theme_void</span><span class="p">()</span>
-<span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="n">figure_size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">panel_grid</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_blank</span><span class="p">(),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">labs</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s1">'Population (n)'</span><span class="p">)</span>
+<span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="n">figure_size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+           <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
+           <span class="n">legend_key_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+           <span class="n">legend_position</span><span class="o">=</span><span class="p">(</span><span class="mf">.35</span><span class="p">,</span> <span class="mf">.75</span><span class="p">),</span>
+           <span class="n">legend_direction</span><span class="o">=</span><span class="s1">'vertical'</span><span class="p">,</span>
+           <span class="n">legend_title</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'white'</span><span class="p">),</span>
+           <span class="n">legend_text</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">'baseline'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'white'</span><span class="p">),)</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/prefecture_weighted_averages_68_0.png" src="_images/prefecture_weighted_averages_68_0.png"/>
+<img alt="_images/prefecture_weighted_averages_72_0.png" src="_images/prefecture_weighted_averages_72_0.png"/>
 
 </div>
 </div>
+</div>
+<div class="section" id="stations-map">
+<h4><a class="toc-backref" href="#id17">Stations map</a><a class="headerlink" href="#stations-map" title="Permalink to this headline">¶</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">p9</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">jp_munis</span><span class="p">)</span> 
-<span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">geom_map</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">.01</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">'white'</span><span class="p">)</span> 
-<span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">geom_map</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">prefecture_shapes</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">.05</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">geom_point</span><span class="p">(</span><span class="n">p9</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">'longitude'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">'latitude'</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">monitoring_stations</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">.3</span><span class="p">,</span> <span class="n">stroke</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.7</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">)</span>
-<span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">45</span><span class="p">))</span>
-<span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="mi">129</span><span class="p">,</span> <span class="mf">145.5</span><span class="p">))</span>
-<span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">guides</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">theme_void</span><span class="p">()</span>
-<span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="n">figure_size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">panel_grid</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_blank</span><span class="p">(),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">geom_map</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">.01</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">'white'</span><span class="p">)</span> 
+    <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">geom_map</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">prefecture_shapes</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">.05</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">geom_point</span><span class="p">(</span><span class="n">p9</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">'longitude'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">'latitude'</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">monitoring_stations</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">.3</span><span class="p">,</span> <span class="n">stroke</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.7</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">45</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="mi">129</span><span class="p">,</span> <span class="mf">145.5</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">guides</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">theme_void</span><span class="p">()</span>
+    <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="n">figure_size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+               <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
 <span class="p">)</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
 
 <span class="n">f</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'../data/air_pollution/stations/doc/stations_map.png'</span><span class="p">)</span>
+<span class="n">f</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">48</span><span class="p">):</span>
-    <span class="n">shape</span> <span class="o">=</span> <span class="n">jp_munis</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s1">'PREF=="</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s1">"'</span><span class="p">)</span>
-    <span class="n">stations</span> <span class="o">=</span> <span class="n">monitoring_stations</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s1">'prefecture_code==</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
-    <span class="n">prefecture_name</span> <span class="o">=</span> <span class="n">prefectures_map</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">coverage</span> <span class="o">=</span> <span class="p">(</span><span class="n">pop_coverage</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">bounds</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="s1">'min'</span><span class="p">,</span> <span class="s1">'max'</span><span class="p">])</span><span class="o">.</span><span class="n">values</span>
-    <span class="n">ar</span> <span class="o">=</span> <span class="p">(</span><span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-    <span class="p">(</span><span class="n">p9</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> 
-                <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">geom_map</span><span class="p">(</span><span class="n">p9</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s1">'population'</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mf">.1</span><span class="p">)</span> 
-                <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">geom_point</span><span class="p">(</span><span class="n">p9</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">'longitude'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">'latitude'</span><span class="p">),</span>
-                                <span class="n">data</span><span class="o">=</span><span class="n">stations</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">.2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.7</span><span class="p">)</span>
-                <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">'N. of children &lt;5'</span><span class="p">)</span>
-                <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">scale_fill_continuous</span><span class="p">(</span><span class="s1">'Oranges'</span><span class="p">)</span>
-                <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">custom_format</span><span class="p">(</span><span class="s1">'</span><span class="si">{:0g}</span><span class="s1">°E'</span><span class="p">))</span>
-                <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">custom_format</span><span class="p">(</span><span class="s1">'</span><span class="si">{:0g}</span><span class="s1">°N'</span><span class="p">))</span>
-                <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">prefecture_name</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">coverage</span><span class="si">}</span><span class="s1">% population covered'</span><span class="p">)</span>
-                <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="n">panel_grid</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_blank</span><span class="p">(),</span>
-                           <span class="n">aspect_ratio</span><span class="o">=</span><span class="n">ar</span><span class="p">,</span>
-                           <span class="n">legend_key_size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
-                           <span class="n">title</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">9</span><span class="p">),</span>
-                           <span class="n">axis_text</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">6</span><span class="p">),</span>
-                           <span class="n">legend_title</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">7</span><span class="p">),</span>
-                           <span class="n">legend_text</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">'baseline'</span><span class="p">))</span>
-
- <span class="p">)</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
-    
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-
-<img alt="_images/prefecture_weighted_averages_70_1.png" src="_images/prefecture_weighted_averages_70_1.png"/>
-<img alt="_images/prefecture_weighted_averages_70_2.png" src="_images/prefecture_weighted_averages_70_2.png"/>
-<img alt="_images/prefecture_weighted_averages_70_3.png" src="_images/prefecture_weighted_averages_70_3.png"/>
-<img alt="_images/prefecture_weighted_averages_70_4.png" src="_images/prefecture_weighted_averages_70_4.png"/>
-<img alt="_images/prefecture_weighted_averages_70_5.png" src="_images/prefecture_weighted_averages_70_5.png"/>
-<img alt="_images/prefecture_weighted_averages_70_6.png" src="_images/prefecture_weighted_averages_70_6.png"/>
-<img alt="_images/prefecture_weighted_averages_70_7.png" src="_images/prefecture_weighted_averages_70_7.png"/>
-<img alt="_images/prefecture_weighted_averages_70_8.png" src="_images/prefecture_weighted_averages_70_8.png"/>
-<img alt="_images/prefecture_weighted_averages_70_9.png" src="_images/prefecture_weighted_averages_70_9.png"/>
-<img alt="_images/prefecture_weighted_averages_70_10.png" src="_images/prefecture_weighted_averages_70_10.png"/>
-<img alt="_images/prefecture_weighted_averages_70_11.png" src="_images/prefecture_weighted_averages_70_11.png"/>
-<img alt="_images/prefecture_weighted_averages_70_12.png" src="_images/prefecture_weighted_averages_70_12.png"/>
-<img alt="_images/prefecture_weighted_averages_70_13.png" src="_images/prefecture_weighted_averages_70_13.png"/>
-<img alt="_images/prefecture_weighted_averages_70_14.png" src="_images/prefecture_weighted_averages_70_14.png"/>
-<img alt="_images/prefecture_weighted_averages_70_15.png" src="_images/prefecture_weighted_averages_70_15.png"/>
-<img alt="_images/prefecture_weighted_averages_70_16.png" src="_images/prefecture_weighted_averages_70_16.png"/>
-<img alt="_images/prefecture_weighted_averages_70_17.png" src="_images/prefecture_weighted_averages_70_17.png"/>
-<img alt="_images/prefecture_weighted_averages_70_18.png" src="_images/prefecture_weighted_averages_70_18.png"/>
-<img alt="_images/prefecture_weighted_averages_70_19.png" src="_images/prefecture_weighted_averages_70_19.png"/>
-<img alt="_images/prefecture_weighted_averages_70_20.png" src="_images/prefecture_weighted_averages_70_20.png"/>
-<img alt="_images/prefecture_weighted_averages_70_21.png" src="_images/prefecture_weighted_averages_70_21.png"/>
-<img alt="_images/prefecture_weighted_averages_70_22.png" src="_images/prefecture_weighted_averages_70_22.png"/>
-<img alt="_images/prefecture_weighted_averages_70_23.png" src="_images/prefecture_weighted_averages_70_23.png"/>
-<img alt="_images/prefecture_weighted_averages_70_24.png" src="_images/prefecture_weighted_averages_70_24.png"/>
-<img alt="_images/prefecture_weighted_averages_70_25.png" src="_images/prefecture_weighted_averages_70_25.png"/>
-<img alt="_images/prefecture_weighted_averages_70_26.png" src="_images/prefecture_weighted_averages_70_26.png"/>
-<img alt="_images/prefecture_weighted_averages_70_27.png" src="_images/prefecture_weighted_averages_70_27.png"/>
-<img alt="_images/prefecture_weighted_averages_70_28.png" src="_images/prefecture_weighted_averages_70_28.png"/>
-<img alt="_images/prefecture_weighted_averages_70_29.png" src="_images/prefecture_weighted_averages_70_29.png"/>
-<img alt="_images/prefecture_weighted_averages_70_30.png" src="_images/prefecture_weighted_averages_70_30.png"/>
-<img alt="_images/prefecture_weighted_averages_70_31.png" src="_images/prefecture_weighted_averages_70_31.png"/>
-<img alt="_images/prefecture_weighted_averages_70_32.png" src="_images/prefecture_weighted_averages_70_32.png"/>
-<img alt="_images/prefecture_weighted_averages_70_33.png" src="_images/prefecture_weighted_averages_70_33.png"/>
-<img alt="_images/prefecture_weighted_averages_70_34.png" src="_images/prefecture_weighted_averages_70_34.png"/>
-<img alt="_images/prefecture_weighted_averages_70_35.png" src="_images/prefecture_weighted_averages_70_35.png"/>
-<img alt="_images/prefecture_weighted_averages_70_36.png" src="_images/prefecture_weighted_averages_70_36.png"/>
-<img alt="_images/prefecture_weighted_averages_70_37.png" src="_images/prefecture_weighted_averages_70_37.png"/>
-<img alt="_images/prefecture_weighted_averages_70_38.png" src="_images/prefecture_weighted_averages_70_38.png"/>
-<img alt="_images/prefecture_weighted_averages_70_39.png" src="_images/prefecture_weighted_averages_70_39.png"/>
-<img alt="_images/prefecture_weighted_averages_70_40.png" src="_images/prefecture_weighted_averages_70_40.png"/>
-<img alt="_images/prefecture_weighted_averages_70_41.png" src="_images/prefecture_weighted_averages_70_41.png"/>
-<img alt="_images/prefecture_weighted_averages_70_42.png" src="_images/prefecture_weighted_averages_70_42.png"/>
-<img alt="_images/prefecture_weighted_averages_70_43.png" src="_images/prefecture_weighted_averages_70_43.png"/>
-<img alt="_images/prefecture_weighted_averages_70_44.png" src="_images/prefecture_weighted_averages_70_44.png"/>
-<img alt="_images/prefecture_weighted_averages_70_45.png" src="_images/prefecture_weighted_averages_70_45.png"/>
-<img alt="_images/prefecture_weighted_averages_70_46.png" src="_images/prefecture_weighted_averages_70_46.png"/>
-<img alt="_images/prefecture_weighted_averages_70_47.png" src="_images/prefecture_weighted_averages_70_47.png"/>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-</pre></div>
+<img alt="_images/prefecture_weighted_averages_74_1.png" src="_images/prefecture_weighted_averages_74_1.png"/>
 </div>
 </div>
 </div>
+<div class="section" id="population-coverage-map">
+<h4><a class="toc-backref" href="#id18">Population coverage map</a><a class="headerlink" href="#population-coverage-map" title="Permalink to this headline">¶</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stats_df</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
@@ -1163,436 +1141,8 @@ should enable us to compute population weighted averages of the station data per
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_rc_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'text.usetex'</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-<span class="s2">"svg.fonttype"</span><span class="p">:</span> <span class="s1">'none'</span>
-<span class="p">}</span>
-<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_rc_params</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stats_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'ar'</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>prefecture</th>
-      <th>prefecture_code</th>
-      <th>n_stations</th>
-      <th>coverage</th>
-      <th>ar</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>30</th>
-      <td>Tottori</td>
-      <td>31</td>
-      <td>7</td>
-      <td>78.08</td>
-      <td>0.403184</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>Tokyo</td>
-      <td>13</td>
-      <td>90</td>
-      <td>95.49</td>
-      <td>0.406036</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>Saitama</td>
-      <td>11</td>
-      <td>88</td>
-      <td>86.40</td>
-      <td>0.445775</td>
-    </tr>
-    <tr>
-      <th>46</th>
-      <td>Okinawa</td>
-      <td>47</td>
-      <td>9</td>
-      <td>59.75</td>
-      <td>0.457206</td>
-    </tr>
-    <tr>
-      <th>36</th>
-      <td>Kagawa</td>
-      <td>37</td>
-      <td>25</td>
-      <td>83.26</td>
-      <td>0.551765</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>Kanagawa</td>
-      <td>14</td>
-      <td>97</td>
-      <td>98.29</td>
-      <td>0.593274</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Aomori</td>
-      <td>2</td>
-      <td>19</td>
-      <td>76.25</td>
-      <td>0.612204</td>
-    </tr>
-    <tr>
-      <th>35</th>
-      <td>Tokushima</td>
-      <td>36</td>
-      <td>24</td>
-      <td>84.49</td>
-      <td>0.613693</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>Shizuoka</td>
-      <td>22</td>
-      <td>66</td>
-      <td>87.24</td>
-      <td>0.630008</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>Fukushima</td>
-      <td>7</td>
-      <td>48</td>
-      <td>80.42</td>
-      <td>0.630304</td>
-    </tr>
-    <tr>
-      <th>34</th>
-      <td>Yamaguchi</td>
-      <td>35</td>
-      <td>36</td>
-      <td>97.44</td>
-      <td>0.632200</td>
-    </tr>
-    <tr>
-      <th>0</th>
-      <td>Hokkai</td>
-      <td>1</td>
-      <td>100</td>
-      <td>73.04</td>
-      <td>0.643148</td>
-    </tr>
-    <tr>
-      <th>38</th>
-      <td>Kochi</td>
-      <td>39</td>
-      <td>10</td>
-      <td>67.01</td>
-      <td>0.643891</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>Fukui</td>
-      <td>18</td>
-      <td>31</td>
-      <td>87.77</td>
-      <td>0.689012</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>Toyama</td>
-      <td>16</td>
-      <td>27</td>
-      <td>94.96</td>
-      <td>0.709683</td>
-    </tr>
-    <tr>
-      <th>22</th>
-      <td>Aichi</td>
-      <td>23</td>
-      <td>126</td>
-      <td>91.06</td>
-      <td>0.725509</td>
-    </tr>
-    <tr>
-      <th>33</th>
-      <td>Hiroshima</td>
-      <td>34</td>
-      <td>41</td>
-      <td>85.23</td>
-      <td>0.747246</td>
-    </tr>
-    <tr>
-      <th>43</th>
-      <td>Oita</td>
-      <td>44</td>
-      <td>27</td>
-      <td>88.10</td>
-      <td>0.758186</td>
-    </tr>
-    <tr>
-      <th>42</th>
-      <td>Kumamoto</td>
-      <td>43</td>
-      <td>43</td>
-      <td>79.35</td>
-      <td>0.791667</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>Niigata</td>
-      <td>15</td>
-      <td>30</td>
-      <td>79.60</td>
-      <td>0.802225</td>
-    </tr>
-    <tr>
-      <th>40</th>
-      <td>Saga</td>
-      <td>41</td>
-      <td>19</td>
-      <td>82.95</td>
-      <td>0.829702</td>
-    </tr>
-    <tr>
-      <th>37</th>
-      <td>Ehime</td>
-      <td>38</td>
-      <td>34</td>
-      <td>87.44</td>
-      <td>0.835476</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>Yamanashi</td>
-      <td>19</td>
-      <td>12</td>
-      <td>62.04</td>
-      <td>0.841971</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>Gunma</td>
-      <td>10</td>
-      <td>31</td>
-      <td>84.28</td>
-      <td>0.843597</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Miyagi</td>
-      <td>4</td>
-      <td>39</td>
-      <td>87.70</td>
-      <td>0.877691</td>
-    </tr>
-    <tr>
-      <th>25</th>
-      <td>Kyoto</td>
-      <td>26</td>
-      <td>41</td>
-      <td>86.10</td>
-      <td>0.893146</td>
-    </tr>
-    <tr>
-      <th>32</th>
-      <td>Okayama</td>
-      <td>33</td>
-      <td>68</td>
-      <td>92.55</td>
-      <td>0.919506</td>
-    </tr>
-    <tr>
-      <th>29</th>
-      <td>Wakayama</td>
-      <td>30</td>
-      <td>41</td>
-      <td>79.73</td>
-      <td>0.937257</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>Gifu</td>
-      <td>21</td>
-      <td>23</td>
-      <td>72.76</td>
-      <td>0.960218</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>Tochigi</td>
-      <td>9</td>
-      <td>37</td>
-      <td>90.83</td>
-      <td>0.988446</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>Ibaraki</td>
-      <td>8</td>
-      <td>53</td>
-      <td>83.09</td>
-      <td>1.037559</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>Chiba</td>
-      <td>12</td>
-      <td>145</td>
-      <td>93.99</td>
-      <td>1.075928</td>
-    </tr>
-    <tr>
-      <th>39</th>
-      <td>Fukuoka</td>
-      <td>40</td>
-      <td>64</td>
-      <td>74.31</td>
-      <td>1.082189</td>
-    </tr>
-    <tr>
-      <th>26</th>
-      <td>Osaka</td>
-      <td>27</td>
-      <td>108</td>
-      <td>89.44</td>
-      <td>1.190048</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Iwate</td>
-      <td>3</td>
-      <td>15</td>
-      <td>82.07</td>
-      <td>1.199794</td>
-    </tr>
-    <tr>
-      <th>41</th>
-      <td>Nagasaki</td>
-      <td>42</td>
-      <td>24</td>
-      <td>87.13</td>
-      <td>1.200404</td>
-    </tr>
-    <tr>
-      <th>27</th>
-      <td>Hyogo</td>
-      <td>28</td>
-      <td>109</td>
-      <td>91.27</td>
-      <td>1.249549</td>
-    </tr>
-    <tr>
-      <th>44</th>
-      <td>Miyazaki</td>
-      <td>45</td>
-      <td>26</td>
-      <td>81.48</td>
-      <td>1.250401</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Akita</td>
-      <td>5</td>
-      <td>21</td>
-      <td>77.09</td>
-      <td>1.257724</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>Nagano</td>
-      <td>20</td>
-      <td>23</td>
-      <td>65.18</td>
-      <td>1.294842</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Yamagata</td>
-      <td>6</td>
-      <td>18</td>
-      <td>75.10</td>
-      <td>1.315624</td>
-    </tr>
-    <tr>
-      <th>24</th>
-      <td>Shiga</td>
-      <td>25</td>
-      <td>17</td>
-      <td>78.30</td>
-      <td>1.320532</td>
-    </tr>
-    <tr>
-      <th>28</th>
-      <td>Nara</td>
-      <td>29</td>
-      <td>16</td>
-      <td>65.08</td>
-      <td>1.335929</td>
-    </tr>
-    <tr>
-      <th>23</th>
-      <td>Mie</td>
-      <td>24</td>
-      <td>35</td>
-      <td>92.86</td>
-      <td>1.352448</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>Ishikawa</td>
-      <td>17</td>
-      <td>29</td>
-      <td>93.76</td>
-      <td>1.599412</td>
-    </tr>
-    <tr>
-      <th>31</th>
-      <td>Shimane</td>
-      <td>32</td>
-      <td>10</td>
-      <td>91.47</td>
-      <td>1.712067</td>
-    </tr>
-    <tr>
-      <th>45</th>
-      <td>Kagoshima</td>
-      <td>46</td>
-      <td>19</td>
-      <td>68.57</td>
-      <td>1.883288</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
+<p>To actually visualize the prefecture by prefecture population coverage, I generated a figure for each prefecture which was
+later on merged together in a single figure with Inkscape. Notice how in most cases, stations and population go together, as most of the <em>stationless</em> municipalities are usually those which are also lowly populated.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">stats_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'ar'</span><span class="p">)</span><span class="o">.</span><span class="n">prefecture_code</span><span class="p">):</span>
@@ -1610,8 +1160,6 @@ should enable us to compute population weighted averages of the station data per
                 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">''</span><span class="p">)</span>
                 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">guides</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">scale_fill_continuous</span><span class="p">(</span><span class="s1">'Oranges'</span><span class="p">)</span>
-                <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">custom_format</span><span class="p">(</span><span class="s1">'</span><span class="si">{:0g}</span><span class="s1">°E'</span><span class="p">))</span>
-                <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">custom_format</span><span class="p">(</span><span class="s1">'</span><span class="si">{:0g}</span><span class="s1">°N'</span><span class="p">))</span>
                 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">prefecture_name</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">n_stations</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">coverage</span><span class="si">}</span><span class="s1">%)'</span><span class="p">)</span>
                 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">theme_void</span><span class="p">()</span>
                 <span class="o">+</span> <span class="n">p9</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="n">aspect_ratio</span><span class="o">=</span><span class="n">ar</span><span class="p">,</span>
@@ -1620,14 +1168,23 @@ should enable us to compute population weighted averages of the station data per
                            <span class="n">title</span><span class="o">=</span><span class="n">p9</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">),)</span>
 
  <span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="sa">f</span><span class="s1">'../data/doc/images/</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">prefecture_name</span><span class="si">}</span><span class="s1">.pdf'</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">'tight'</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 47/47 [00:27&lt;00:00,  1.74it/s]
 </pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="s1">'../data/doc/images/prefecture_population_stations.png'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/prefecture_weighted_averages_79_0.png" src="_images/prefecture_weighted_averages_79_0.png"/>
 </div>
 </div>
 </div>
