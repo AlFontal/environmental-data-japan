@@ -18,7 +18,7 @@ More specifically, we have downloaded the Air Pollution Monitoring data for a to
 
 ## The stations
 
-Information for the exact location of each station (latitude, longitude and altitude) and the environmental variables available can be found in the table in [`/data/air_pollution/stations/doc/stations_info.csv`](https://github.com/AlFontal/environmental-data-japan/data/air_pollution/stations/doc/stations_info.csv)
+Information for the exact location of each station (latitude, longitude and altitude) and the environmental variables available can be found in the table in [`/data/air_pollution/stations/doc/stations_info.csv`](https://github.com/AlFontal/environmental-data-japan/tree/main/data/air_pollution/stations/doc/stations_info.csv)
 
 ## Variables measured
 
@@ -46,11 +46,11 @@ Since the repository includes data for over 2000 stations, the measured variable
 
 ### (1) Station data
 
-Daily data for each station and its measured variables from 2011-01-01 to 2018-12-31 can be accessed in the [`data/air_pollution/stations/clean`](https://github.com/AlFontal/environmental-data-japan/data/air_pollution/stations/clean) folder, classified in subfolders according to the prefecture where they are located.
+Daily data for each station and its measured variables from 2011-01-01 to 2018-12-31 can be accessed in the [`data/air_pollution/stations/clean`](https://github.com/AlFontal/environmental-data-japan/tree/main/data/air_pollution/stations/clean) folder, classified in subfolders according to the prefecture where they are located.
 
 ### (2) Municipalities
 
-Averaged daily data for all stations within each municipality in Japan during the same period can be found in the [`data/air_pollution/municipalities`](https://github.com/AlFontal/environmental-data-japan/data/air_pollution/municipalities/) folder, with the first 2 digits of each CSV file indicating the prefecture code and the last 3 digits indicating the municipal code.
+Averaged daily data for all stations within each municipality in Japan during the same period can be found in the [`data/air_pollution/municipalities`](https://github.com/AlFontal/environmental-data-japan/tree/main/data/air_pollution/municipalities/) folder, with the first 2 digits of each CSV file indicating the prefecture code and the last 3 digits indicating the municipal code.
 
 ### (3) Prefectures
 
@@ -58,11 +58,11 @@ Estimates of the daily data for each prefecture have been estimated by averaging
 
 At this point, three different methods have been used to compute the averages, weighing the municipalities differently according to diverse criteria:
 
-+ **Area-based weighted averages**: These averages are completely population-naïve and try to better estimate the overall values for each variable across the whole area of the prefecture, wheighing high and low population density areas exactly the same. The time-series for these can be found in [`data/air_pollution/prefectures/area_weighted`](https://github.com/AlFontal/environmental-data-japan/data/air_pollution/prefectures/area_weighted).
++ **Area-based weighted averages**: These averages are completely population-naïve and try to better estimate the overall values for each variable across the whole area of the prefecture, wheighing high and low population density areas exactly the same. The time-series for these can be found in [`data/air_pollution/prefectures/area_weighted`](https://github.com/AlFontal/environmental-data-japan/tree/main/data/air_pollution/prefectures/area_weighted).
 
-+ **Population-weighted averages**: These averages are computed trying to estimate the values of each variable that represent the most accurate exposure of the population of each prefecture to each pollutant/meteorological variable. For this purpose, the values for each variable have been averaged weighing every municipal term according to their population share in the prefecture. The time-series for these can be found in [`data/air_pollution/prefectures/population_weighted`](https://github.com/AlFontal/environmental-data-japan/data/air_pollution/prefectures/population_weighted).
++ **Population-weighted averages**: These averages are computed trying to estimate the values of each variable that represent the most accurate exposure of the population of each prefecture to each pollutant/meteorological variable. For this purpose, the values for each variable have been averaged weighing every municipal term according to their population share in the prefecture. The time-series for these can be found in [`data/air_pollution/prefectures/population_weighted`](https://github.com/AlFontal/environmental-data-japan/tree/main/data/air_pollution/prefectures/population_weighted).
 
-+ **Infant population-weighted averages**: Following the same principal as the previous averages, these include the daily prefecture-level estimates of each measured variable based on the share of *children under 5 years old* in each municipal term. The time-series for these can be found in [`data/air_pollution/prefectures/under_5_weighted`](https://github.com/AlFontal/environmental-data-japan/data/air_pollution/prefectures/under_5_weighted).
++ **Infant population-weighted averages**: Following the same principal as the previous averages, these include the daily prefecture-level estimates of each measured variable based on the share of *children under 5 years old* in each municipal term. The time-series for these can be found in [`data/air_pollution/prefectures/under_5_weighted`](https://github.com/AlFontal/environmental-data-japan/tree/main/data/air_pollution/prefectures/under_5_weighted).
 
 
 #### Population coverage
