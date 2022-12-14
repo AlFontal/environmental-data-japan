@@ -126,9 +126,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <nav class="navbar navbar-expand-lg navbar-dark">
 <div class="navbar-container container-fluid">
 <div class="navbar-brand-container">
-<a class="navbar-brand navbar-brand-logo" href="./index.html">
-<img alt="" class="navbar-logo" src="./assets/logo.png"/>
-</a>
 <a class="navbar-brand" href="./index.html">
 <span class="navbar-title">Japan’s Environmental Data</span>
 </a>
@@ -241,7 +238,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <main class="content" id="quarto-document-content">
 <header class="quarto-title-block default" id="title-block-header">
 <div class="quarto-title">
-<h1 class="title">Japanese Air Pollution Data</h1>
+<div class="quarto-title-block"><div><h1 class="title">Japanese Air Pollution Data</h1><button aria-expanded="false" class="btn code-tools-button dropdown-toggle" data-bs-toggle="dropdown" id="quarto-code-tools-menu" type="button"><i class="bi"></i> Code</button><ul aria-labelelledby="quarto-code-tools-menu" class="dropdown-menu dropdown-menu-end"><li><a class="dropdown-item" href="javascript:void(0)" id="quarto-show-all-code" role="button">Show All Code</a></li><li><a class="dropdown-item" href="javascript:void(0)" id="quarto-hide-all-code" role="button">Hide All Code</a></li></ul></div></div>
 <p class="subtitle lead">Computing prefecture-wise weighted averages</p>
 </div>
 <div class="quarto-title-meta">
@@ -323,7 +320,9 @@ Show code imports and presets
 <span id="cb4-15"><a aria-hidden="true" href="#cb4-15" tabindex="-1"></a>    prefecture_shapes <span class="op">=</span> gpd.read_file(<span class="ss">f'</span><span class="sc">{</span>shapes_path<span class="sc">}</span><span class="ss">/prefecture_shapes.shp'</span>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
 <p>We now have the equivalent shapefiles grouped at the <strong>municipal</strong> and the <strong>prefectural</strong> level, leading to a map of Japan like the following:</p>
-<div class="cell" data-code-folding="true" data-executetime='{"end_time":"2022-09-29T07:00:58.672454Z","start_time":"2022-09-29T07:00:10.528209Z"}' data-execution_count="5">
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:00:58.672454Z","start_time":"2022-09-29T07:00:10.528209Z"}' data-execution_count="5">
+<details>
+<summary>Show Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a aria-hidden="true" href="#cb5-1" tabindex="-1"></a>(p9.ggplot(municipality_shapes) </span>
 <span id="cb5-2"><a aria-hidden="true" href="#cb5-2" tabindex="-1"></a>    <span class="op">+</span> p9.geom_map(alpha<span class="op">=</span><span class="fl">.2</span>, size<span class="op">=</span><span class="fl">.05</span>, color<span class="op">=</span><span class="st">'gray'</span>)</span>
 <span id="cb5-3"><a aria-hidden="true" href="#cb5-3" tabindex="-1"></a>    <span class="op">+</span> p9.geom_map(data<span class="op">=</span>prefecture_shapes, size<span class="op">=</span><span class="fl">.15</span>, alpha<span class="op">=</span><span class="dv">0</span>)</span>
@@ -333,6 +332,7 @@ Show code imports and presets
 <span id="cb5-7"><a aria-hidden="true" href="#cb5-7" tabindex="-1"></a>               axis_text<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">5</span>),</span>
 <span id="cb5-8"><a aria-hidden="true" href="#cb5-8" tabindex="-1"></a>               panel_grid<span class="op">=</span>p9.element_blank())</span>
 <span id="cb5-9"><a aria-hidden="true" href="#cb5-9" tabindex="-1"></a>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <p><img class="img-fluid" src="prefecture_weighted_averages_files/figure-html/cell-6-output-1.png"/></p>
 </div>
@@ -516,54 +516,59 @@ Show code imports and presets
 <span id="cb25-4"><a aria-hidden="true" href="#cb25-4" tabindex="-1"></a>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a aria-hidden="true" href="#cb26-1" tabindex="-1"></a><span class="cf">for</span> prefecture, df <span class="kw">in</span> long_pollution_df.groupby(<span class="st">'pref'</span>):</span>
-<span id="cb26-2"><a aria-hidden="true" href="#cb26-2" tabindex="-1"></a>    pref_df <span class="op">=</span> (df.groupby([<span class="st">'date'</span>, <span class="st">'variable'</span>])</span>
-<span id="cb26-3"><a aria-hidden="true" href="#cb26-3" tabindex="-1"></a>                 .progress_apply(<span class="kw">lambda</span> df: df</span>
-<span id="cb26-4"><a aria-hidden="true" href="#cb26-4" tabindex="-1"></a>                                        .merge(jp_areas)</span>
-<span id="cb26-5"><a aria-hidden="true" href="#cb26-5" tabindex="-1"></a>                                        .<span class="bu">eval</span>(<span class="st">'weight = area / area.sum()'</span>)</span>
-<span id="cb26-6"><a aria-hidden="true" href="#cb26-6" tabindex="-1"></a>                                        .<span class="bu">eval</span>(<span class="st">'value = value * weight'</span>)</span>
-<span id="cb26-7"><a aria-hidden="true" href="#cb26-7" tabindex="-1"></a>                                        .value.<span class="bu">sum</span>())</span>
-<span id="cb26-8"><a aria-hidden="true" href="#cb26-8" tabindex="-1"></a>                 .rename(<span class="st">'value'</span>)</span>
-<span id="cb26-9"><a aria-hidden="true" href="#cb26-9" tabindex="-1"></a>                 .reset_index()</span>
-<span id="cb26-10"><a aria-hidden="true" href="#cb26-10" tabindex="-1"></a>                 .pivot(index<span class="op">=</span><span class="st">'date'</span>, columns<span class="op">=</span><span class="st">'variable'</span>, values<span class="op">=</span><span class="st">'value'</span>)</span>
-<span id="cb26-11"><a aria-hidden="true" href="#cb26-11" tabindex="-1"></a>)</span>
-<span id="cb26-12"><a aria-hidden="true" href="#cb26-12" tabindex="-1"></a>    pref_df.<span class="bu">round</span>(<span class="dv">3</span>).to_csv(<span class="ss">f'../data/air_pollution/prefectures/area_weighted/</span><span class="sc">{</span>prefecture<span class="sc">}</span><span class="ss">.csv'</span>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a aria-hidden="true" href="#cb26-1" tabindex="-1"></a>area_dir <span class="op">=</span> <span class="st">'../data/air_pollution/prefectures/area_weighted/'</span></span>
+<span id="cb26-2"><a aria-hidden="true" href="#cb26-2" tabindex="-1"></a><span class="cf">for</span> prefecture, df <span class="kw">in</span> long_pollution_df.groupby(<span class="st">'pref'</span>):</span>
+<span id="cb26-3"><a aria-hidden="true" href="#cb26-3" tabindex="-1"></a>    pref_df <span class="op">=</span> (df.groupby([<span class="st">'date'</span>, <span class="st">'variable'</span>])</span>
+<span id="cb26-4"><a aria-hidden="true" href="#cb26-4" tabindex="-1"></a>                 .progress_apply(<span class="kw">lambda</span> df: df</span>
+<span id="cb26-5"><a aria-hidden="true" href="#cb26-5" tabindex="-1"></a>                                        .merge(jp_areas)</span>
+<span id="cb26-6"><a aria-hidden="true" href="#cb26-6" tabindex="-1"></a>                                        .<span class="bu">eval</span>(<span class="st">'weight = area / area.sum()'</span>)</span>
+<span id="cb26-7"><a aria-hidden="true" href="#cb26-7" tabindex="-1"></a>                                        .<span class="bu">eval</span>(<span class="st">'value = value * weight'</span>)</span>
+<span id="cb26-8"><a aria-hidden="true" href="#cb26-8" tabindex="-1"></a>                                        .value.<span class="bu">sum</span>())</span>
+<span id="cb26-9"><a aria-hidden="true" href="#cb26-9" tabindex="-1"></a>                 .rename(<span class="st">'value'</span>)</span>
+<span id="cb26-10"><a aria-hidden="true" href="#cb26-10" tabindex="-1"></a>                 .reset_index()</span>
+<span id="cb26-11"><a aria-hidden="true" href="#cb26-11" tabindex="-1"></a>                 .pivot(index<span class="op">=</span><span class="st">'date'</span>, columns<span class="op">=</span><span class="st">'variable'</span>, values<span class="op">=</span><span class="st">'value'</span>)</span>
+<span id="cb26-12"><a aria-hidden="true" href="#cb26-12" tabindex="-1"></a>)</span>
+<span id="cb26-13"><a aria-hidden="true" href="#cb26-13" tabindex="-1"></a>    pref_df.<span class="bu">round</span>(<span class="dv">3</span>).to_csv(<span class="ss">f'</span><span class="sc">{</span>area_dir<span class="sc">}{</span>prefecture<span class="sc">}</span><span class="ss">.csv'</span>)</span>
+<span id="cb26-14"><a aria-hidden="true" href="#cb26-14" tabindex="-1"></a>    </span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="level3" id="weighting-by-population-of-children-under-5-years-old">
 <h3 class="anchored" data-anchor-id="weighting-by-population-of-children-under-5-years-old">Weighting by population of children under 5 years old</h3>
 <p>In this case we will weigh its municipality proportional to the relative amount of children under 5 years old living in it:</p>
 <div class="cell" data-executetime='{"end_time":"2022-09-29T11:24:04.831559Z","start_time":"2022-09-29T07:19:05.394486Z"}'>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a aria-hidden="true" href="#cb27-1" tabindex="-1"></a><span class="cf">for</span> prefecture, df <span class="kw">in</span> long_pollution_df.groupby(<span class="st">'pref'</span>):</span>
-<span id="cb27-2"><a aria-hidden="true" href="#cb27-2" tabindex="-1"></a>    pref_df <span class="op">=</span> (df.groupby([<span class="st">'date'</span>, <span class="st">'variable'</span>])</span>
-<span id="cb27-3"><a aria-hidden="true" href="#cb27-3" tabindex="-1"></a>                 .progress_apply(<span class="kw">lambda</span> df: df</span>
-<span id="cb27-4"><a aria-hidden="true" href="#cb27-4" tabindex="-1"></a>                                        .merge(jp_pops_kids)</span>
-<span id="cb27-5"><a aria-hidden="true" href="#cb27-5" tabindex="-1"></a>                                        .<span class="bu">eval</span>(<span class="st">'weight = population / population.sum()'</span>)</span>
-<span id="cb27-6"><a aria-hidden="true" href="#cb27-6" tabindex="-1"></a>                                        .<span class="bu">eval</span>(<span class="st">'value = value * weight'</span>)</span>
-<span id="cb27-7"><a aria-hidden="true" href="#cb27-7" tabindex="-1"></a>                                        .value.<span class="bu">sum</span>())</span>
-<span id="cb27-8"><a aria-hidden="true" href="#cb27-8" tabindex="-1"></a>                 .rename(<span class="st">'value'</span>)</span>
-<span id="cb27-9"><a aria-hidden="true" href="#cb27-9" tabindex="-1"></a>                 .reset_index()</span>
-<span id="cb27-10"><a aria-hidden="true" href="#cb27-10" tabindex="-1"></a>                 .pivot(index<span class="op">=</span><span class="st">'date'</span>, columns<span class="op">=</span><span class="st">'variable'</span>, values<span class="op">=</span><span class="st">'value'</span>)</span>
-<span id="cb27-11"><a aria-hidden="true" href="#cb27-11" tabindex="-1"></a>)</span>
-<span id="cb27-12"><a aria-hidden="true" href="#cb27-12" tabindex="-1"></a>    pref_df.<span class="bu">round</span>(<span class="dv">3</span>).to_csv(<span class="ss">f'../data/air_pollution/prefectures/under_5_weighted/</span><span class="sc">{</span>prefecture<span class="sc">}</span><span class="ss">.csv'</span>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a aria-hidden="true" href="#cb27-1" tabindex="-1"></a>child_pop_dir <span class="op">=</span> <span class="st">'../data/air_pollution/prefectures/under_5_weighted/'</span></span>
+<span id="cb27-2"><a aria-hidden="true" href="#cb27-2" tabindex="-1"></a><span class="cf">for</span> prefecture, df <span class="kw">in</span> long_pollution_df.groupby(<span class="st">'pref'</span>):</span>
+<span id="cb27-3"><a aria-hidden="true" href="#cb27-3" tabindex="-1"></a>    pref_df <span class="op">=</span> (df.groupby([<span class="st">'date'</span>, <span class="st">'variable'</span>])</span>
+<span id="cb27-4"><a aria-hidden="true" href="#cb27-4" tabindex="-1"></a>            .progress_apply(<span class="kw">lambda</span> df: df</span>
+<span id="cb27-5"><a aria-hidden="true" href="#cb27-5" tabindex="-1"></a>                                   .merge(jp_pops_kids)</span>
+<span id="cb27-6"><a aria-hidden="true" href="#cb27-6" tabindex="-1"></a>                                   .<span class="bu">eval</span>(<span class="st">'weight = population / population.sum()'</span>)</span>
+<span id="cb27-7"><a aria-hidden="true" href="#cb27-7" tabindex="-1"></a>                                   .<span class="bu">eval</span>(<span class="st">'value = value * weight'</span>)</span>
+<span id="cb27-8"><a aria-hidden="true" href="#cb27-8" tabindex="-1"></a>                                   .value.<span class="bu">sum</span>())</span>
+<span id="cb27-9"><a aria-hidden="true" href="#cb27-9" tabindex="-1"></a>            .rename(<span class="st">'value'</span>)</span>
+<span id="cb27-10"><a aria-hidden="true" href="#cb27-10" tabindex="-1"></a>            .reset_index()</span>
+<span id="cb27-11"><a aria-hidden="true" href="#cb27-11" tabindex="-1"></a>            .pivot(index<span class="op">=</span><span class="st">'date'</span>, columns<span class="op">=</span><span class="st">'variable'</span>, values<span class="op">=</span><span class="st">'value'</span>)</span>
+<span id="cb27-12"><a aria-hidden="true" href="#cb27-12" tabindex="-1"></a>)</span>
+<span id="cb27-13"><a aria-hidden="true" href="#cb27-13" tabindex="-1"></a>    (pref_df.<span class="bu">round</span>(<span class="dv">3</span>).to_csv(<span class="ss">f'</span><span class="sc">{</span>child_pop_dir<span class="sc">}{</span>prefecture<span class="sc">}</span><span class="ss">.csv'</span>)</span>
+<span id="cb27-14"><a aria-hidden="true" href="#cb27-14" tabindex="-1"></a>    )</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="level3" id="weighting-by-full-population-density">
 <h3 class="anchored" data-anchor-id="weighting-by-full-population-density">Weighting by full population density</h3>
 <p>In the last case, we will weigh each municipality proportional to the total population living in each term.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a aria-hidden="true" href="#cb28-1" tabindex="-1"></a><span class="cf">for</span> prefecture, df <span class="kw">in</span> long_pollution_df.groupby(<span class="st">'pref'</span>):</span>
-<span id="cb28-2"><a aria-hidden="true" href="#cb28-2" tabindex="-1"></a>    pref_df <span class="op">=</span> (df.groupby([<span class="st">'date'</span>, <span class="st">'variable'</span>])</span>
-<span id="cb28-3"><a aria-hidden="true" href="#cb28-3" tabindex="-1"></a>                 .progress_apply(<span class="kw">lambda</span> df: df</span>
-<span id="cb28-4"><a aria-hidden="true" href="#cb28-4" tabindex="-1"></a>                                        .merge(jp_pops_full)</span>
-<span id="cb28-5"><a aria-hidden="true" href="#cb28-5" tabindex="-1"></a>                                        .<span class="bu">eval</span>(<span class="st">'weight = population / population.sum()'</span>)</span>
-<span id="cb28-6"><a aria-hidden="true" href="#cb28-6" tabindex="-1"></a>                                        .<span class="bu">eval</span>(<span class="st">'value = value * weight'</span>)</span>
-<span id="cb28-7"><a aria-hidden="true" href="#cb28-7" tabindex="-1"></a>                                        .value.<span class="bu">sum</span>())</span>
-<span id="cb28-8"><a aria-hidden="true" href="#cb28-8" tabindex="-1"></a>                 .rename(<span class="st">'value'</span>)</span>
-<span id="cb28-9"><a aria-hidden="true" href="#cb28-9" tabindex="-1"></a>                 .reset_index()</span>
-<span id="cb28-10"><a aria-hidden="true" href="#cb28-10" tabindex="-1"></a>                 .pivot(index<span class="op">=</span><span class="st">'date'</span>, columns<span class="op">=</span><span class="st">'variable'</span>, values<span class="op">=</span><span class="st">'value'</span>)</span>
-<span id="cb28-11"><a aria-hidden="true" href="#cb28-11" tabindex="-1"></a>)</span>
-<span id="cb28-12"><a aria-hidden="true" href="#cb28-12" tabindex="-1"></a>    pref_df.<span class="bu">round</span>(<span class="dv">3</span>).to_csv(<span class="ss">f'../data/air_pollution/prefectures/population_weighted/</span><span class="sc">{</span>prefecture<span class="sc">}</span><span class="ss">.csv'</span>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a aria-hidden="true" href="#cb28-1" tabindex="-1"></a>pop_dir <span class="op">=</span> <span class="st">'../data/air_pollution/prefectures/population_weighted/'</span></span>
+<span id="cb28-2"><a aria-hidden="true" href="#cb28-2" tabindex="-1"></a><span class="cf">for</span> prefecture, df <span class="kw">in</span> long_pollution_df.groupby(<span class="st">'pref'</span>):</span>
+<span id="cb28-3"><a aria-hidden="true" href="#cb28-3" tabindex="-1"></a>    pref_df <span class="op">=</span> (df.groupby([<span class="st">'date'</span>, <span class="st">'variable'</span>])</span>
+<span id="cb28-4"><a aria-hidden="true" href="#cb28-4" tabindex="-1"></a>                 .progress_apply(<span class="kw">lambda</span> df: df</span>
+<span id="cb28-5"><a aria-hidden="true" href="#cb28-5" tabindex="-1"></a>                                        .merge(jp_pops_full)</span>
+<span id="cb28-6"><a aria-hidden="true" href="#cb28-6" tabindex="-1"></a>                                        .<span class="bu">eval</span>(<span class="st">'weight = population / population.sum()'</span>)</span>
+<span id="cb28-7"><a aria-hidden="true" href="#cb28-7" tabindex="-1"></a>                                        .<span class="bu">eval</span>(<span class="st">'value = value * weight'</span>)</span>
+<span id="cb28-8"><a aria-hidden="true" href="#cb28-8" tabindex="-1"></a>                                        .value.<span class="bu">sum</span>())</span>
+<span id="cb28-9"><a aria-hidden="true" href="#cb28-9" tabindex="-1"></a>                 .rename(<span class="st">'value'</span>)</span>
+<span id="cb28-10"><a aria-hidden="true" href="#cb28-10" tabindex="-1"></a>                 .reset_index()</span>
+<span id="cb28-11"><a aria-hidden="true" href="#cb28-11" tabindex="-1"></a>                 .pivot(index<span class="op">=</span><span class="st">'date'</span>, columns<span class="op">=</span><span class="st">'variable'</span>, values<span class="op">=</span><span class="st">'value'</span>)</span>
+<span id="cb28-12"><a aria-hidden="true" href="#cb28-12" tabindex="-1"></a>)</span>
+<span id="cb28-13"><a aria-hidden="true" href="#cb28-13" tabindex="-1"></a>    pref_df.<span class="bu">round</span>(<span class="dv">3</span>).to_csv(<span class="ss">f'</span><span class="sc">{</span>pop_dir<span class="sc">}{</span>prefecture<span class="sc">}</span><span class="ss">.csv'</span>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -579,47 +584,53 @@ Show code imports and presets
 <span id="cb29-4"><a aria-hidden="true" href="#cb29-4" tabindex="-1"></a>                <span class="st">'CO2'</span>: <span class="st">'CO$_2$'</span>,</span>
 <span id="cb29-5"><a aria-hidden="true" href="#cb29-5" tabindex="-1"></a>                <span class="st">'SPM'</span>: <span class="st">'PM$_</span><span class="sc">{10}</span><span class="st">$'</span>}</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-code-folding="true" data-executetime='{"end_time":"2022-09-27T16:59:46.469845Z","start_time":"2022-09-27T16:59:46.441342Z"}' data-execution_count="27">
+<div class="cell" data-executetime='{"end_time":"2022-09-27T16:59:46.469845Z","start_time":"2022-09-27T16:59:46.441342Z"}' data-execution_count="27">
+<details>
+<summary>Show Code</summary>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a aria-hidden="true" href="#cb30-1" tabindex="-1"></a>(monitoring_stations</span>
 <span id="cb30-2"><a aria-hidden="true" href="#cb30-2" tabindex="-1"></a> .drop(columns<span class="op">=</span>[<span class="st">'station_code'</span>, <span class="st">'latitude'</span>, <span class="st">'longitude'</span>, <span class="st">'altitude'</span>])</span>
 <span id="cb30-3"><a aria-hidden="true" href="#cb30-3" tabindex="-1"></a> .groupby([<span class="st">'prefecture'</span>, <span class="st">'prefecture_code'</span>])</span>
 <span id="cb30-4"><a aria-hidden="true" href="#cb30-4" tabindex="-1"></a> .<span class="bu">sum</span>(numeric_only<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb30-5"><a aria-hidden="true" href="#cb30-5" tabindex="-1"></a> .astype(<span class="bu">int</span>)</span>
 <span id="cb30-6"><a aria-hidden="true" href="#cb30-6" tabindex="-1"></a> .sort_values(<span class="st">'prefecture_code'</span>)</span>
-<span id="cb30-7"><a aria-hidden="true" href="#cb30-7" tabindex="-1"></a> .<span class="bu">apply</span>(<span class="kw">lambda</span> x: x <span class="op">/</span> monitoring_stations.groupby(<span class="st">'prefecture_code'</span>).station_code.nunique())</span>
-<span id="cb30-8"><a aria-hidden="true" href="#cb30-8" tabindex="-1"></a> .applymap(<span class="kw">lambda</span> x: <span class="bu">round</span>(x <span class="op">*</span> <span class="dv">100</span>, <span class="dv">2</span>))</span>
-<span id="cb30-9"><a aria-hidden="true" href="#cb30-9" tabindex="-1"></a> .reset_index()</span>
-<span id="cb30-10"><a aria-hidden="true" href="#cb30-10" tabindex="-1"></a> .melt([<span class="st">'prefecture'</span>, <span class="st">'prefecture_code'</span>])</span>
-<span id="cb30-11"><a aria-hidden="true" href="#cb30-11" tabindex="-1"></a> .query(<span class="st">'not variable.isin(["NO", "NO2", "CH4", "NMHC"])'</span>)</span>
-<span id="cb30-12"><a aria-hidden="true" href="#cb30-12" tabindex="-1"></a> .replace(variable_map)</span>
-<span id="cb30-13"><a aria-hidden="true" href="#cb30-13" tabindex="-1"></a> .merge(monitoring_stations</span>
-<span id="cb30-14"><a aria-hidden="true" href="#cb30-14" tabindex="-1"></a>        .groupby(<span class="st">'prefecture_code'</span>)</span>
-<span id="cb30-15"><a aria-hidden="true" href="#cb30-15" tabindex="-1"></a>        .station_code</span>
-<span id="cb30-16"><a aria-hidden="true" href="#cb30-16" tabindex="-1"></a>        .nunique()</span>
-<span id="cb30-17"><a aria-hidden="true" href="#cb30-17" tabindex="-1"></a>        .rename(<span class="st">'n_stations'</span>)</span>
-<span id="cb30-18"><a aria-hidden="true" href="#cb30-18" tabindex="-1"></a>        .reset_index())</span>
-<span id="cb30-19"><a aria-hidden="true" href="#cb30-19" tabindex="-1"></a> .assign(pref_name<span class="op">=</span><span class="kw">lambda</span> dd: dd.prefecture.<span class="bu">str</span>.split(<span class="st">'-'</span>).<span class="bu">str</span>[<span class="dv">0</span>] <span class="op">+</span> </span>
-<span id="cb30-20"><a aria-hidden="true" href="#cb30-20" tabindex="-1"></a>                                <span class="st">' ('</span> <span class="op">+</span> dd.n_stations.astype(<span class="bu">str</span>) <span class="op">+</span> <span class="st">')'</span>)</span>
-<span id="cb30-21"><a aria-hidden="true" href="#cb30-21" tabindex="-1"></a> .pipe(<span class="kw">lambda</span> dd: p9.ggplot(dd) </span>
-<span id="cb30-22"><a aria-hidden="true" href="#cb30-22" tabindex="-1"></a>                <span class="op">+</span> p9.aes(x<span class="op">=</span><span class="st">'reorder(variable, value, ascending=True)'</span>,</span>
-<span id="cb30-23"><a aria-hidden="true" href="#cb30-23" tabindex="-1"></a>                         y<span class="op">=</span><span class="st">'reorder(pref_name, value, ascending=False)'</span>,</span>
-<span id="cb30-24"><a aria-hidden="true" href="#cb30-24" tabindex="-1"></a>                         fill<span class="op">=</span><span class="st">'value'</span>) </span>
-<span id="cb30-25"><a aria-hidden="true" href="#cb30-25" tabindex="-1"></a>                <span class="op">+</span> p9.geom_tile(color<span class="op">=</span><span class="st">'black'</span>)</span>
-<span id="cb30-26"><a aria-hidden="true" href="#cb30-26" tabindex="-1"></a>                <span class="op">+</span> p9.geom_text(p9.aes(label<span class="op">=</span><span class="st">'value.round(0).astype(int)'</span>,</span>
-<span id="cb30-27"><a aria-hidden="true" href="#cb30-27" tabindex="-1"></a>                                color<span class="op">=</span><span class="st">'value &gt; 70'</span>), size<span class="op">=</span><span class="fl">2.5</span>)      </span>
-<span id="cb30-28"><a aria-hidden="true" href="#cb30-28" tabindex="-1"></a>                <span class="op">+</span> p9.theme_minimal()</span>
-<span id="cb30-29"><a aria-hidden="true" href="#cb30-29" tabindex="-1"></a>                <span class="op">+</span> p9.scale_color_manual(values<span class="op">=</span>[<span class="st">'black'</span>, <span class="st">'white'</span>])</span>
-<span id="cb30-30"><a aria-hidden="true" href="#cb30-30" tabindex="-1"></a>                <span class="op">+</span> p9.scale_fill_continuous(<span class="st">'Oranges'</span>)</span>
-<span id="cb30-31"><a aria-hidden="true" href="#cb30-31" tabindex="-1"></a>                <span class="op">+</span> p9.guides(fill<span class="op">=</span><span class="va">False</span>, color<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb30-32"><a aria-hidden="true" href="#cb30-32" tabindex="-1"></a>                <span class="op">+</span> p9.labs(x<span class="op">=</span><span class="st">''</span>, y<span class="op">=</span><span class="st">''</span>, title<span class="op">=</span><span class="st">'Percentage of stations collecting data'</span>)</span>
-<span id="cb30-33"><a aria-hidden="true" href="#cb30-33" tabindex="-1"></a>                <span class="op">+</span> p9.coord_flip()</span>
-<span id="cb30-34"><a aria-hidden="true" href="#cb30-34" tabindex="-1"></a>                <span class="op">+</span> p9.theme(figure_size<span class="op">=</span>(<span class="dv">4</span>, <span class="fl">1.25</span>),</span>
-<span id="cb30-35"><a aria-hidden="true" href="#cb30-35" tabindex="-1"></a>                           title<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">8</span>),</span>
-<span id="cb30-36"><a aria-hidden="true" href="#cb30-36" tabindex="-1"></a>                           axis_text_x<span class="op">=</span>p9.element_text(angle<span class="op">=</span><span class="dv">90</span>, size<span class="op">=</span><span class="fl">3.5</span>, margin<span class="op">=</span>{<span class="st">'t'</span>: <span class="op">-</span><span class="dv">10</span>}),</span>
-<span id="cb30-37"><a aria-hidden="true" href="#cb30-37" tabindex="-1"></a>                           axis_text_y<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">4</span>, ha<span class="op">=</span><span class="st">'right'</span>, margin<span class="op">=</span>{<span class="st">'r'</span>: <span class="op">-</span><span class="dv">10</span>}),</span>
-<span id="cb30-38"><a aria-hidden="true" href="#cb30-38" tabindex="-1"></a>                           panel_grid<span class="op">=</span>p9.element_blank())</span>
-<span id="cb30-39"><a aria-hidden="true" href="#cb30-39" tabindex="-1"></a>)</span>
-<span id="cb30-40"><a aria-hidden="true" href="#cb30-40" tabindex="-1"></a>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
+<span id="cb30-7"><a aria-hidden="true" href="#cb30-7" tabindex="-1"></a> .<span class="bu">apply</span>(<span class="kw">lambda</span> x: x <span class="op">/</span> monitoring_stations</span>
+<span id="cb30-8"><a aria-hidden="true" href="#cb30-8" tabindex="-1"></a>                      .groupby(<span class="st">'prefecture_code'</span>)</span>
+<span id="cb30-9"><a aria-hidden="true" href="#cb30-9" tabindex="-1"></a>                      .station_code.nunique())</span>
+<span id="cb30-10"><a aria-hidden="true" href="#cb30-10" tabindex="-1"></a> .applymap(<span class="kw">lambda</span> x: <span class="bu">round</span>(x <span class="op">*</span> <span class="dv">100</span>, <span class="dv">2</span>))</span>
+<span id="cb30-11"><a aria-hidden="true" href="#cb30-11" tabindex="-1"></a> .reset_index()</span>
+<span id="cb30-12"><a aria-hidden="true" href="#cb30-12" tabindex="-1"></a> .melt([<span class="st">'prefecture'</span>, <span class="st">'prefecture_code'</span>])</span>
+<span id="cb30-13"><a aria-hidden="true" href="#cb30-13" tabindex="-1"></a> .query(<span class="st">'not variable.isin(["NO", "NO2", "CH4", "NMHC"])'</span>)</span>
+<span id="cb30-14"><a aria-hidden="true" href="#cb30-14" tabindex="-1"></a> .replace(variable_map)</span>
+<span id="cb30-15"><a aria-hidden="true" href="#cb30-15" tabindex="-1"></a> .merge(monitoring_stations</span>
+<span id="cb30-16"><a aria-hidden="true" href="#cb30-16" tabindex="-1"></a>        .groupby(<span class="st">'prefecture_code'</span>)</span>
+<span id="cb30-17"><a aria-hidden="true" href="#cb30-17" tabindex="-1"></a>        .station_code</span>
+<span id="cb30-18"><a aria-hidden="true" href="#cb30-18" tabindex="-1"></a>        .nunique()</span>
+<span id="cb30-19"><a aria-hidden="true" href="#cb30-19" tabindex="-1"></a>        .rename(<span class="st">'n_stations'</span>)</span>
+<span id="cb30-20"><a aria-hidden="true" href="#cb30-20" tabindex="-1"></a>        .reset_index())</span>
+<span id="cb30-21"><a aria-hidden="true" href="#cb30-21" tabindex="-1"></a> .assign(pref_name<span class="op">=</span><span class="kw">lambda</span> dd: dd.prefecture.<span class="bu">str</span>.split(<span class="st">'-'</span>).<span class="bu">str</span>[<span class="dv">0</span>] <span class="op">+</span> </span>
+<span id="cb30-22"><a aria-hidden="true" href="#cb30-22" tabindex="-1"></a>                                <span class="st">' ('</span> <span class="op">+</span> dd.n_stations.astype(<span class="bu">str</span>) <span class="op">+</span> <span class="st">')'</span>)</span>
+<span id="cb30-23"><a aria-hidden="true" href="#cb30-23" tabindex="-1"></a> .pipe(<span class="kw">lambda</span> dd: </span>
+<span id="cb30-24"><a aria-hidden="true" href="#cb30-24" tabindex="-1"></a>         p9.ggplot(dd) </span>
+<span id="cb30-25"><a aria-hidden="true" href="#cb30-25" tabindex="-1"></a>       <span class="op">+</span> p9.aes(x<span class="op">=</span><span class="st">'reorder(variable, value, ascending=True)'</span>,</span>
+<span id="cb30-26"><a aria-hidden="true" href="#cb30-26" tabindex="-1"></a>                y<span class="op">=</span><span class="st">'reorder(pref_name, value, ascending=False)'</span>,</span>
+<span id="cb30-27"><a aria-hidden="true" href="#cb30-27" tabindex="-1"></a>                fill<span class="op">=</span><span class="st">'value'</span>) </span>
+<span id="cb30-28"><a aria-hidden="true" href="#cb30-28" tabindex="-1"></a>       <span class="op">+</span> p9.geom_tile(color<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb30-29"><a aria-hidden="true" href="#cb30-29" tabindex="-1"></a>       <span class="op">+</span> p9.geom_text(p9.aes(label<span class="op">=</span><span class="st">'value.round(0).astype(int)'</span>,</span>
+<span id="cb30-30"><a aria-hidden="true" href="#cb30-30" tabindex="-1"></a>                       color<span class="op">=</span><span class="st">'value &gt; 70'</span>), size<span class="op">=</span><span class="fl">2.5</span>)      </span>
+<span id="cb30-31"><a aria-hidden="true" href="#cb30-31" tabindex="-1"></a>       <span class="op">+</span> p9.theme_minimal()</span>
+<span id="cb30-32"><a aria-hidden="true" href="#cb30-32" tabindex="-1"></a>       <span class="op">+</span> p9.scale_color_manual(values<span class="op">=</span>[<span class="st">'black'</span>, <span class="st">'white'</span>])</span>
+<span id="cb30-33"><a aria-hidden="true" href="#cb30-33" tabindex="-1"></a>       <span class="op">+</span> p9.scale_fill_continuous(<span class="st">'Oranges'</span>)</span>
+<span id="cb30-34"><a aria-hidden="true" href="#cb30-34" tabindex="-1"></a>       <span class="op">+</span> p9.guides(fill<span class="op">=</span><span class="va">False</span>, color<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb30-35"><a aria-hidden="true" href="#cb30-35" tabindex="-1"></a>       <span class="op">+</span> p9.labs(x<span class="op">=</span><span class="st">''</span>, y<span class="op">=</span><span class="st">''</span>, title<span class="op">=</span><span class="st">'Percentage of stations collecting data'</span>)</span>
+<span id="cb30-36"><a aria-hidden="true" href="#cb30-36" tabindex="-1"></a>       <span class="op">+</span> p9.coord_flip()</span>
+<span id="cb30-37"><a aria-hidden="true" href="#cb30-37" tabindex="-1"></a>       <span class="op">+</span> p9.theme(figure_size<span class="op">=</span>(<span class="dv">4</span>, <span class="fl">1.25</span>),</span>
+<span id="cb30-38"><a aria-hidden="true" href="#cb30-38" tabindex="-1"></a>                  title<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">8</span>),</span>
+<span id="cb30-39"><a aria-hidden="true" href="#cb30-39" tabindex="-1"></a>                  axis_text_x<span class="op">=</span>p9.element_text(angle<span class="op">=</span><span class="dv">90</span>, size<span class="op">=</span><span class="fl">3.5</span>, margin<span class="op">=</span>{<span class="st">'t'</span>: <span class="op">-</span><span class="dv">10</span>}),</span>
+<span id="cb30-40"><a aria-hidden="true" href="#cb30-40" tabindex="-1"></a>                  axis_text_y<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">4</span>, ha<span class="op">=</span><span class="st">'right'</span>, margin<span class="op">=</span>{<span class="st">'r'</span>: <span class="op">-</span><span class="dv">10</span>}),</span>
+<span id="cb30-41"><a aria-hidden="true" href="#cb30-41" tabindex="-1"></a>                  panel_grid<span class="op">=</span>p9.element_blank())</span>
+<span id="cb30-42"><a aria-hidden="true" href="#cb30-42" tabindex="-1"></a>)</span>
+<span id="cb30-43"><a aria-hidden="true" href="#cb30-43" tabindex="-1"></a>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <p><img class="img-fluid" src="prefecture_weighted_averages_files/figure-html/cell-30-output-1.png"/></p>
 </div>
@@ -628,7 +639,9 @@ Show code imports and presets
 </div>
 </div>
 <p>Only NOx, SPM (or PM10), SO2 and PM2.5 are variables measured by over 50% of all stations, the rest are present in smaller numbers, which might limit the accuracy of the prefecture-level estimates:</p>
-<div class="cell" data-code-folding="true" data-execution_count="28">
+<div class="cell" data-execution_count="28">
+<details>
+<summary>Show Code</summary>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a aria-hidden="true" href="#cb32-1" tabindex="-1"></a>(monitoring_stations</span>
 <span id="cb32-2"><a aria-hidden="true" href="#cb32-2" tabindex="-1"></a> .drop(columns<span class="op">=</span>[<span class="st">'station_code'</span>, <span class="st">'latitude'</span>, <span class="st">'longitude'</span>, <span class="st">'altitude'</span>])</span>
 <span id="cb32-3"><a aria-hidden="true" href="#cb32-3" tabindex="-1"></a> .groupby([<span class="st">'prefecture'</span>, <span class="st">'prefecture_code'</span>])</span>
@@ -651,6 +664,7 @@ Show code imports and presets
 <span id="cb32-20"><a aria-hidden="true" href="#cb32-20" tabindex="-1"></a>                           panel_grid<span class="op">=</span>p9.element_blank())</span>
 <span id="cb32-21"><a aria-hidden="true" href="#cb32-21" tabindex="-1"></a> )</span>
 <span id="cb32-22"><a aria-hidden="true" href="#cb32-22" tabindex="-1"></a>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <p><img class="img-fluid" src="prefecture_weighted_averages_files/figure-html/cell-31-output-1.png"/></p>
 </div>
@@ -669,11 +683,12 @@ Show code imports and presets
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a aria-hidden="true" href="#cb35-1" tabindex="-1"></a>pop_coverage <span class="op">=</span> (jp_munis</span>
 <span id="cb35-2"><a aria-hidden="true" href="#cb35-2" tabindex="-1"></a>                .merge(jp_pops_full)</span>
 <span id="cb35-3"><a aria-hidden="true" href="#cb35-3" tabindex="-1"></a>                .groupby(<span class="st">'PREF'</span>)</span>
-<span id="cb35-4"><a aria-hidden="true" href="#cb35-4" tabindex="-1"></a>                .<span class="bu">apply</span>(<span class="kw">lambda</span> dd: dd.query(<span class="st">'has_station'</span>).population.<span class="bu">sum</span>() <span class="op">/</span> dd.population.<span class="bu">sum</span>())</span>
-<span id="cb35-5"><a aria-hidden="true" href="#cb35-5" tabindex="-1"></a>                .rename(<span class="st">'pop_coverage'</span>)</span>
-<span id="cb35-6"><a aria-hidden="true" href="#cb35-6" tabindex="-1"></a>                .reset_index()</span>
-<span id="cb35-7"><a aria-hidden="true" href="#cb35-7" tabindex="-1"></a>                .set_index(<span class="st">'PREF'</span>)</span>
-<span id="cb35-8"><a aria-hidden="true" href="#cb35-8" tabindex="-1"></a>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
+<span id="cb35-4"><a aria-hidden="true" href="#cb35-4" tabindex="-1"></a>                .<span class="bu">apply</span>(<span class="kw">lambda</span> dd: dd.query(<span class="st">'has_station'</span>).population.<span class="bu">sum</span>() <span class="op">/</span></span>
+<span id="cb35-5"><a aria-hidden="true" href="#cb35-5" tabindex="-1"></a>                                  dd.population.<span class="bu">sum</span>())</span>
+<span id="cb35-6"><a aria-hidden="true" href="#cb35-6" tabindex="-1"></a>                .rename(<span class="st">'pop_coverage'</span>)</span>
+<span id="cb35-7"><a aria-hidden="true" href="#cb35-7" tabindex="-1"></a>                .reset_index()</span>
+<span id="cb35-8"><a aria-hidden="true" href="#cb35-8" tabindex="-1"></a>                .set_index(<span class="st">'PREF'</span>)</span>
+<span id="cb35-9"><a aria-hidden="true" href="#cb35-9" tabindex="-1"></a>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
 <p>The prefecture of Tokyo has many small islands (barely inhabited) which distort completely the shape of the region. Let’s get ride of those for the plots:</p>
 <div class="cell" data-executetime='{"end_time":"2022-09-29T13:33:57.706923Z","start_time":"2022-09-29T13:33:57.692412Z"}' data-execution_count="31">
@@ -683,7 +698,9 @@ Show code imports and presets
 </div>
 <section class="level4" id="population-map">
 <h4 class="anchored" data-anchor-id="population-map">Population map</h4>
-<div class="cell" data-code-folding="true" data-execution_count="32">
+<div class="cell" data-execution_count="32">
+<details>
+<summary>Show Code</summary>
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a aria-hidden="true" href="#cb37-1" tabindex="-1"></a>(p9.ggplot(jp_munis.merge(jp_pops_full))</span>
 <span id="cb37-2"><a aria-hidden="true" href="#cb37-2" tabindex="-1"></a><span class="op">+</span> p9.geom_map(p9.aes(fill<span class="op">=</span><span class="st">'population'</span>), size<span class="op">=</span><span class="fl">.01</span>) </span>
 <span id="cb37-3"><a aria-hidden="true" href="#cb37-3" tabindex="-1"></a><span class="op">+</span> p9.geom_map(data<span class="op">=</span>prefecture_shapes, size<span class="op">=</span><span class="fl">.05</span>, alpha<span class="op">=</span><span class="dv">0</span>)</span>
@@ -699,6 +716,7 @@ Show code imports and presets
 <span id="cb37-13"><a aria-hidden="true" href="#cb37-13" tabindex="-1"></a>           legend_title<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">6</span>),</span>
 <span id="cb37-14"><a aria-hidden="true" href="#cb37-14" tabindex="-1"></a>           legend_text<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">4</span>, va<span class="op">=</span><span class="st">'baseline'</span>),)</span>
 <span id="cb37-15"><a aria-hidden="true" href="#cb37-15" tabindex="-1"></a>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <p><img class="img-fluid" src="prefecture_weighted_averages_files/figure-html/cell-35-output-1.png"/></p>
 </div>
@@ -709,7 +727,9 @@ Show code imports and presets
 </section>
 <section class="level4" id="stations-map">
 <h4 class="anchored" data-anchor-id="stations-map">Stations map</h4>
-<div class="cell" data-code-folding="true" data-execution_count="34">
+<div class="cell" data-execution_count="34">
+<details>
+<summary>Show Code</summary>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a aria-hidden="true" href="#cb39-1" tabindex="-1"></a>f <span class="op">=</span> (p9.ggplot(jp_munis) </span>
 <span id="cb39-2"><a aria-hidden="true" href="#cb39-2" tabindex="-1"></a>    <span class="op">+</span> p9.geom_map(size<span class="op">=</span><span class="fl">.01</span>, fill<span class="op">=</span><span class="st">'white'</span>) </span>
 <span id="cb39-3"><a aria-hidden="true" href="#cb39-3" tabindex="-1"></a>    <span class="op">+</span> p9.geom_map(data<span class="op">=</span>prefecture_shapes, size<span class="op">=</span><span class="fl">.05</span>, alpha<span class="op">=</span><span class="dv">0</span>)</span>
@@ -723,6 +743,7 @@ Show code imports and presets
 <span id="cb39-11"><a aria-hidden="true" href="#cb39-11" tabindex="-1"></a>).draw()</span>
 <span id="cb39-12"><a aria-hidden="true" href="#cb39-12" tabindex="-1"></a></span>
 <span id="cb39-13"><a aria-hidden="true" href="#cb39-13" tabindex="-1"></a>f.savefig(<span class="st">'../data/air_pollution/stations/doc/stations_map.png'</span>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="34">
 <p><img class="img-fluid" src="prefecture_weighted_averages_files/figure-html/cell-36-output-1.png"/></p>
 </div>
@@ -744,7 +765,9 @@ Show code imports and presets
 <span id="cb40-11"><a aria-hidden="true" href="#cb40-11" tabindex="-1"></a>stats_df <span class="op">=</span> pd.DataFrame(stats_df)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
 <p>To actually visualize the prefecture by prefecture population coverage, I generated a figure for each prefecture which was later on merged together in a single figure with Inkscape. Notice how in most cases, stations and population go together, as most of the <em>stationless</em> municipalities are usually those which are also lowly populated.</p>
-<div class="cell" data-code-folding="true" data-executetime='{"end_time":"2022-09-29T14:41:03.394533Z","start_time":"2022-09-29T14:39:56.244827Z"}'>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T14:41:03.394533Z","start_time":"2022-09-29T14:39:56.244827Z"}'>
+<details>
+<summary>Show Code</summary>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a aria-hidden="true" href="#cb41-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> tqdm(stats_df.sort_values(<span class="st">'ar'</span>).prefecture_code):</span>
 <span id="cb41-2"><a aria-hidden="true" href="#cb41-2" tabindex="-1"></a>    shape <span class="op">=</span> jp_munis.query(<span class="ss">f'PREF=="</span><span class="sc">{</span><span class="bu">str</span>(i)<span class="sc">.</span>zfill(<span class="dv">2</span>)<span class="sc">}</span><span class="ss">"'</span>)</span>
 <span id="cb41-3"><a aria-hidden="true" href="#cb41-3" tabindex="-1"></a>    stations <span class="op">=</span> monitoring_stations.query(<span class="ss">f'prefecture_code==</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">'</span>)</span>
@@ -769,6 +792,7 @@ Show code imports and presets
 <span id="cb41-22"><a aria-hidden="true" href="#cb41-22" tabindex="-1"></a></span>
 <span id="cb41-23"><a aria-hidden="true" href="#cb41-23" tabindex="-1"></a> ).save(<span class="ss">f'../data/doc/images/</span><span class="sc">{</span><span class="bu">str</span>(i)<span class="sc">.</span>zfill(<span class="dv">2</span>)<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>prefecture_name<span class="sc">}</span><span class="ss">.pdf'</span>,</span>
 <span id="cb41-24"><a aria-hidden="true" href="#cb41-24" tabindex="-1"></a>        bbox_inches<span class="op">=</span><span class="st">'tight'</span>, verbose<span class="op">=</span><span class="va">False</span>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a aria-hidden="true" href="#cb42-1" tabindex="-1"></a>Image(<span class="st">'../data/doc/images/prefectures_vertical.png'</span>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
