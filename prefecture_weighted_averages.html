@@ -1,1258 +1,969 @@
 <!DOCTYPE html>
-<html><head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Computing prefecture-wise weighted averages of Pollution data — Japan's Environmental Data</title>
-    
-  <link href="_static/css/theme.css" rel="stylesheet"/>
-  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet"/>
 
-    
-  <link href="_static/vendor/fontawesome/5.13.0/css/all.min.css" rel="stylesheet"/>
-  <link as="font" crossorigin="" href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
-  <link as="font" crossorigin="" href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
-
-    
-      
-
-    
-    <link href="_static/pygments.css" rel="stylesheet" type="text/css"/>
-    <link href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" rel="stylesheet" type="text/css"/>
-    <link href="_static/togglebutton.css" rel="stylesheet" type="text/css"/>
-    <link href="_static/copybutton.css" rel="stylesheet" type="text/css"/>
-    <link href="_static/mystnb.css" rel="stylesheet" type="text/css"/>
-    <link href="_static/sphinx-thebe.css" rel="stylesheet" type="text/css"/>
-    <link href="_static/custom.css" rel="stylesheet" type="text/css"/>
-    <link href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" rel="stylesheet" type="text/css"/>
-    <link href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" rel="stylesheet" type="text/css"/>
-    
-  <link as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js" rel="preload"/>
-
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
-    <script>let toggleHintShow = 'Click to show';</script>
-    <script>let toggleHintHide = 'Click to hide';</script>
-    <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js"></script>
-    <script kind="utterances">
-
-    var commentsRunWhenDOMLoaded = cb => {
-    if (document.readyState != 'loading') {
-        cb()
-    } else if (document.addEventListener) {
-        document.addEventListener('DOMContentLoaded', cb)
-    } else {
-        document.attachEvent('onreadystatechange', function() {
-        if (document.readyState == 'complete') cb()
-        })
-    }
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta charset="utf-8"/>
+<meta content="quarto-1.2.269" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Japan’s Environmental Data - Japanese Air Pollution Data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
 }
-
-var addUtterances = () => {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src = "https://utteranc.es/client.js";
-    script.async = "async";
-
-    script.setAttribute("repo", "AlFontal/environmental-data-japan");
-    script.setAttribute("issue-term", "pathname");
-    script.setAttribute("theme", "github-light");
-    script.setAttribute("label", "💬 comment");
-    script.setAttribute("crossorigin", "anonymous");
-
-    sections = document.querySelectorAll("div.section");
-    if (sections !== null) {
-        section = sections[sections.length-1];
-        section.appendChild(script);
-    }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
 }
-commentsRunWhenDOMLoaded(addUtterances);
-</script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <link href="https://alfontal.github.io/environmental-data-japan/prefecture_weighted_averages.html" rel="canonical"/>
-    <link href="_static/favicon.ico" rel="shortcut icon"/>
-    <link href="genindex.html" rel="index" title="Index"/>
-    <link href="search.html" rel="search" title="Search"/>
-    <link href="index.html" rel="prev" title="Japan’s environmental Data"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <meta content="None" name="docsearch:language"/>
-    
-
-    <!-- Google Analytics -->
-    
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-DC18W62KP8"></script>
-<script>
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){ dataLayer.push(arguments); }
-                    gtag('js', new Date());
-                    gtag('config', 'G-DC18W62KP8');
-                </script>
-
-  </head>
-  <body data-offset="80" data-spy="scroll" data-target="#bd-toc-nav">
-    
-    <div class="container-fluid" id="banner"></div>
-
-    
-
-    <div class="container-xl">
-      <div class="row">
-          
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="index.html">
-      
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
-        
-      
-      
-      <img alt="logo" class="logo" src="_static/logo.png"/>
-      
-      
-      <h1 class="site-logo" id="site-title">Japan's Environmental Data</h1>
-      
-    </a>
-</div><form action="search.html" class="bd-search d-flex align-items-center" method="get">
-  <i class="icon fas fa-search"></i>
-  <input aria-label="Search this book..." autocomplete="off" class="form-control" id="search-input" name="q" placeholder="Search this book..." type="search"/>
-</form><nav aria-label="Main" class="bd-links" id="bd-docs-nav">
-    <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="index.html">
-   Japan’s environmental Data
-  </a>
- </li>
-</ul>
-<ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   From station to prefectural data
-  </a>
- </li>
-</ul>
-
-    </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
-<div>           
-<hr/>
-<a href="https://helical-itn.github.io/">
-<img src="https://helical-itn.github.io/assets/institutional_logos/helical-logo.png" width="200px"/>
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta content="./" name="quarto:offset"/>
+<link href="./assets/favicon.ico" rel="icon"/>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet"/>
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" id="quarto-text-highlighting-styles" rel="stylesheet"/>
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet"/>
+<link data-mode="light" href="site_libs/bootstrap/bootstrap.min.css" id="quarto-bootstrap" rel="stylesheet"/>
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<link href="custom.css" rel="stylesheet"/>
+</head>
+<body class="nav-fixed">
+<div id="quarto-search-results"></div>
+<header class="headroom fixed-top" id="quarto-header">
+<nav class="navbar navbar-expand-lg navbar-dark">
+<div class="navbar-container container-fluid">
+<div class="navbar-brand-container">
+<a class="navbar-brand navbar-brand-logo" href="./index.html">
+<img alt="" class="navbar-logo" src="./assets/logo.png"/>
 </a>
-<p></p>
-<a href="https://www.isglobal.org/en/-/clima-y-salud">
-<img src="https://www.isglobal.org/isglobal-new-theme/assets/images/isglobal/logo-isglobal-en.png" width="200px"/>
+<a class="navbar-brand" href="./index.html">
+<span class="navbar-title">Japan’s Environmental Data</span>
 </a>
-<hr/>
-<a href="https://www.linkedin.com/in/alfontal/">
-<img alt="Alejandro Fontal" class="profile" src="https://avatars.githubusercontent.com/u/10958332?s=400&amp;u=51edd1406d2af0c2f1723a0bf8f111d48a1b7fe7&amp;v=4"/>
-<p style="text-align: center; font-size:16px"><b>Alejandro Fontal</b></p>
+</div>
+<button aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarCollapse" data-bs-toggle="collapse" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarCollapse">
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
+<a class="nav-link" href="./index.html">
+<span class="menu-text">Home</span></a>
+</li>
+<li class="nav-item dropdown">
+<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="nav-menu-reports" role="button">
+<span class="menu-text">Reports</span>
 </a>
-<a class="fa fa-github" href="https://github.com/AlFontal" style="font-size: 25px;"></a>
-<a class="fa fa-linkedin" href="https://www.linkedin.com/in/alfontal/" style="font-size: 25px;"></a>
-<a class="fa fa-twitter" href="https://twitter.com/alefontal" style="font-size: 25px;"></a>
-<a class="fa fa-envelope" href="mailto:alejandro.fontal.92@gmail.com" style="font-size: 25px;"></a>
-</div>
-
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button aria-controls="navbar-menu" aria-expanded="true" aria-label="Toggle navigation" class="navbar-toggler ml-0" data-placement="bottom" data-target=".site-navigation" data-toggle="collapse" id="navbar-toggler" title="Toggle navigation" type="button">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button aria-label="Download this page" class="btn btn-secondary topbarbtn" id="dropdown-buttons-trigger"><i class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/prefecture_weighted_averages.ipynb"><button class="btn btn-secondary topbarbtn" data-placement="left" data-toggle="tooltip" title="Download source file" type="button">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button class="btn btn-secondary topbarbtn" data-placement="left" data-toggle="tooltip" id="download-print" onclick="printPdf(this)" title="Print to PDF" type="button">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button aria-label="Connect with source repository" class="btn btn-secondary topbarbtn" id="dropdown-buttons-trigger"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button" href="https://github.com/AlFontal/environmental-data-japan"><button class="btn btn-secondary topbarbtn" data-placement="left" data-toggle="tooltip" title="Source repository" type="button"><i class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button" href="https://github.com/AlFontal/environmental-data-japan/issues/new?title=Issue%20on%20page%20%2Fprefecture_weighted_averages.html&amp;body=Your%20issue%20content%20here."><button class="btn btn-secondary topbarbtn" data-placement="left" data-toggle="tooltip" title="Open an issue" type="button"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        
-    </div>
-</div>
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button aria-label="Fullscreen mode" class="btn btn-secondary topbarbtn" data-placement="bottom" data-toggle="tooltip" onclick="toggleFullScreen()" title="Fullscreen mode" type="button"><i class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button aria-label="Launch interactive content" class="btn btn-secondary topbarbtn" id="dropdown-buttons-trigger"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/AlFontal/environmental-data-japan/main?urlpath=tree/prefecture_weighted_averages.ipynb"><button class="btn btn-secondary topbarbtn" data-placement="left" data-toggle="tooltip" title="Launch Binder" type="button"><img alt="Interact on binder" class="binder-button-logo" src="_static/images/logo_binder.svg"/>Binder</button></a>
-        
-        
-        
-        
-    </div>
-</div>
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
-            </div>
-            <nav aria-label="Page" id="bd-toc-nav">
-                <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#preamble">
-   Preamble
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#imports">
-     Imports
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#pre-sets">
-     Pre-sets
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#data-loading">
-   Data Loading
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#fetching-the-shapes">
-     Fetching the shapes
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#fetching-municipalities-populations">
-     Fetching municipalities populations
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#matching-stations-municipalities-and-populations">
-   Matching stations, municipalities, and populations
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#generating-the-daily-averaged-municipal-estimates">
-   Generating the daily averaged municipal estimates
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#generating-the-daily-averaged-prefectural-estimates">
-   Generating the daily averaged prefectural estimates
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#area-weighted-averages">
-     Area-weighted averages
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#weighting-by-population-of-children-under-5-years-old">
-     Weighting by population of children under 5 years old
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#weighting-by-full-population-density">
-     Weighting by full population density
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#visualizing-the-data">
-   Visualizing the data
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#number-of-stations-per-variable-per-prefecture">
-     Number of stations per variable per prefecture
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#estimation-of-population-coverage-per-prefecture">
-     Estimation of population coverage per prefecture
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#population-map">
-       Population map
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#stations-map">
-       Stations map
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#population-coverage-map">
-       Population coverage map
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
-</ul>
-
-            </nav>
-        </div>
-    </div>
-</div>
-    <div class="row" id="main-content">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div class="onlyprint" id="jb-print-docs-body">
-                <h1>Computing prefecture-wise weighted averages of Pollution data</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#preamble">
-   Preamble
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#imports">
-     Imports
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#pre-sets">
-     Pre-sets
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#data-loading">
-   Data Loading
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#fetching-the-shapes">
-     Fetching the shapes
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#fetching-municipalities-populations">
-     Fetching municipalities populations
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#matching-stations-municipalities-and-populations">
-   Matching stations, municipalities, and populations
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#generating-the-daily-averaged-municipal-estimates">
-   Generating the daily averaged municipal estimates
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#generating-the-daily-averaged-prefectural-estimates">
-   Generating the daily averaged prefectural estimates
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#area-weighted-averages">
-     Area-weighted averages
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#weighting-by-population-of-children-under-5-years-old">
-     Weighting by population of children under 5 years old
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#weighting-by-full-population-density">
-     Weighting by full population density
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#visualizing-the-data">
-   Visualizing the data
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#number-of-stations-per-variable-per-prefecture">
-     Number of stations per variable per prefecture
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#estimation-of-population-coverage-per-prefecture">
-     Estimation of population coverage per prefecture
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#population-map">
-       Population map
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#stations-map">
-       Stations map
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#population-coverage-map">
-       Population coverage map
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
-</ul>
-
-                        </nav>
-                    </div>
-                </div>
-            </div>
-            
-              <div>
-                
-  <div class="tex2jax_ignore mathjax_ignore section" id="computing-prefecture-wise-weighted-averages-of-pollution-data">
-<h1>Computing prefecture-wise weighted averages of Pollution data<a class="headerlink" href="#computing-prefecture-wise-weighted-averages-of-pollution-data" title="Permalink to this headline">¶</a></h1>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><p><a class="reference internal" href="#preamble" id="id1">Preamble</a></p>
-<ul>
-<li><p><a class="reference internal" href="#imports" id="id2">Imports</a></p></li>
-<li><p><a class="reference internal" href="#pre-sets" id="id3">Pre-sets</a></p></li>
-</ul>
-</li>
-<li><p><a class="reference internal" href="#data-loading" id="id4">Data Loading</a></p>
-<ul>
-<li><p><a class="reference internal" href="#fetching-the-shapes" id="id5">Fetching the shapes</a></p></li>
-<li><p><a class="reference internal" href="#fetching-municipalities-populations" id="id6">Fetching municipalities populations</a></p></li>
-</ul>
-</li>
-<li><p><a class="reference internal" href="#matching-stations-municipalities-and-populations" id="id7">Matching stations, municipalities, and populations</a></p></li>
-<li><p><a class="reference internal" href="#generating-the-daily-averaged-municipal-estimates" id="id8">Generating the daily averaged municipal estimates</a></p></li>
-<li><p><a class="reference internal" href="#generating-the-daily-averaged-prefectural-estimates" id="id9">Generating the daily averaged prefectural estimates</a></p>
-<ul>
-<li><p><a class="reference internal" href="#area-weighted-averages" id="id10">Area-weighted averages</a></p></li>
-<li><p><a class="reference internal" href="#weighting-by-population-of-children-under-5-years-old" id="id11">Weighting by population of children under 5 years old</a></p></li>
-<li><p><a class="reference internal" href="#weighting-by-full-population-density" id="id12">Weighting by full population density</a></p></li>
-</ul>
-</li>
-<li><p><a class="reference internal" href="#visualizing-the-data" id="id13">Visualizing the data</a></p>
-<ul>
-<li><p><a class="reference internal" href="#number-of-stations-per-variable-per-prefecture" id="id14">Number of stations per variable per prefecture</a></p></li>
-<li><p><a class="reference internal" href="#estimation-of-population-coverage-per-prefecture" id="id15">Estimation of population coverage per prefecture</a></p>
-<ul>
-<li><p><a class="reference internal" href="#population-map" id="id16">Population map</a></p></li>
-<li><p><a class="reference internal" href="#stations-map" id="id17">Stations map</a></p></li>
-<li><p><a class="reference internal" href="#population-coverage-map" id="id18">Population coverage map</a></p></li>
-</ul>
+<ul aria-labelledby="nav-menu-reports" class="dropdown-menu dropdown-menu-end">
+<li>
+<a class="dropdown-item" href="./prefecture_weighted_averages.html">
+<span class="dropdown-text">Prefecture Weighted Estimates</span></a>
 </li>
 </ul>
 </li>
+<li class="nav-item dropdown">
+<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="nav-menu-about" role="button">
+<span class="menu-text">About</span>
+</a>
+<ul aria-labelledby="nav-menu-about" class="dropdown-menu dropdown-menu-end">
+<li>
+<a class="dropdown-item" href="./index.qmd">
+<span class="dropdown-text">This Site</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="https://www.isglobal.org/en">
+<span class="dropdown-text">ISGlobal</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="https://www.isglobal.org/en/-/clima-y-salud">
+<span class="dropdown-text">Climate &amp; Health Programme</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="https://www.helical-itn.eu/">
+<span class="dropdown-text">HELICAL ITN</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="https://alfontal.github.io">
+<span class="dropdown-text">Alejandro Fontal</span></a>
+</li>
 </ul>
-</div>
-<div class="section" id="preamble">
-<h2><a class="toc-backref" href="#id1">Preamble</a><a class="headerlink" href="#preamble" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="imports">
-<h3><a class="toc-backref" href="#id2">Imports</a><a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import os
-import requests
-
-import numpy as np
-import pandas as pd
-import plotnine as p9
-import geopandas as gpd
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-
-from tqdm import tqdm
-from IPython.display import Image
-from collections import defaultdict
-from shapely.geometry import box, Point
-from mizani.formatters import date_format, percent_format, custom_format
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="pre-sets">
-<h3><a class="toc-backref" href="#id3">Pre-sets</a><a class="headerlink" href="#pre-sets" title="Permalink to this headline">¶</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>tqdm.pandas()
-p9.options.set_option('dpi', 600)
-p9.options.set_option('figure_size', (4, 3))
-p9.options.set_option('base_family', 'Georgia')
-p9.theme_set(p9.theme_bw() + p9.theme(axis_text=p9.element_text(size=7),
-                                      axis_title=p9.element_text(size=9),
-                                      title=p9.element_text(size=11)))
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="data-loading">
-<h2><a class="toc-backref" href="#id4">Data Loading</a><a class="headerlink" href="#data-loading" title="Permalink to this headline">¶</a></h2>
-<p>With daily data of the monitoring stations already collected, we are now going to collect two different sources of information that
-should enable us to compute population weighted averages of the station data per prefecture. The files will be the following:</p>
-<ul class="simple">
-<li><p>Population density per municipality in Japan</p></li>
-<li><p>Shapefiles of the said municipalities so as to be able to match the location of the monitoring station to a certain number of population</p></li>
+</li>
+<li class="nav-item dropdown">
+<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="nav-menu-bi-github" role="button">
+<i class="bi bi-github" role="img">
+</i>
+<span class="menu-text"></span>
+</a>
+<ul aria-labelledby="nav-menu-bi-github" class="dropdown-menu dropdown-menu-end">
+<li>
+<a class="dropdown-item" href="https://github.com/AlFontal/environmental-data-japan">
+<span class="dropdown-text">GitHub Repository</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="https://github.com/AlFontal/environmental-data-japan">
+<span class="dropdown-text">Raise an issue</span></a>
+</li>
 </ul>
-<div class="section" id="fetching-the-shapes">
-<h3><a class="toc-backref" href="#id5">Fetching the shapes</a><a class="headerlink" href="#fetching-the-shapes" title="Permalink to this headline">¶</a></h3>
-<p>While several sources of shapefiles ara available online, I could not find any that included the same municipal codes that would enable a match with the population data obtained from the <a class="reference external" href="https://www.e-stat.go.jp">official Japanese statistics site</a>.</p>
+</li>
+<li class="nav-item compact">
+<a class="nav-link" href="mailto:alejandro.fontal.92@gmail.com"><i aria-label="Mail" class="bi bi-envelope" role="img">
+</i>
+<span class="menu-text"></span></a>
+</li>
+</ul>
+<div class="" id="quarto-search" title="Search"></div>
+</div> <!-- /navcollapse -->
+</div> <!-- /container-fluid -->
+</nav>
+</header>
+<!-- content -->
+<div class="quarto-container page-columns page-rows-contents page-layout-article page-navbar" id="quarto-content">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+<div class="sidebar margin-sidebar" id="quarto-margin-sidebar">
+<nav class="toc-active" id="TOC" role="doc-toc">
+<h2 id="toc-title">CONTENTS</h2>
+<ul>
+<li><a class="nav-link active" data-scroll-target="#data-loading" href="#data-loading" id="toc-data-loading">Data Loading</a>
+<ul class="collapse">
+<li><a class="nav-link" data-scroll-target="#fetching-the-shapes" href="#fetching-the-shapes" id="toc-fetching-the-shapes">Fetching the shapes</a></li>
+<li><a class="nav-link" data-scroll-target="#fetching-municipalities-populations" href="#fetching-municipalities-populations" id="toc-fetching-municipalities-populations">Fetching municipalities populations</a></li>
+</ul></li>
+<li><a class="nav-link" data-scroll-target="#matching-stations-municipalities-and-populations" href="#matching-stations-municipalities-and-populations" id="toc-matching-stations-municipalities-and-populations">Matching stations, municipalities, and populations</a></li>
+<li><a class="nav-link" data-scroll-target="#generating-the-daily-averaged-municipal-estimates" href="#generating-the-daily-averaged-municipal-estimates" id="toc-generating-the-daily-averaged-municipal-estimates">Generating the daily averaged municipal estimates</a></li>
+<li><a class="nav-link" data-scroll-target="#generating-the-daily-averaged-prefectural-estimates" href="#generating-the-daily-averaged-prefectural-estimates" id="toc-generating-the-daily-averaged-prefectural-estimates">Generating the daily averaged prefectural estimates</a>
+<ul class="collapse">
+<li><a class="nav-link" data-scroll-target="#area-weighted-averages" href="#area-weighted-averages" id="toc-area-weighted-averages">Area-weighted averages</a></li>
+<li><a class="nav-link" data-scroll-target="#weighting-by-population-of-children-under-5-years-old" href="#weighting-by-population-of-children-under-5-years-old" id="toc-weighting-by-population-of-children-under-5-years-old">Weighting by population of children under 5 years old</a></li>
+<li><a class="nav-link" data-scroll-target="#weighting-by-full-population-density" href="#weighting-by-full-population-density" id="toc-weighting-by-full-population-density">Weighting by full population density</a></li>
+</ul></li>
+<li><a class="nav-link" data-scroll-target="#visualizing-the-data" href="#visualizing-the-data" id="toc-visualizing-the-data">Visualizing the data</a>
+<ul class="collapse">
+<li><a class="nav-link" data-scroll-target="#number-of-stations-per-variable-per-prefecture" href="#number-of-stations-per-variable-per-prefecture" id="toc-number-of-stations-per-variable-per-prefecture">Number of stations per variable per prefecture</a></li>
+<li><a class="nav-link" data-scroll-target="#estimation-of-population-coverage-per-prefecture" href="#estimation-of-population-coverage-per-prefecture" id="toc-estimation-of-population-coverage-per-prefecture">Estimation of population coverage per prefecture</a></li>
+</ul></li>
+</ul>
+</nav>
+</div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+<header class="quarto-title-block default" id="title-block-header">
+<div class="quarto-title">
+<h1 class="title">Japanese Air Pollution Data</h1>
+<p class="subtitle lead">Computing prefecture-wise weighted averages</p>
+</div>
+<div class="quarto-title-meta">
+</div>
+</header>
+<details>
+<summary>
+Show code imports and presets
+</summary>
+<section class="level4 unnumbered" id="preamble">
+<h4 class="unnumbered anchored" data-anchor-id="preamble">Preamble</h4>
+<section class="level5" id="imports">
+<h5 class="anchored" data-anchor-id="imports">Imports</h5>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:00:03.457031Z","start_time":"2022-09-29T07:00:01.210789Z"}' data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" href="#cb1-1" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-2"><a aria-hidden="true" href="#cb1-2" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb1-3"><a aria-hidden="true" href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a aria-hidden="true" href="#cb1-4" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-5"><a aria-hidden="true" href="#cb1-5" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-6"><a aria-hidden="true" href="#cb1-6" tabindex="-1"></a><span class="im">import</span> plotnine <span class="im">as</span> p9</span>
+<span id="cb1-7"><a aria-hidden="true" href="#cb1-7" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb1-8"><a aria-hidden="true" href="#cb1-8" tabindex="-1"></a><span class="im">import</span> matplotlib <span class="im">as</span> mpl</span>
+<span id="cb1-9"><a aria-hidden="true" href="#cb1-9" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-10"><a aria-hidden="true" href="#cb1-10" tabindex="-1"></a></span>
+<span id="cb1-11"><a aria-hidden="true" href="#cb1-11" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
+<span id="cb1-12"><a aria-hidden="true" href="#cb1-12" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Image</span>
+<span id="cb1-13"><a aria-hidden="true" href="#cb1-13" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span>
+<span id="cb1-14"><a aria-hidden="true" href="#cb1-14" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> box, Point</span>
+<span id="cb1-15"><a aria-hidden="true" href="#cb1-15" tabindex="-1"></a><span class="im">from</span> matplotlib_inline.backend_inline <span class="im">import</span> set_matplotlib_formats</span>
+<span id="cb1-16"><a aria-hidden="true" href="#cb1-16" tabindex="-1"></a><span class="im">from</span> mizani.formatters <span class="im">import</span> date_format, percent_format, custom_format</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="level5" id="pre-sets">
+<h5 class="anchored" data-anchor-id="pre-sets">Pre-sets</h5>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:00:03.470167Z","start_time":"2022-09-29T07:00:03.458975Z"}' data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a aria-hidden="true" href="#cb2-1" tabindex="-1"></a>tqdm.pandas()</span>
+<span id="cb2-2"><a aria-hidden="true" href="#cb2-2" tabindex="-1"></a>set_matplotlib_formats(<span class="st">'retina'</span>)</span>
+<span id="cb2-3"><a aria-hidden="true" href="#cb2-3" tabindex="-1"></a>p9.options.set_option(<span class="st">'dpi'</span>, <span class="dv">600</span>)</span>
+<span id="cb2-4"><a aria-hidden="true" href="#cb2-4" tabindex="-1"></a>p9.options.set_option(<span class="st">'figure_size'</span>, (<span class="dv">4</span>, <span class="dv">3</span>))</span>
+<span id="cb2-5"><a aria-hidden="true" href="#cb2-5" tabindex="-1"></a>p9.options.set_option(<span class="st">'base_family'</span>, <span class="st">'Georgia'</span>)</span>
+<span id="cb2-6"><a aria-hidden="true" href="#cb2-6" tabindex="-1"></a>p9.theme_set(p9.theme_bw() <span class="op">+</span> p9.theme(axis_text<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">7</span>),</span>
+<span id="cb2-7"><a aria-hidden="true" href="#cb2-7" tabindex="-1"></a>                                      axis_title<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">9</span>),</span>
+<span id="cb2-8"><a aria-hidden="true" href="#cb2-8" tabindex="-1"></a>                                      title<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">11</span>)))</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
+</div>
+</section></section></details>
+<section class="level2" id="data-loading">
+<h2 class="anchored" data-anchor-id="data-loading">Data Loading</h2>
+<p>With daily data of the monitoring stations already collected from <a href="https://tenbou.nies.go.jp/download/">the official site</a>, cleaned, and pre-processed to daily averages stored in <code>data/air_pollution/stations/clean</code>, we are now going to collect two different sources of information that should enable us to compute population weighted averages of the station data per prefecture. The files will be the following:</p>
+<ul>
+<li>Population density per municipality in Japan</li>
+<li>Shapefiles of the said municipalities so as to be able to match the location of the monitoring station to a certain number of population</li>
+</ul>
+<section class="level3" id="fetching-the-shapes">
+<h3 class="anchored" data-anchor-id="fetching-the-shapes">Fetching the shapes</h3>
+<p>While several sources of shapefiles ara available online, I could not find any that included the same municipal codes that would enable a match with the population data obtained from the <a href="https://www.e-stat.go.jp">official Japanese statistics site</a>.</p>
 <p>This site, however, also provides a very precise collection of shapefiles for each of the 47 prefectures, with areas smaller than the municipal level (the one we are interested in), but with municipal-level identifiers, so we can <em>fuse</em> the shapes to obtain exactly the shapes for all municipalities in Japan.</p>
 <p>Let’s do exactly that:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def get_download_url(code):
-    url = 'https://www.e-stat.go.jp/gis/statmap-search/data?dlserveyId=A002005212015' \
-         f'&amp;code={code}&amp;coordSys=1&amp;format=shape&amp;downloadType=5&amp;datum=2000'
-    return url
-</pre></div>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:00:03.485075Z","start_time":"2022-09-29T07:00:03.474035Z"}' data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a aria-hidden="true" href="#cb3-1" tabindex="-1"></a><span class="kw">def</span> get_download_url(code):</span>
+<span id="cb3-2"><a aria-hidden="true" href="#cb3-2" tabindex="-1"></a>    url <span class="op">=</span> <span class="st">'https://www.e-stat.go.jp/gis/statmap-search/data?dlserveyId=A002005212015'</span> \</span>
+<span id="cb3-3"><a aria-hidden="true" href="#cb3-3" tabindex="-1"></a>         <span class="ss">f'&amp;code=</span><span class="sc">{</span>code<span class="sc">}</span><span class="ss">&amp;coordSys=1&amp;format=shape&amp;downloadType=5&amp;datum=2000'</span></span>
+<span id="cb3-4"><a aria-hidden="true" href="#cb3-4" tabindex="-1"></a>    <span class="cf">return</span> url</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>shapes_path = '../data/shapefiles/administrative_boundaries'
-if not os.path.exists(f'{shapes_path}/municipality_shapes.shp'):
-    municipality_shapes = []
-    for i in tqdm(range(1, 48), total=47):
-        municipality_shapes.append(
-            gpd.read_file(get_download_url(str(i).zfill(2))).dissolve(by='CITY')
-        )
-
-    municipality_shapes = pd.concat(municipality_shapes).reset_index()[['PREF', 'CITY', 'geometry']]
-    prefecture_shapes = municipality_shapes.dissolve(by='PREF').reset_index()[['PREF', 'geometry']]
-    municipality_shapes.to_file(f'{shapes_path}/municipality_shapes.shp')
-    prefecture_shapes.to_file(f'{shapes_path}/prefecture_shapes.shp')
-else:
-    municipality_shapes = gpd.read_file(f'{shapes_path}/municipality_shapes.shp')
-    prefecture_shapes = gpd.read_file(f'{shapes_path}/prefecture_shapes.shp')
-</pre></div>
-</div>
-</div>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:00:10.526380Z","start_time":"2022-09-29T07:00:03.492410Z"}' data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a aria-hidden="true" href="#cb4-1" tabindex="-1"></a>shapes_path <span class="op">=</span> <span class="st">'../data/shapefiles/administrative_boundaries'</span></span>
+<span id="cb4-2"><a aria-hidden="true" href="#cb4-2" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> os.path.exists(<span class="ss">f'</span><span class="sc">{</span>shapes_path<span class="sc">}</span><span class="ss">/municipality_shapes.shp'</span>):</span>
+<span id="cb4-3"><a aria-hidden="true" href="#cb4-3" tabindex="-1"></a>    municipality_shapes <span class="op">=</span> []</span>
+<span id="cb4-4"><a aria-hidden="true" href="#cb4-4" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> tqdm(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">48</span>), total<span class="op">=</span><span class="dv">47</span>):</span>
+<span id="cb4-5"><a aria-hidden="true" href="#cb4-5" tabindex="-1"></a>        municipality_shapes.append(</span>
+<span id="cb4-6"><a aria-hidden="true" href="#cb4-6" tabindex="-1"></a>            gpd.read_file(get_download_url(<span class="bu">str</span>(i).zfill(<span class="dv">2</span>))).dissolve(by<span class="op">=</span><span class="st">'CITY'</span>)</span>
+<span id="cb4-7"><a aria-hidden="true" href="#cb4-7" tabindex="-1"></a>        )</span>
+<span id="cb4-8"><a aria-hidden="true" href="#cb4-8" tabindex="-1"></a></span>
+<span id="cb4-9"><a aria-hidden="true" href="#cb4-9" tabindex="-1"></a>    municipality_shapes <span class="op">=</span> pd.concat(municipality_shapes).reset_index()[[<span class="st">'PREF'</span>, <span class="st">'CITY'</span>, <span class="st">'geometry'</span>]]</span>
+<span id="cb4-10"><a aria-hidden="true" href="#cb4-10" tabindex="-1"></a>    prefecture_shapes <span class="op">=</span> municipality_shapes.dissolve(by<span class="op">=</span><span class="st">'PREF'</span>).reset_index()[[<span class="st">'PREF'</span>, <span class="st">'geometry'</span>]]</span>
+<span id="cb4-11"><a aria-hidden="true" href="#cb4-11" tabindex="-1"></a>    municipality_shapes.to_file(<span class="ss">f'</span><span class="sc">{</span>shapes_path<span class="sc">}</span><span class="ss">/municipality_shapes.shp'</span>)</span>
+<span id="cb4-12"><a aria-hidden="true" href="#cb4-12" tabindex="-1"></a>    prefecture_shapes.to_file(<span class="ss">f'</span><span class="sc">{</span>shapes_path<span class="sc">}</span><span class="ss">/prefecture_shapes.shp'</span>)</span>
+<span id="cb4-13"><a aria-hidden="true" href="#cb4-13" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb4-14"><a aria-hidden="true" href="#cb4-14" tabindex="-1"></a>    municipality_shapes <span class="op">=</span> gpd.read_file(<span class="ss">f'</span><span class="sc">{</span>shapes_path<span class="sc">}</span><span class="ss">/municipality_shapes.shp'</span>)</span>
+<span id="cb4-15"><a aria-hidden="true" href="#cb4-15" tabindex="-1"></a>    prefecture_shapes <span class="op">=</span> gpd.read_file(<span class="ss">f'</span><span class="sc">{</span>shapes_path<span class="sc">}</span><span class="ss">/prefecture_shapes.shp'</span>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
 <p>We now have the equivalent shapefiles grouped at the <strong>municipal</strong> and the <strong>prefectural</strong> level, leading to a map of Japan like the following:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>(p9.ggplot(municipality_shapes) 
-    + p9.geom_map(alpha=.2, size=.05, color='gray')
-    + p9.geom_map(data=prefecture_shapes, size=.15, alpha=0)
-    + p9.scale_y_continuous(labels=custom_format('{:0g}°N'), limits=(30, 45))
-    + p9.scale_x_continuous(labels=custom_format('{:0g}°E'), limits=(129, 145.5))
-    + p9.theme(figure_size=(2.5, 2.5),
-               axis_text=p9.element_text(size=5),
-               panel_grid=p9.element_blank())
-)
-</pre></div>
+<div class="cell" data-code-folding="true" data-executetime='{"end_time":"2022-09-29T07:00:58.672454Z","start_time":"2022-09-29T07:00:10.528209Z"}' data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a aria-hidden="true" href="#cb5-1" tabindex="-1"></a>(p9.ggplot(municipality_shapes) </span>
+<span id="cb5-2"><a aria-hidden="true" href="#cb5-2" tabindex="-1"></a>    <span class="op">+</span> p9.geom_map(alpha<span class="op">=</span><span class="fl">.2</span>, size<span class="op">=</span><span class="fl">.05</span>, color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb5-3"><a aria-hidden="true" href="#cb5-3" tabindex="-1"></a>    <span class="op">+</span> p9.geom_map(data<span class="op">=</span>prefecture_shapes, size<span class="op">=</span><span class="fl">.15</span>, alpha<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb5-4"><a aria-hidden="true" href="#cb5-4" tabindex="-1"></a>    <span class="op">+</span> p9.scale_y_continuous(labels<span class="op">=</span>custom_format(<span class="st">'</span><span class="sc">{:0g}</span><span class="st">°N'</span>), limits<span class="op">=</span>(<span class="dv">30</span>, <span class="dv">45</span>))</span>
+<span id="cb5-5"><a aria-hidden="true" href="#cb5-5" tabindex="-1"></a>    <span class="op">+</span> p9.scale_x_continuous(labels<span class="op">=</span>custom_format(<span class="st">'</span><span class="sc">{:0g}</span><span class="st">°E'</span>), limits<span class="op">=</span>(<span class="dv">129</span>, <span class="fl">145.5</span>))</span>
+<span id="cb5-6"><a aria-hidden="true" href="#cb5-6" tabindex="-1"></a>    <span class="op">+</span> p9.theme(figure_size<span class="op">=</span>(<span class="fl">2.5</span>, <span class="fl">2.5</span>),</span>
+<span id="cb5-7"><a aria-hidden="true" href="#cb5-7" tabindex="-1"></a>               axis_text<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">5</span>),</span>
+<span id="cb5-8"><a aria-hidden="true" href="#cb5-8" tabindex="-1"></a>               panel_grid<span class="op">=</span>p9.element_blank())</span>
+<span id="cb5-9"><a aria-hidden="true" href="#cb5-9" tabindex="-1"></a>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img class="img-fluid" src="prefecture_weighted_averages_files/figure-html/cell-6-output-1.png"/></p>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/prefecture_weighted_averages_14_0.png" src="_images/prefecture_weighted_averages_14_0.png"/>
+<div class="cell-output cell-output-display" data-execution_count="5">
 
 </div>
 </div>
-</div>
-<div class="section" id="fetching-municipalities-populations">
-<h3><a class="toc-backref" href="#id6">Fetching municipalities populations</a><a class="headerlink" href="#fetching-municipalities-populations" title="Permalink to this headline">¶</a></h3>
-<p>The same Statistics portal that we used to fetch the shapefiles provides an API to fetch different variables recorded by the government. It is necessary to register in the system to obtain an identifier that accompanies the requests to the API in order to be granted access. The documentation to use the API can be found <a class="reference external" href="https://www.e-stat.go.jp/api/api-dev/how_to_use">here</a> (it’s all in Japanese but it’s manageable with Google translate).</p>
+</section>
+<section class="level3" id="fetching-municipalities-populations">
+<h3 class="anchored" data-anchor-id="fetching-municipalities-populations">Fetching municipalities populations</h3>
+<p>The same Statistics portal that we used to fetch the shapefiles provides an API to fetch different variables recorded by the government. It is necessary to register in the system to obtain an identifier that accompanies the requests to the API in order to be granted access. The documentation to use the API can be found <a href="https://www.e-stat.go.jp/api/api-dev/how_to_use">here</a> (it’s all in Japanese but it’s manageable with Google translate).</p>
 <p>We’ll start by defining the API URL preceding the parameters specifying the version of the API we will be using (3.0) and the output we want (json):</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>API_URL = 'http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData'
-</pre></div>
-</div>
-</div>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:00:58.680515Z","start_time":"2022-09-29T07:00:58.675466Z"}' data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a aria-hidden="true" href="#cb7-1" tabindex="-1"></a>API_URL <span class="op">=</span> <span class="st">'http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData'</span></span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
 <p>I have already checked the variables I am interested in, although there are plenty more to choose. We will be fetching the following codes:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>jp_api_codes = {'A1101': 'Total population (Both sexes)',
-                'A110101': 'Total population (Male)',
-                'A110102': 'Total population (Female)',
-                'A1301': 'Total population (under 15)',
-                'A130101': 'Population (under 15, Male)',
-                'A130102': 'Population (under 15, Female)',
-                'A1302': 'Total population (15-64)',
-                'A130201': 'Population (15-64, Male)',
-                'A130202': 'Population (15-64, Female)',
-                'A1303': 'Total population (65 and over)',
-                'A130301': 'Population (65 and over, Male)',
-                'A130302': 'Population (65 and over, Female)',
-                'A1405': 'Population (0-5, Total)',
-                'A140501': 'Population (0-5, Male)',
-                'A140502': 'Population (0-5, Female)',
-                'A1416': 'Population (60 and over, Total)',
-                'A141601': 'Population (60 and over, Male)',
-                'A141602': 'Population (60 and over, Female)',
-                'A1417': 'Population (70 and over, Total)',
-                'A141701': 'Population (70 and over, Male)',
-                'A141702': 'Population (70 and over, Female)',
-                'A1420': 'Population (85 and over, Total)',
-                'A142001': 'Population (85 and over, Male)',
-                'A142002': 'Population (85 and over, Female)'
-               }
-</pre></div>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:00:58.698552Z","start_time":"2022-09-29T07:00:58.689068Z"}' data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a aria-hidden="true" href="#cb8-1" tabindex="-1"></a>jp_api_codes <span class="op">=</span> {<span class="st">'A1101'</span>: <span class="st">'Total population (Both sexes)'</span>,</span>
+<span id="cb8-2"><a aria-hidden="true" href="#cb8-2" tabindex="-1"></a>                <span class="st">'A110101'</span>: <span class="st">'Total population (Male)'</span>,</span>
+<span id="cb8-3"><a aria-hidden="true" href="#cb8-3" tabindex="-1"></a>                <span class="st">'A110102'</span>: <span class="st">'Total population (Female)'</span>,</span>
+<span id="cb8-4"><a aria-hidden="true" href="#cb8-4" tabindex="-1"></a>                <span class="st">'A1301'</span>: <span class="st">'Total population (under 15)'</span>,</span>
+<span id="cb8-5"><a aria-hidden="true" href="#cb8-5" tabindex="-1"></a>                <span class="st">'A130101'</span>: <span class="st">'Population (under 15, Male)'</span>,</span>
+<span id="cb8-6"><a aria-hidden="true" href="#cb8-6" tabindex="-1"></a>                <span class="st">'A130102'</span>: <span class="st">'Population (under 15, Female)'</span>,</span>
+<span id="cb8-7"><a aria-hidden="true" href="#cb8-7" tabindex="-1"></a>                <span class="st">'A1302'</span>: <span class="st">'Total population (15-64)'</span>,</span>
+<span id="cb8-8"><a aria-hidden="true" href="#cb8-8" tabindex="-1"></a>                <span class="st">'A130201'</span>: <span class="st">'Population (15-64, Male)'</span>,</span>
+<span id="cb8-9"><a aria-hidden="true" href="#cb8-9" tabindex="-1"></a>                <span class="st">'A130202'</span>: <span class="st">'Population (15-64, Female)'</span>,</span>
+<span id="cb8-10"><a aria-hidden="true" href="#cb8-10" tabindex="-1"></a>                <span class="st">'A1303'</span>: <span class="st">'Total population (65 and over)'</span>,</span>
+<span id="cb8-11"><a aria-hidden="true" href="#cb8-11" tabindex="-1"></a>                <span class="st">'A130301'</span>: <span class="st">'Population (65 and over, Male)'</span>,</span>
+<span id="cb8-12"><a aria-hidden="true" href="#cb8-12" tabindex="-1"></a>                <span class="st">'A130302'</span>: <span class="st">'Population (65 and over, Female)'</span>,</span>
+<span id="cb8-13"><a aria-hidden="true" href="#cb8-13" tabindex="-1"></a>                <span class="st">'A1405'</span>: <span class="st">'Population (0-5, Total)'</span>,</span>
+<span id="cb8-14"><a aria-hidden="true" href="#cb8-14" tabindex="-1"></a>                <span class="st">'A140501'</span>: <span class="st">'Population (0-5, Male)'</span>,</span>
+<span id="cb8-15"><a aria-hidden="true" href="#cb8-15" tabindex="-1"></a>                <span class="st">'A140502'</span>: <span class="st">'Population (0-5, Female)'</span>,</span>
+<span id="cb8-16"><a aria-hidden="true" href="#cb8-16" tabindex="-1"></a>                <span class="st">'A1416'</span>: <span class="st">'Population (60 and over, Total)'</span>,</span>
+<span id="cb8-17"><a aria-hidden="true" href="#cb8-17" tabindex="-1"></a>                <span class="st">'A141601'</span>: <span class="st">'Population (60 and over, Male)'</span>,</span>
+<span id="cb8-18"><a aria-hidden="true" href="#cb8-18" tabindex="-1"></a>                <span class="st">'A141602'</span>: <span class="st">'Population (60 and over, Female)'</span>,</span>
+<span id="cb8-19"><a aria-hidden="true" href="#cb8-19" tabindex="-1"></a>                <span class="st">'A1417'</span>: <span class="st">'Population (70 and over, Total)'</span>,</span>
+<span id="cb8-20"><a aria-hidden="true" href="#cb8-20" tabindex="-1"></a>                <span class="st">'A141701'</span>: <span class="st">'Population (70 and over, Male)'</span>,</span>
+<span id="cb8-21"><a aria-hidden="true" href="#cb8-21" tabindex="-1"></a>                <span class="st">'A141702'</span>: <span class="st">'Population (70 and over, Female)'</span>,</span>
+<span id="cb8-22"><a aria-hidden="true" href="#cb8-22" tabindex="-1"></a>                <span class="st">'A1420'</span>: <span class="st">'Population (85 and over, Total)'</span>,</span>
+<span id="cb8-23"><a aria-hidden="true" href="#cb8-23" tabindex="-1"></a>                <span class="st">'A142001'</span>: <span class="st">'Population (85 and over, Male)'</span>,</span>
+<span id="cb8-24"><a aria-hidden="true" href="#cb8-24" tabindex="-1"></a>                <span class="st">'A142002'</span>: <span class="st">'Population (85 and over, Female)'</span></span>
+<span id="cb8-25"><a aria-hidden="true" href="#cb8-25" tabindex="-1"></a>               }</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
+<p>I have saved my personal <code>appID</code> in a non-shared file in the root folder as <code>.appID</code>. Let’s read it so as to include it in the request URL:</p>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:00:58.713352Z","start_time":"2022-09-29T07:00:58.706657Z"}' data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a aria-hidden="true" href="#cb9-1" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'../.appID'</span>, <span class="st">'r'</span>) <span class="im">as</span> fh:</span>
+<span id="cb9-2"><a aria-hidden="true" href="#cb9-2" tabindex="-1"></a>    API_ID <span class="op">=</span> fh.read()</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<p>I have saved my personal <code class="docutils literal notranslate"><span class="pre">appID</span></code> in a non-shared file in the root folder as <code class="docutils literal notranslate"><span class="pre">.appID</span></code>. Let’s read it so as to include it in the request URL:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>with open('../.appID', 'r') as fh:
-    API_ID = fh.read()
-</pre></div>
-</div>
-</div>
-</div>
-<p>We need to URL encode all the variables in the requests, which should be done by joining them with the <code class="docutils literal notranslate"><span class="pre">%2C</span></code> characters:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>variables_string = '%2C'.join(list(jp_api_codes.keys()))
-</pre></div>
-</div>
-</div>
+<p>We need to URL encode all the variables in the requests, which should be done by joining them with the <code>%2C</code> characters:</p>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:00:58.724553Z","start_time":"2022-09-29T07:00:58.716112Z"}' data-execution_count="9">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a aria-hidden="true" href="#cb10-1" tabindex="-1"></a>variables_string <span class="op">=</span> <span class="st">'%2C'</span>.join(<span class="bu">list</span>(jp_api_codes.keys()))</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
 <p>The full request will be the following:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>url = (f'{API_URL}'                       # Main API URL
-       f'?cdCat01={variables_string}'     # Specify the variables selected
-       f'&amp;appId={API_ID}'                 # Add the API ID to be allowed access 
-        '&amp;lang=E'                         # Specify the language to be English
-        '&amp;statsDataId=0000020201'         # Specify the dataset to be used
-        '&amp;cdTimeFrom=2015')               # Request data from the last census (2015)
-</pre></div>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:00:58.731193Z","start_time":"2022-09-29T07:00:58.727222Z"}' data-execution_count="10">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a aria-hidden="true" href="#cb11-1" tabindex="-1"></a>url <span class="op">=</span> (<span class="ss">f'</span><span class="sc">{</span>API_URL<span class="sc">}</span><span class="ss">'</span>                   <span class="co"># Main API URL</span></span>
+<span id="cb11-2"><a aria-hidden="true" href="#cb11-2" tabindex="-1"></a>       <span class="ss">f'?cdCat01=</span><span class="sc">{</span>variables_string<span class="sc">}</span><span class="ss">'</span> <span class="co"># Specify the variables selected</span></span>
+<span id="cb11-3"><a aria-hidden="true" href="#cb11-3" tabindex="-1"></a>       <span class="ss">f'&amp;appId=</span><span class="sc">{</span>API_ID<span class="sc">}</span><span class="ss">'</span>             <span class="co"># Add the API ID to be allowed access </span></span>
+<span id="cb11-4"><a aria-hidden="true" href="#cb11-4" tabindex="-1"></a>        <span class="st">'&amp;lang=E'</span>                     <span class="co"># Specify the language to be English</span></span>
+<span id="cb11-5"><a aria-hidden="true" href="#cb11-5" tabindex="-1"></a>        <span class="st">'&amp;statsDataId=0000020201'</span>     <span class="co"># Specify the dataset to be used</span></span>
+<span id="cb11-6"><a aria-hidden="true" href="#cb11-6" tabindex="-1"></a>        <span class="st">'&amp;cdTimeFrom=2015'</span>)           <span class="co"># Request data from the last census (2015)</span></span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:01:10.040266Z","start_time":"2022-09-29T07:00:58.736064Z"}' data-execution_count="11">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a aria-hidden="true" href="#cb12-1" tabindex="-1"></a>r <span class="op">=</span> requests.get(url)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>r = requests.get(url)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>full_population_df = (pd.DataFrame(r.json()
-                      ['GET_STATS_DATA']['STATISTICAL_DATA']['DATA_INF']['VALUE'])
-                      .loc[lambda dd: dd['@time'].str.startswith('2015')]
-                      .drop(columns=['@tab', '@time', '@unit'])
-                      .rename(columns={'@area': 'area_code'})
-                      .pivot('area_code', '@cat01', '$')
-                      .rename(columns=jp_api_codes)
-)
-</pre></div>
-</div>
-</div>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:01:10.471316Z","start_time":"2022-09-29T07:01:10.042398Z"}' data-execution_count="12">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a aria-hidden="true" href="#cb13-1" tabindex="-1"></a>full_population_df <span class="op">=</span> (pd.DataFrame(r.json()</span>
+<span id="cb13-2"><a aria-hidden="true" href="#cb13-2" tabindex="-1"></a>                      [<span class="st">'GET_STATS_DATA'</span>][<span class="st">'STATISTICAL_DATA'</span>][<span class="st">'DATA_INF'</span>][<span class="st">'VALUE'</span>])</span>
+<span id="cb13-3"><a aria-hidden="true" href="#cb13-3" tabindex="-1"></a>                      .loc[<span class="kw">lambda</span> dd: dd[<span class="st">'@time'</span>].<span class="bu">str</span>.startswith(<span class="st">'2015'</span>)]</span>
+<span id="cb13-4"><a aria-hidden="true" href="#cb13-4" tabindex="-1"></a>                      .drop(columns<span class="op">=</span>[<span class="st">'@tab'</span>, <span class="st">'@time'</span>, <span class="st">'@unit'</span>])</span>
+<span id="cb13-5"><a aria-hidden="true" href="#cb13-5" tabindex="-1"></a>                      .rename(columns<span class="op">=</span>{<span class="st">'@area'</span>: <span class="st">'area_code'</span>})</span>
+<span id="cb13-6"><a aria-hidden="true" href="#cb13-6" tabindex="-1"></a>                      .pivot(<span class="st">'area_code'</span>, <span class="st">'@cat01'</span>, <span class="st">'$'</span>)</span>
+<span id="cb13-7"><a aria-hidden="true" href="#cb13-7" tabindex="-1"></a>                      .rename(columns<span class="op">=</span>jp_api_codes)</span>
+<span id="cb13-8"><a aria-hidden="true" href="#cb13-8" tabindex="-1"></a>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
 <p>I will keep an already processed version of this dataset in the repository as an easily accessible CSV table to ease future usage of the files.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>full_population_df.to_csv('../data/population/municipal_population_stats.csv')
-</pre></div>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:01:10.524238Z","start_time":"2022-09-29T07:01:10.475770Z"}' data-execution_count="13">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a aria-hidden="true" href="#cb14-1" tabindex="-1"></a>full_population_df.to_csv(<span class="st">'../data/population/municipal_population_stats.csv'</span>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:01:10.545474Z","start_time":"2022-09-29T07:01:10.525879Z"}' data-execution_count="14">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a aria-hidden="true" href="#cb15-1" tabindex="-1"></a>full_population_df <span class="op">=</span> pd.read_csv(<span class="st">'../data/population/municipal_population_stats.csv'</span>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>full_population_df = pd.read_csv('../data/population/municipal_population_stats.csv')
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="matching-stations-municipalities-and-populations">
-<h2><a class="toc-backref" href="#id7">Matching stations, municipalities, and populations</a><a class="headerlink" href="#matching-stations-municipalities-and-populations" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section class="level2" id="matching-stations-municipalities-and-populations">
+<h2 class="anchored" data-anchor-id="matching-stations-municipalities-and-populations">Matching stations, municipalities, and populations</h2>
 <p>Since my main interest lies on relating the environmental variables to Kawasaki Disease incidence in Japan, I am going to use the municipal population of children under 5 years old to weight the importance of each municipal term in the prefecture averages:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>jp_pops_kids = (full_population_df
-                .reset_index()
-                .rename(columns={'area_code': 'code'})
-                .assign(code=lambda dd: dd.code.astype(str).str.zfill(5))
-                .assign(population=lambda dd: dd['Population (0-5, Total)'].astype(int))
-                [['code', 'population']]
-)
-</pre></div>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:01:10.581247Z","start_time":"2022-09-29T07:01:10.556012Z"}' data-execution_count="15">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a aria-hidden="true" href="#cb16-1" tabindex="-1"></a>jp_pops_kids <span class="op">=</span> (full_population_df</span>
+<span id="cb16-2"><a aria-hidden="true" href="#cb16-2" tabindex="-1"></a>    .reset_index()</span>
+<span id="cb16-3"><a aria-hidden="true" href="#cb16-3" tabindex="-1"></a>    .rename(columns<span class="op">=</span>{<span class="st">'area_code'</span>: <span class="st">'code'</span>})</span>
+<span id="cb16-4"><a aria-hidden="true" href="#cb16-4" tabindex="-1"></a>    .assign(code<span class="op">=</span><span class="kw">lambda</span> dd: dd.code.astype(<span class="bu">str</span>).<span class="bu">str</span>.zfill(<span class="dv">5</span>))</span>
+<span id="cb16-5"><a aria-hidden="true" href="#cb16-5" tabindex="-1"></a>    .assign(population<span class="op">=</span><span class="kw">lambda</span> dd: dd[<span class="st">'Population (0-5, Total)'</span>].astype(<span class="bu">int</span>))</span>
+<span id="cb16-6"><a aria-hidden="true" href="#cb16-6" tabindex="-1"></a>    [[<span class="st">'code'</span>, <span class="st">'population'</span>]]</span>
+<span id="cb16-7"><a aria-hidden="true" href="#cb16-7" tabindex="-1"></a>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a aria-hidden="true" href="#cb17-1" tabindex="-1"></a>jp_pops_full <span class="op">=</span> (full_population_df</span>
+<span id="cb17-2"><a aria-hidden="true" href="#cb17-2" tabindex="-1"></a>    .reset_index()</span>
+<span id="cb17-3"><a aria-hidden="true" href="#cb17-3" tabindex="-1"></a>    .rename(columns<span class="op">=</span>{<span class="st">'area_code'</span>: <span class="st">'code'</span>})</span>
+<span id="cb17-4"><a aria-hidden="true" href="#cb17-4" tabindex="-1"></a>    .assign(code<span class="op">=</span><span class="kw">lambda</span> dd: dd.code.astype(<span class="bu">str</span>).<span class="bu">str</span>.zfill(<span class="dv">5</span>))</span>
+<span id="cb17-5"><a aria-hidden="true" href="#cb17-5" tabindex="-1"></a>    .assign(population<span class="op">=</span><span class="kw">lambda</span> dd: dd[<span class="st">'Total population (Both sexes)'</span>].astype(<span class="bu">int</span>))</span>
+<span id="cb17-6"><a aria-hidden="true" href="#cb17-6" tabindex="-1"></a>    [[<span class="st">'code'</span>, <span class="st">'population'</span>]]</span>
+<span id="cb17-7"><a aria-hidden="true" href="#cb17-7" tabindex="-1"></a>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>jp_pops_full = (full_population_df
-                .reset_index()
-                .rename(columns={'area_code': 'code'})
-                .assign(code=lambda dd: dd.code.astype(str).str.zfill(5))
-                .assign(population=lambda dd: dd['Total population (Both sexes)'].astype(int))
-                [['code', 'population']]
-)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>jp_munis = (municipality_shapes
-            .reset_index()
-            .assign(code=lambda dd: dd.PREF + dd.CITY.astype(str))
-            [['PREF', 'CITY', 'code', 'geometry']]
-            )
-</pre></div>
-</div>
-</div>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:01:10.631198Z","start_time":"2022-09-29T07:01:10.584818Z"}' data-execution_count="17">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a aria-hidden="true" href="#cb18-1" tabindex="-1"></a>jp_munis <span class="op">=</span> (municipality_shapes</span>
+<span id="cb18-2"><a aria-hidden="true" href="#cb18-2" tabindex="-1"></a>            .reset_index()</span>
+<span id="cb18-3"><a aria-hidden="true" href="#cb18-3" tabindex="-1"></a>            .assign(code<span class="op">=</span><span class="kw">lambda</span> dd: dd.PREF <span class="op">+</span> dd.CITY.astype(<span class="bu">str</span>))</span>
+<span id="cb18-4"><a aria-hidden="true" href="#cb18-4" tabindex="-1"></a>            [[<span class="st">'PREF'</span>, <span class="st">'CITY'</span>, <span class="st">'code'</span>, <span class="st">'geometry'</span>]]</span>
+<span id="cb18-5"><a aria-hidden="true" href="#cb18-5" tabindex="-1"></a>            )</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can now load the monitoring stations information, and use their coordinates to assign a municipal boundary to each of them. This way, we will be able to average a value for each municipality using the values of the monitoring stations within its boundaries.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>monitoring_stations = (pd.read_csv('../data/air_pollution/stations/doc/stations_info.csv')
-                       .assign(geometry=lambda dd: [Point(np.array([x, y])) 
-                                                     for x, y in zip(dd.longitude, dd.latitude)])
-                       .pipe(lambda dd: gpd.GeoDataFrame(dd, geometry='geometry', crs='EPSG:4612'))
-)
-</pre></div>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:01:10.660304Z","start_time":"2022-09-29T07:01:10.649823Z"}' data-execution_count="18">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a aria-hidden="true" href="#cb19-1" tabindex="-1"></a>info_dir <span class="op">=</span> <span class="st">'../data/air_pollution/stations/doc/stations_info.csv'</span></span>
+<span id="cb19-2"><a aria-hidden="true" href="#cb19-2" tabindex="-1"></a>monitoring_stations <span class="op">=</span> (pd.read_csv(info_dir)</span>
+<span id="cb19-3"><a aria-hidden="true" href="#cb19-3" tabindex="-1"></a>        .assign(geometry<span class="op">=</span><span class="kw">lambda</span> dd: [Point(np.array([x, y])) </span>
+<span id="cb19-4"><a aria-hidden="true" href="#cb19-4" tabindex="-1"></a>                 <span class="cf">for</span> x, y <span class="kw">in</span> <span class="bu">zip</span>(dd.longitude, dd.latitude)])</span>
+<span id="cb19-5"><a aria-hidden="true" href="#cb19-5" tabindex="-1"></a>        .pipe(<span class="kw">lambda</span> dd: gpd.GeoDataFrame(dd, geometry<span class="op">=</span><span class="st">'geometry'</span>, crs<span class="op">=</span><span class="st">'EPSG:4612'</span>))</span>
+<span id="cb19-6"><a aria-hidden="true" href="#cb19-6" tabindex="-1"></a>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:01:11.493983Z","start_time":"2022-09-29T07:01:10.830562Z"}' data-execution_count="19">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a aria-hidden="true" href="#cb20-1" tabindex="-1"></a>station_munis <span class="op">=</span> (gpd.sjoin(monitoring_stations, jp_munis, predicate<span class="op">=</span><span class="st">'within'</span>)</span>
+<span id="cb20-2"><a aria-hidden="true" href="#cb20-2" tabindex="-1"></a>                 .merge(jp_munis</span>
+<span id="cb20-3"><a aria-hidden="true" href="#cb20-3" tabindex="-1"></a>                        [[<span class="st">'code'</span>, <span class="st">'geometry'</span>]]</span>
+<span id="cb20-4"><a aria-hidden="true" href="#cb20-4" tabindex="-1"></a>                        .rename(columns<span class="op">=</span>{<span class="st">'geometry'</span>: <span class="st">'m_polygon'</span>}))</span>
+<span id="cb20-5"><a aria-hidden="true" href="#cb20-5" tabindex="-1"></a>                )</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell_output docutils container">
-
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:01:11.592986Z","start_time":"2022-09-29T07:01:11.497907Z"}' data-execution_count="20">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a aria-hidden="true" href="#cb21-1" tabindex="-1"></a>stations_per_city <span class="op">=</span> station_munis.groupby([<span class="st">'PREF'</span>, <span class="st">'CITY'</span>]).station_code.unique()</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:01:11.611614Z","start_time":"2022-09-29T07:01:11.596838Z"}' data-execution_count="21">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a aria-hidden="true" href="#cb22-1" tabindex="-1"></a>prefectures_map <span class="op">=</span> (monitoring_stations</span>
+<span id="cb22-2"><a aria-hidden="true" href="#cb22-2" tabindex="-1"></a>                    [[<span class="st">'prefecture'</span>, <span class="st">'prefecture_code'</span>]]</span>
+<span id="cb22-3"><a aria-hidden="true" href="#cb22-3" tabindex="-1"></a>                    .drop_duplicates()</span>
+<span id="cb22-4"><a aria-hidden="true" href="#cb22-4" tabindex="-1"></a>                    .set_index(<span class="st">'prefecture_code'</span>)</span>
+<span id="cb22-5"><a aria-hidden="true" href="#cb22-5" tabindex="-1"></a>                    [<span class="st">'prefecture'</span>]</span>
+<span id="cb22-6"><a aria-hidden="true" href="#cb22-6" tabindex="-1"></a>                    .to_dict()</span>
+<span id="cb22-7"><a aria-hidden="true" href="#cb22-7" tabindex="-1"></a>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>station_munis = (gpd.sjoin(monitoring_stations, jp_munis, predicate='within')
-                 .merge(jp_munis[['code', 'geometry']].rename(columns={'geometry': 'm_polygon'}))
-                )
-</pre></div>
+</section>
+<section class="level2" id="generating-the-daily-averaged-municipal-estimates">
+<h2 class="anchored" data-anchor-id="generating-the-daily-averaged-municipal-estimates">Generating the daily averaged municipal estimates</h2>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:02:05.435045Z","start_time":"2022-09-29T07:01:11.614694Z"}' data-execution_count="22">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a aria-hidden="true" href="#cb23-1" tabindex="-1"></a>municipal_pollution_dfs <span class="op">=</span> []</span>
+<span id="cb23-2"><a aria-hidden="true" href="#cb23-2" tabindex="-1"></a><span class="cf">for</span> (pref, city), stations <span class="kw">in</span> tqdm(stations_per_city.items(), total<span class="op">=</span><span class="bu">len</span>(stations_per_city)):</span>
+<span id="cb23-3"><a aria-hidden="true" href="#cb23-3" tabindex="-1"></a>    municipal_stations <span class="op">=</span> []</span>
+<span id="cb23-4"><a aria-hidden="true" href="#cb23-4" tabindex="-1"></a>    pref_name <span class="op">=</span> prefectures_map[<span class="bu">int</span>(pref)]</span>
+<span id="cb23-5"><a aria-hidden="true" href="#cb23-5" tabindex="-1"></a>    <span class="cf">for</span> station <span class="kw">in</span> stations:</span>
+<span id="cb23-6"><a aria-hidden="true" href="#cb23-6" tabindex="-1"></a>        municipal_stations.append(</span>
+<span id="cb23-7"><a aria-hidden="true" href="#cb23-7" tabindex="-1"></a>        pd.read_csv(<span class="ss">f'../data/air_pollution/stations/clean/</span><span class="sc">{</span>pref<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>pref_name<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>station<span class="sc">}</span><span class="ss">.csv'</span>)</span>
+<span id="cb23-8"><a aria-hidden="true" href="#cb23-8" tabindex="-1"></a>                    .assign(date<span class="op">=</span><span class="kw">lambda</span> dd: pd.to_datetime(dd.date))</span>
+<span id="cb23-9"><a aria-hidden="true" href="#cb23-9" tabindex="-1"></a>        )</span>
+<span id="cb23-10"><a aria-hidden="true" href="#cb23-10" tabindex="-1"></a>    </span>
+<span id="cb23-11"><a aria-hidden="true" href="#cb23-11" tabindex="-1"></a>    municipal_stations <span class="op">=</span> (pd.concat(municipal_stations)</span>
+<span id="cb23-12"><a aria-hidden="true" href="#cb23-12" tabindex="-1"></a>                          .set_index(<span class="st">'date'</span>)</span>
+<span id="cb23-13"><a aria-hidden="true" href="#cb23-13" tabindex="-1"></a>                          .resample(<span class="st">'D'</span>)</span>
+<span id="cb23-14"><a aria-hidden="true" href="#cb23-14" tabindex="-1"></a>                          .mean())</span>
+<span id="cb23-15"><a aria-hidden="true" href="#cb23-15" tabindex="-1"></a>    municipal_pollution_dfs.append(municipal_stations.assign(pref<span class="op">=</span>pref, city<span class="op">=</span>city))</span>
+<span id="cb23-16"><a aria-hidden="true" href="#cb23-16" tabindex="-1"></a>    municipal_stations.<span class="bu">round</span>(<span class="dv">3</span>).to_csv(<span class="ss">f'../data/air_pollution/municipalities/</span><span class="sc">{</span>pref<span class="sc">}{</span>city<span class="sc">}</span><span class="ss">.csv'</span>)</span>
+<span id="cb23-17"><a aria-hidden="true" href="#cb23-17" tabindex="-1"></a>municipal_pollution_dfs <span class="op">=</span> pd.concat(municipal_pollution_dfs)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>stations_per_city = station_munis.groupby(['PREF', 'CITY']).station_code.unique()
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>prefectures_map = (monitoring_stations
-                    [['prefecture', 'prefecture_code']]
-                    .drop_duplicates()
-                    .set_index('prefecture_code')
-                    ['prefecture']
-                    .to_dict()
-)
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="generating-the-daily-averaged-municipal-estimates">
-<h2><a class="toc-backref" href="#id8">Generating the daily averaged municipal estimates</a><a class="headerlink" href="#generating-the-daily-averaged-municipal-estimates" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>municipal_pollution_dfs = []
-for (pref, city), stations in tqdm(stations_per_city.items(), total=len(stations_per_city)):
-    municipal_stations = []
-    pref_name = prefectures_map[int(pref)]
-    for station in stations:
-        municipal_stations.append(
-        pd.read_csv(f'../data/air_pollution/stations/clean/{pref}_{pref_name}/{station}.csv')
-                    .assign(date=lambda dd: pd.to_datetime(dd.date))
-        )
-    
-    municipal_stations = (pd.concat(municipal_stations)
-                          .set_index('date')
-                          .resample('D')
-                          .mean())
-    municipal_pollution_dfs.append(municipal_stations.assign(pref=pref, city=city))
-    municipal_stations.round(3).to_csv(f'../data/air_pollution/municipalities/{pref}{city}.csv')
-municipal_pollution_dfs = pd.concat(municipal_pollution_dfs)
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 905/905 [00:07&lt;00:00, 128.60it/s]
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="generating-the-daily-averaged-prefectural-estimates">
-<h2><a class="toc-backref" href="#id9">Generating the daily averaged prefectural estimates</a><a class="headerlink" href="#generating-the-daily-averaged-prefectural-estimates" title="Permalink to this headline">¶</a></h2>
+</section>
+<section class="level2" id="generating-the-daily-averaged-prefectural-estimates">
+<h2 class="anchored" data-anchor-id="generating-the-daily-averaged-prefectural-estimates">Generating the daily averaged prefectural estimates</h2>
 <p>Now, by using the municipal values and weighting them by different factors, we will be able to obtain prefecture-level estimates:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>long_pollution_df = (municipal_pollution_dfs
-                     .reset_index()
-                     .melt(['date', 'pref', 'city'])
-                     .dropna()
-                     .eval('code = pref + city')
-)
-</pre></div>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T07:02:34.314493Z","start_time":"2022-09-29T07:02:05.437645Z"}' data-execution_count="23">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a aria-hidden="true" href="#cb24-1" tabindex="-1"></a>long_pollution_df <span class="op">=</span> (municipal_pollution_dfs</span>
+<span id="cb24-2"><a aria-hidden="true" href="#cb24-2" tabindex="-1"></a>                     .reset_index()</span>
+<span id="cb24-3"><a aria-hidden="true" href="#cb24-3" tabindex="-1"></a>                     .melt([<span class="st">'date'</span>, <span class="st">'pref'</span>, <span class="st">'city'</span>])</span>
+<span id="cb24-4"><a aria-hidden="true" href="#cb24-4" tabindex="-1"></a>                     .dropna()</span>
+<span id="cb24-5"><a aria-hidden="true" href="#cb24-5" tabindex="-1"></a>                     .<span class="bu">eval</span>(<span class="st">'code = pref + city'</span>)</span>
+<span id="cb24-6"><a aria-hidden="true" href="#cb24-6" tabindex="-1"></a>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="area-weighted-averages">
-<h3><a class="toc-backref" href="#id10">Area-weighted averages</a><a class="headerlink" href="#area-weighted-averages" title="Permalink to this headline">¶</a></h3>
+<section class="level3" id="area-weighted-averages">
+<h3 class="anchored" data-anchor-id="area-weighted-averages">Area-weighted averages</h3>
 <p>The first prefectural estimates we will estimate will be population agnostic, that is, each municipality will have a weight proportional to its area:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>jp_areas = (jp_munis
-            .eval('area = geometry.to_crs("+proj=cea").area / 10**6')
-            [['code', 'area']]
-)
-</pre></div>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a aria-hidden="true" href="#cb25-1" tabindex="-1"></a>jp_areas <span class="op">=</span> (jp_munis</span>
+<span id="cb25-2"><a aria-hidden="true" href="#cb25-2" tabindex="-1"></a>            .<span class="bu">eval</span>(<span class="st">'area = geometry.to_crs("+proj=cea").area / 10**6'</span>)</span>
+<span id="cb25-3"><a aria-hidden="true" href="#cb25-3" tabindex="-1"></a>            [[<span class="st">'code'</span>, <span class="st">'area'</span>]]</span>
+<span id="cb25-4"><a aria-hidden="true" href="#cb25-4" tabindex="-1"></a>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a aria-hidden="true" href="#cb26-1" tabindex="-1"></a><span class="cf">for</span> prefecture, df <span class="kw">in</span> long_pollution_df.groupby(<span class="st">'pref'</span>):</span>
+<span id="cb26-2"><a aria-hidden="true" href="#cb26-2" tabindex="-1"></a>    pref_df <span class="op">=</span> (df.groupby([<span class="st">'date'</span>, <span class="st">'variable'</span>])</span>
+<span id="cb26-3"><a aria-hidden="true" href="#cb26-3" tabindex="-1"></a>                 .progress_apply(<span class="kw">lambda</span> df: df</span>
+<span id="cb26-4"><a aria-hidden="true" href="#cb26-4" tabindex="-1"></a>                                        .merge(jp_areas)</span>
+<span id="cb26-5"><a aria-hidden="true" href="#cb26-5" tabindex="-1"></a>                                        .<span class="bu">eval</span>(<span class="st">'weight = area / area.sum()'</span>)</span>
+<span id="cb26-6"><a aria-hidden="true" href="#cb26-6" tabindex="-1"></a>                                        .<span class="bu">eval</span>(<span class="st">'value = value * weight'</span>)</span>
+<span id="cb26-7"><a aria-hidden="true" href="#cb26-7" tabindex="-1"></a>                                        .value.<span class="bu">sum</span>())</span>
+<span id="cb26-8"><a aria-hidden="true" href="#cb26-8" tabindex="-1"></a>                 .rename(<span class="st">'value'</span>)</span>
+<span id="cb26-9"><a aria-hidden="true" href="#cb26-9" tabindex="-1"></a>                 .reset_index()</span>
+<span id="cb26-10"><a aria-hidden="true" href="#cb26-10" tabindex="-1"></a>                 .pivot(index<span class="op">=</span><span class="st">'date'</span>, columns<span class="op">=</span><span class="st">'variable'</span>, values<span class="op">=</span><span class="st">'value'</span>)</span>
+<span id="cb26-11"><a aria-hidden="true" href="#cb26-11" tabindex="-1"></a>)</span>
+<span id="cb26-12"><a aria-hidden="true" href="#cb26-12" tabindex="-1"></a>    pref_df.<span class="bu">round</span>(<span class="dv">3</span>).to_csv(<span class="ss">f'../data/air_pollution/prefectures/area_weighted/</span><span class="sc">{</span>prefecture<span class="sc">}</span><span class="ss">.csv'</span>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>for prefecture, df in long_pollution_df.groupby('pref'):
-    pref_df = (df.groupby(['date', 'variable'])
-                 .progress_apply(lambda df: df
-                                        .merge(jp_areas)
-                                        .eval('weight = area / area.sum()')
-                                        .eval('value = value * weight')
-                                        .value.sum())
-                 .rename('value')
-                 .reset_index()
-                 .pivot(index='date', columns='variable', values='value')
-)
-    pref_df.round(3).to_csv(f'../data/air_pollution/prefectures/area_weighted/{prefecture}.csv')
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="weighting-by-population-of-children-under-5-years-old">
-<h3><a class="toc-backref" href="#id11">Weighting by population of children under 5 years old</a><a class="headerlink" href="#weighting-by-population-of-children-under-5-years-old" title="Permalink to this headline">¶</a></h3>
+</section>
+<section class="level3" id="weighting-by-population-of-children-under-5-years-old">
+<h3 class="anchored" data-anchor-id="weighting-by-population-of-children-under-5-years-old">Weighting by population of children under 5 years old</h3>
 <p>In this case we will weigh its municipality proportional to the relative amount of children under 5 years old living in it:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>for prefecture, df in long_pollution_df.groupby('pref'):
-    pref_df = (df.groupby(['date', 'variable'])
-                 .progress_apply(lambda df: df
-                                        .merge(jp_pops_kids)
-                                        .eval('weight = population / population.sum()')
-                                        .eval('value = value * weight')
-                                        .value.sum())
-                 .rename('value')
-                 .reset_index()
-                 .pivot(index='date', columns='variable', values='value')
-)
-    pref_df.round(3).to_csv(f'../data/air_pollution/prefectures/under_5_weighted/{prefecture}.csv')
-</pre></div>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T11:24:04.831559Z","start_time":"2022-09-29T07:19:05.394486Z"}'>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a aria-hidden="true" href="#cb27-1" tabindex="-1"></a><span class="cf">for</span> prefecture, df <span class="kw">in</span> long_pollution_df.groupby(<span class="st">'pref'</span>):</span>
+<span id="cb27-2"><a aria-hidden="true" href="#cb27-2" tabindex="-1"></a>    pref_df <span class="op">=</span> (df.groupby([<span class="st">'date'</span>, <span class="st">'variable'</span>])</span>
+<span id="cb27-3"><a aria-hidden="true" href="#cb27-3" tabindex="-1"></a>                 .progress_apply(<span class="kw">lambda</span> df: df</span>
+<span id="cb27-4"><a aria-hidden="true" href="#cb27-4" tabindex="-1"></a>                                        .merge(jp_pops_kids)</span>
+<span id="cb27-5"><a aria-hidden="true" href="#cb27-5" tabindex="-1"></a>                                        .<span class="bu">eval</span>(<span class="st">'weight = population / population.sum()'</span>)</span>
+<span id="cb27-6"><a aria-hidden="true" href="#cb27-6" tabindex="-1"></a>                                        .<span class="bu">eval</span>(<span class="st">'value = value * weight'</span>)</span>
+<span id="cb27-7"><a aria-hidden="true" href="#cb27-7" tabindex="-1"></a>                                        .value.<span class="bu">sum</span>())</span>
+<span id="cb27-8"><a aria-hidden="true" href="#cb27-8" tabindex="-1"></a>                 .rename(<span class="st">'value'</span>)</span>
+<span id="cb27-9"><a aria-hidden="true" href="#cb27-9" tabindex="-1"></a>                 .reset_index()</span>
+<span id="cb27-10"><a aria-hidden="true" href="#cb27-10" tabindex="-1"></a>                 .pivot(index<span class="op">=</span><span class="st">'date'</span>, columns<span class="op">=</span><span class="st">'variable'</span>, values<span class="op">=</span><span class="st">'value'</span>)</span>
+<span id="cb27-11"><a aria-hidden="true" href="#cb27-11" tabindex="-1"></a>)</span>
+<span id="cb27-12"><a aria-hidden="true" href="#cb27-12" tabindex="-1"></a>    pref_df.<span class="bu">round</span>(<span class="dv">3</span>).to_csv(<span class="ss">f'../data/air_pollution/prefectures/under_5_weighted/</span><span class="sc">{</span>prefecture<span class="sc">}</span><span class="ss">.csv'</span>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="weighting-by-full-population-density">
-<h3><a class="toc-backref" href="#id12">Weighting by full population density</a><a class="headerlink" href="#weighting-by-full-population-density" title="Permalink to this headline">¶</a></h3>
+</section>
+<section class="level3" id="weighting-by-full-population-density">
+<h3 class="anchored" data-anchor-id="weighting-by-full-population-density">Weighting by full population density</h3>
 <p>In the last case, we will weigh each municipality proportional to the total population living in each term.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>for prefecture, df in long_pollution_df.groupby('pref'):
-    pref_df = (df.groupby(['date', 'variable'])
-                 .progress_apply(lambda df: df
-                                        .merge(jp_pops_full)
-                                        .eval('weight = population / population.sum()')
-                                        .eval('value = value * weight')
-                                        .value.sum())
-                 .rename('value')
-                 .reset_index()
-                 .pivot(index='date', columns='variable', values='value')
-)
-    pref_df.round(3).to_csv(f'../data/air_pollution/prefectures/population_weighted/{prefecture}.csv')
-</pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a aria-hidden="true" href="#cb28-1" tabindex="-1"></a><span class="cf">for</span> prefecture, df <span class="kw">in</span> long_pollution_df.groupby(<span class="st">'pref'</span>):</span>
+<span id="cb28-2"><a aria-hidden="true" href="#cb28-2" tabindex="-1"></a>    pref_df <span class="op">=</span> (df.groupby([<span class="st">'date'</span>, <span class="st">'variable'</span>])</span>
+<span id="cb28-3"><a aria-hidden="true" href="#cb28-3" tabindex="-1"></a>                 .progress_apply(<span class="kw">lambda</span> df: df</span>
+<span id="cb28-4"><a aria-hidden="true" href="#cb28-4" tabindex="-1"></a>                                        .merge(jp_pops_full)</span>
+<span id="cb28-5"><a aria-hidden="true" href="#cb28-5" tabindex="-1"></a>                                        .<span class="bu">eval</span>(<span class="st">'weight = population / population.sum()'</span>)</span>
+<span id="cb28-6"><a aria-hidden="true" href="#cb28-6" tabindex="-1"></a>                                        .<span class="bu">eval</span>(<span class="st">'value = value * weight'</span>)</span>
+<span id="cb28-7"><a aria-hidden="true" href="#cb28-7" tabindex="-1"></a>                                        .value.<span class="bu">sum</span>())</span>
+<span id="cb28-8"><a aria-hidden="true" href="#cb28-8" tabindex="-1"></a>                 .rename(<span class="st">'value'</span>)</span>
+<span id="cb28-9"><a aria-hidden="true" href="#cb28-9" tabindex="-1"></a>                 .reset_index()</span>
+<span id="cb28-10"><a aria-hidden="true" href="#cb28-10" tabindex="-1"></a>                 .pivot(index<span class="op">=</span><span class="st">'date'</span>, columns<span class="op">=</span><span class="st">'variable'</span>, values<span class="op">=</span><span class="st">'value'</span>)</span>
+<span id="cb28-11"><a aria-hidden="true" href="#cb28-11" tabindex="-1"></a>)</span>
+<span id="cb28-12"><a aria-hidden="true" href="#cb28-12" tabindex="-1"></a>    pref_df.<span class="bu">round</span>(<span class="dv">3</span>).to_csv(<span class="ss">f'../data/air_pollution/prefectures/population_weighted/</span><span class="sc">{</span>prefecture<span class="sc">}</span><span class="ss">.csv'</span>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="visualizing-the-data">
-<h2><a class="toc-backref" href="#id13">Visualizing the data</a><a class="headerlink" href="#visualizing-the-data" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="number-of-stations-per-variable-per-prefecture">
-<h3><a class="toc-backref" href="#id14">Number of stations per variable per prefecture</a><a class="headerlink" href="#number-of-stations-per-variable-per-prefecture" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section class="level2" id="visualizing-the-data">
+<h2 class="anchored" data-anchor-id="visualizing-the-data">Visualizing the data</h2>
+<section class="level3" id="number-of-stations-per-variable-per-prefecture">
+<h3 class="anchored" data-anchor-id="number-of-stations-per-variable-per-prefecture">Number of stations per variable per prefecture</h3>
 <p>While there are many stations, not all variables are measured with the same consistency. The following table shows how many stations measure each variable in each prefecture:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>variable_map = {'NOX': 'NO$_{x}$',
-                'PM25': 'PM$_{2.5}$',
-                'SO2': 'SO$_2$',
-                'CO2': 'CO$_2$',
-                'SPM': 'PM$_{10}$'}
-</pre></div>
+<div class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a aria-hidden="true" href="#cb29-1" tabindex="-1"></a>variable_map <span class="op">=</span> {<span class="st">'NOX'</span>: <span class="st">'NO$_</span><span class="sc">{x}</span><span class="st">$'</span>,</span>
+<span id="cb29-2"><a aria-hidden="true" href="#cb29-2" tabindex="-1"></a>                <span class="st">'PM25'</span>: <span class="st">'PM$_</span><span class="sc">{2.5}</span><span class="st">$'</span>,</span>
+<span id="cb29-3"><a aria-hidden="true" href="#cb29-3" tabindex="-1"></a>                <span class="st">'SO2'</span>: <span class="st">'SO$_2$'</span>,</span>
+<span id="cb29-4"><a aria-hidden="true" href="#cb29-4" tabindex="-1"></a>                <span class="st">'CO2'</span>: <span class="st">'CO$_2$'</span>,</span>
+<span id="cb29-5"><a aria-hidden="true" href="#cb29-5" tabindex="-1"></a>                <span class="st">'SPM'</span>: <span class="st">'PM$_</span><span class="sc">{10}</span><span class="st">$'</span>}</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell" data-code-folding="true" data-executetime='{"end_time":"2022-09-27T16:59:46.469845Z","start_time":"2022-09-27T16:59:46.441342Z"}' data-execution_count="27">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a aria-hidden="true" href="#cb30-1" tabindex="-1"></a>(monitoring_stations</span>
+<span id="cb30-2"><a aria-hidden="true" href="#cb30-2" tabindex="-1"></a> .drop(columns<span class="op">=</span>[<span class="st">'station_code'</span>, <span class="st">'latitude'</span>, <span class="st">'longitude'</span>, <span class="st">'altitude'</span>])</span>
+<span id="cb30-3"><a aria-hidden="true" href="#cb30-3" tabindex="-1"></a> .groupby([<span class="st">'prefecture'</span>, <span class="st">'prefecture_code'</span>])</span>
+<span id="cb30-4"><a aria-hidden="true" href="#cb30-4" tabindex="-1"></a> .<span class="bu">sum</span>(numeric_only<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb30-5"><a aria-hidden="true" href="#cb30-5" tabindex="-1"></a> .astype(<span class="bu">int</span>)</span>
+<span id="cb30-6"><a aria-hidden="true" href="#cb30-6" tabindex="-1"></a> .sort_values(<span class="st">'prefecture_code'</span>)</span>
+<span id="cb30-7"><a aria-hidden="true" href="#cb30-7" tabindex="-1"></a> .<span class="bu">apply</span>(<span class="kw">lambda</span> x: x <span class="op">/</span> monitoring_stations.groupby(<span class="st">'prefecture_code'</span>).station_code.nunique())</span>
+<span id="cb30-8"><a aria-hidden="true" href="#cb30-8" tabindex="-1"></a> .applymap(<span class="kw">lambda</span> x: <span class="bu">round</span>(x <span class="op">*</span> <span class="dv">100</span>, <span class="dv">2</span>))</span>
+<span id="cb30-9"><a aria-hidden="true" href="#cb30-9" tabindex="-1"></a> .reset_index()</span>
+<span id="cb30-10"><a aria-hidden="true" href="#cb30-10" tabindex="-1"></a> .melt([<span class="st">'prefecture'</span>, <span class="st">'prefecture_code'</span>])</span>
+<span id="cb30-11"><a aria-hidden="true" href="#cb30-11" tabindex="-1"></a> .query(<span class="st">'not variable.isin(["NO", "NO2", "CH4", "NMHC"])'</span>)</span>
+<span id="cb30-12"><a aria-hidden="true" href="#cb30-12" tabindex="-1"></a> .replace(variable_map)</span>
+<span id="cb30-13"><a aria-hidden="true" href="#cb30-13" tabindex="-1"></a> .merge(monitoring_stations</span>
+<span id="cb30-14"><a aria-hidden="true" href="#cb30-14" tabindex="-1"></a>        .groupby(<span class="st">'prefecture_code'</span>)</span>
+<span id="cb30-15"><a aria-hidden="true" href="#cb30-15" tabindex="-1"></a>        .station_code</span>
+<span id="cb30-16"><a aria-hidden="true" href="#cb30-16" tabindex="-1"></a>        .nunique()</span>
+<span id="cb30-17"><a aria-hidden="true" href="#cb30-17" tabindex="-1"></a>        .rename(<span class="st">'n_stations'</span>)</span>
+<span id="cb30-18"><a aria-hidden="true" href="#cb30-18" tabindex="-1"></a>        .reset_index())</span>
+<span id="cb30-19"><a aria-hidden="true" href="#cb30-19" tabindex="-1"></a> .assign(pref_name<span class="op">=</span><span class="kw">lambda</span> dd: dd.prefecture.<span class="bu">str</span>.split(<span class="st">'-'</span>).<span class="bu">str</span>[<span class="dv">0</span>] <span class="op">+</span> </span>
+<span id="cb30-20"><a aria-hidden="true" href="#cb30-20" tabindex="-1"></a>                                <span class="st">' ('</span> <span class="op">+</span> dd.n_stations.astype(<span class="bu">str</span>) <span class="op">+</span> <span class="st">')'</span>)</span>
+<span id="cb30-21"><a aria-hidden="true" href="#cb30-21" tabindex="-1"></a> .pipe(<span class="kw">lambda</span> dd: p9.ggplot(dd) </span>
+<span id="cb30-22"><a aria-hidden="true" href="#cb30-22" tabindex="-1"></a>                <span class="op">+</span> p9.aes(x<span class="op">=</span><span class="st">'reorder(variable, value, ascending=True)'</span>,</span>
+<span id="cb30-23"><a aria-hidden="true" href="#cb30-23" tabindex="-1"></a>                         y<span class="op">=</span><span class="st">'reorder(pref_name, value, ascending=False)'</span>,</span>
+<span id="cb30-24"><a aria-hidden="true" href="#cb30-24" tabindex="-1"></a>                         fill<span class="op">=</span><span class="st">'value'</span>) </span>
+<span id="cb30-25"><a aria-hidden="true" href="#cb30-25" tabindex="-1"></a>                <span class="op">+</span> p9.geom_tile(color<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb30-26"><a aria-hidden="true" href="#cb30-26" tabindex="-1"></a>                <span class="op">+</span> p9.geom_text(p9.aes(label<span class="op">=</span><span class="st">'value.round(0).astype(int)'</span>,</span>
+<span id="cb30-27"><a aria-hidden="true" href="#cb30-27" tabindex="-1"></a>                                color<span class="op">=</span><span class="st">'value &gt; 70'</span>), size<span class="op">=</span><span class="fl">2.5</span>)      </span>
+<span id="cb30-28"><a aria-hidden="true" href="#cb30-28" tabindex="-1"></a>                <span class="op">+</span> p9.theme_minimal()</span>
+<span id="cb30-29"><a aria-hidden="true" href="#cb30-29" tabindex="-1"></a>                <span class="op">+</span> p9.scale_color_manual(values<span class="op">=</span>[<span class="st">'black'</span>, <span class="st">'white'</span>])</span>
+<span id="cb30-30"><a aria-hidden="true" href="#cb30-30" tabindex="-1"></a>                <span class="op">+</span> p9.scale_fill_continuous(<span class="st">'Oranges'</span>)</span>
+<span id="cb30-31"><a aria-hidden="true" href="#cb30-31" tabindex="-1"></a>                <span class="op">+</span> p9.guides(fill<span class="op">=</span><span class="va">False</span>, color<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb30-32"><a aria-hidden="true" href="#cb30-32" tabindex="-1"></a>                <span class="op">+</span> p9.labs(x<span class="op">=</span><span class="st">''</span>, y<span class="op">=</span><span class="st">''</span>, title<span class="op">=</span><span class="st">'Percentage of stations collecting data'</span>)</span>
+<span id="cb30-33"><a aria-hidden="true" href="#cb30-33" tabindex="-1"></a>                <span class="op">+</span> p9.coord_flip()</span>
+<span id="cb30-34"><a aria-hidden="true" href="#cb30-34" tabindex="-1"></a>                <span class="op">+</span> p9.theme(figure_size<span class="op">=</span>(<span class="dv">4</span>, <span class="fl">1.25</span>),</span>
+<span id="cb30-35"><a aria-hidden="true" href="#cb30-35" tabindex="-1"></a>                           title<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">8</span>),</span>
+<span id="cb30-36"><a aria-hidden="true" href="#cb30-36" tabindex="-1"></a>                           axis_text_x<span class="op">=</span>p9.element_text(angle<span class="op">=</span><span class="dv">90</span>, size<span class="op">=</span><span class="fl">3.5</span>, margin<span class="op">=</span>{<span class="st">'t'</span>: <span class="op">-</span><span class="dv">10</span>}),</span>
+<span id="cb30-37"><a aria-hidden="true" href="#cb30-37" tabindex="-1"></a>                           axis_text_y<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">4</span>, ha<span class="op">=</span><span class="st">'right'</span>, margin<span class="op">=</span>{<span class="st">'r'</span>: <span class="op">-</span><span class="dv">10</span>}),</span>
+<span id="cb30-38"><a aria-hidden="true" href="#cb30-38" tabindex="-1"></a>                           panel_grid<span class="op">=</span>p9.element_blank())</span>
+<span id="cb30-39"><a aria-hidden="true" href="#cb30-39" tabindex="-1"></a>)</span>
+<span id="cb30-40"><a aria-hidden="true" href="#cb30-40" tabindex="-1"></a>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img class="img-fluid" src="prefecture_weighted_averages_files/figure-html/cell-30-output-1.png"/></p>
 </div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>(monitoring_stations
- .drop(columns=['station_code', 'latitude', 'longitude', 'altitude'])
- .groupby(['prefecture', 'prefecture_code'])
- .sum(numeric_only=True)
- .astype(int)
- .sort_values('prefecture_code')
- .apply(lambda x: x / monitoring_stations.groupby('prefecture_code').station_code.nunique())
- .applymap(lambda x: round(x * 100, 2))
- .reset_index()
- .melt(['prefecture', 'prefecture_code'])
- .query('not variable.isin(["NO", "NO2", "CH4", "NMHC"])')
- .replace(variable_map)
- .merge(monitoring_stations
-        .groupby('prefecture_code')
-        .station_code
-        .nunique()
-        .rename('n_stations')
-        .reset_index())
- .assign(pref_name=lambda dd: dd.prefecture.str.split('-').str[0] + 
-                                ' (' + dd.n_stations.astype(str) + ')')
- .pipe(lambda dd: p9.ggplot(dd) 
-                + p9.aes(x='reorder(variable, value, ascending=True)',
-                         y='reorder(pref_name, value, ascending=False)',
-                         fill='value') 
-                + p9.geom_tile(color='black')
-                + p9.geom_text(p9.aes(label='value.round(0).astype(int)', color='value &gt; 70'), size=2.5)      
-                + p9.theme_minimal()
-                + p9.scale_color_manual(values=['black', 'white'])
-                + p9.scale_fill_continuous('Oranges')
-                + p9.guides(fill=False, color=False)
-                + p9.labs(x='', y='', title='Percentage of stations collecting data')
-                + p9.coord_flip()
-                + p9.theme(figure_size=(4, 1.25),
-                           title=p9.element_text(size=8),
-                           axis_text_x=p9.element_text(angle=90, size=3.5, margin={'t': -10}),
-                           axis_text_y=p9.element_text(size=4, ha='right', margin={'r': -10}),
-                           panel_grid=p9.element_blank())
-)
-)
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/prefecture_weighted_averages_61_0.png" src="_images/prefecture_weighted_averages_61_0.png"/>
+<div class="cell-output cell-output-display" data-execution_count="27">
 
 </div>
 </div>
 <p>Only NOx, SPM (or PM10), SO2 and PM2.5 are variables measured by over 50% of all stations, the rest are present in smaller numbers, which might limit the accuracy of the prefecture-level estimates:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>(monitoring_stations
- .drop(columns=['station_code', 'latitude', 'longitude', 'altitude'])
- .groupby(['prefecture', 'prefecture_code'])
- .sum(numeric_only=True)
- .astype(int)
- .sum()
- .pipe(lambda x: x / monitoring_stations.station_code.nunique())
- .rename('ratio')
- .reset_index()
- .query('not index.isin(["NO", "NO2", "CH4", "NMHC"])')
- .replace(variable_map)
- .pipe(lambda dd: p9.ggplot(dd) 
-                + p9.aes('reorder(index, ratio)', 'ratio') 
-                + p9.geom_col() 
-                + p9.coord_flip()
-                + p9.labs(x='', y='')
-                + p9.scale_y_continuous(labels=percent_format()) 
-                + p9.theme(figure_size=(2, 1.5),
-                           axis_text=p9.element_text(size=4),
-                           panel_grid=p9.element_blank())
- )
-)
-</pre></div>
+<div class="cell" data-code-folding="true" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a aria-hidden="true" href="#cb32-1" tabindex="-1"></a>(monitoring_stations</span>
+<span id="cb32-2"><a aria-hidden="true" href="#cb32-2" tabindex="-1"></a> .drop(columns<span class="op">=</span>[<span class="st">'station_code'</span>, <span class="st">'latitude'</span>, <span class="st">'longitude'</span>, <span class="st">'altitude'</span>])</span>
+<span id="cb32-3"><a aria-hidden="true" href="#cb32-3" tabindex="-1"></a> .groupby([<span class="st">'prefecture'</span>, <span class="st">'prefecture_code'</span>])</span>
+<span id="cb32-4"><a aria-hidden="true" href="#cb32-4" tabindex="-1"></a> .<span class="bu">sum</span>(numeric_only<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb32-5"><a aria-hidden="true" href="#cb32-5" tabindex="-1"></a> .astype(<span class="bu">int</span>)</span>
+<span id="cb32-6"><a aria-hidden="true" href="#cb32-6" tabindex="-1"></a> .<span class="bu">sum</span>()</span>
+<span id="cb32-7"><a aria-hidden="true" href="#cb32-7" tabindex="-1"></a> .pipe(<span class="kw">lambda</span> x: x <span class="op">/</span> monitoring_stations.station_code.nunique())</span>
+<span id="cb32-8"><a aria-hidden="true" href="#cb32-8" tabindex="-1"></a> .rename(<span class="st">'ratio'</span>)</span>
+<span id="cb32-9"><a aria-hidden="true" href="#cb32-9" tabindex="-1"></a> .reset_index()</span>
+<span id="cb32-10"><a aria-hidden="true" href="#cb32-10" tabindex="-1"></a> .query(<span class="st">'not index.isin(["NO", "NO2", "CH4", "NMHC"])'</span>)</span>
+<span id="cb32-11"><a aria-hidden="true" href="#cb32-11" tabindex="-1"></a> .replace(variable_map)</span>
+<span id="cb32-12"><a aria-hidden="true" href="#cb32-12" tabindex="-1"></a> .pipe(<span class="kw">lambda</span> dd: p9.ggplot(dd) </span>
+<span id="cb32-13"><a aria-hidden="true" href="#cb32-13" tabindex="-1"></a>                <span class="op">+</span> p9.aes(<span class="st">'reorder(index, ratio)'</span>, <span class="st">'ratio'</span>) </span>
+<span id="cb32-14"><a aria-hidden="true" href="#cb32-14" tabindex="-1"></a>                <span class="op">+</span> p9.geom_col() </span>
+<span id="cb32-15"><a aria-hidden="true" href="#cb32-15" tabindex="-1"></a>                <span class="op">+</span> p9.coord_flip()</span>
+<span id="cb32-16"><a aria-hidden="true" href="#cb32-16" tabindex="-1"></a>                <span class="op">+</span> p9.labs(x<span class="op">=</span><span class="st">''</span>, y<span class="op">=</span><span class="st">''</span>)</span>
+<span id="cb32-17"><a aria-hidden="true" href="#cb32-17" tabindex="-1"></a>                <span class="op">+</span> p9.scale_y_continuous(labels<span class="op">=</span>percent_format()) </span>
+<span id="cb32-18"><a aria-hidden="true" href="#cb32-18" tabindex="-1"></a>                <span class="op">+</span> p9.theme(figure_size<span class="op">=</span>(<span class="dv">2</span>, <span class="fl">1.5</span>),</span>
+<span id="cb32-19"><a aria-hidden="true" href="#cb32-19" tabindex="-1"></a>                           axis_text<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">4</span>),</span>
+<span id="cb32-20"><a aria-hidden="true" href="#cb32-20" tabindex="-1"></a>                           panel_grid<span class="op">=</span>p9.element_blank())</span>
+<span id="cb32-21"><a aria-hidden="true" href="#cb32-21" tabindex="-1"></a> )</span>
+<span id="cb32-22"><a aria-hidden="true" href="#cb32-22" tabindex="-1"></a>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img class="img-fluid" src="prefecture_weighted_averages_files/figure-html/cell-31-output-1.png"/></p>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/prefecture_weighted_averages_63_0.png" src="_images/prefecture_weighted_averages_63_0.png"/>
+<div class="cell-output cell-output-display" data-execution_count="28">
 
 </div>
 </div>
+</section>
+<section class="level3" id="estimation-of-population-coverage-per-prefecture">
+<h3 class="anchored" data-anchor-id="estimation-of-population-coverage-per-prefecture">Estimation of population coverage per prefecture</h3>
+<p>We will apply a quite naïve (and probably conservative) method to estimate the percentage of population ‘covered’ by monitoring stations: the % of population in a municipality with at least a station. The population living in municipalities without any station will be considered as <em>uncovered</em> by this metric (which might be a tad unfair as municipal terms can often be really small).</p>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T13:33:54.596111Z","start_time":"2022-09-29T13:33:54.586648Z"}' data-execution_count="29">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a aria-hidden="true" href="#cb34-1" tabindex="-1"></a>jp_munis <span class="op">=</span> jp_munis.assign(has_station<span class="op">=</span><span class="kw">lambda</span> dd: dd.code.isin(station_munis.code))</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
-<div class="section" id="estimation-of-population-coverage-per-prefecture">
-<h3><a class="toc-backref" href="#id15">Estimation of population coverage per prefecture</a><a class="headerlink" href="#estimation-of-population-coverage-per-prefecture" title="Permalink to this headline">¶</a></h3>
-<p>We will apply a quite naïve (and probably conservative) method to estimate the percentage of population ‘covered’ by
-monitoring stations: the % of population in a municipality with at least a station. The population living in
-municipalities without any station will be considered as <em>uncovered</em> by this metric (which might be a tad unfair as
-municipal terms can often be really small).</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>jp_munis = jp_munis.assign(has_station=lambda dd: dd.code.isin(station_munis.code))
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pop_coverage = (jp_munis
-                .merge(jp_pops_full)
-                .groupby('PREF')
-                .apply(lambda dd: dd.query('has_station').population.sum() / dd.population.sum())
-                .rename('pop_coverage')
-                .reset_index()
-                .set_index('PREF')
-)
-</pre></div>
-</div>
-</div>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T13:33:55.280873Z","start_time":"2022-09-29T13:33:55.142990Z"}' data-execution_count="30">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a aria-hidden="true" href="#cb35-1" tabindex="-1"></a>pop_coverage <span class="op">=</span> (jp_munis</span>
+<span id="cb35-2"><a aria-hidden="true" href="#cb35-2" tabindex="-1"></a>                .merge(jp_pops_full)</span>
+<span id="cb35-3"><a aria-hidden="true" href="#cb35-3" tabindex="-1"></a>                .groupby(<span class="st">'PREF'</span>)</span>
+<span id="cb35-4"><a aria-hidden="true" href="#cb35-4" tabindex="-1"></a>                .<span class="bu">apply</span>(<span class="kw">lambda</span> dd: dd.query(<span class="st">'has_station'</span>).population.<span class="bu">sum</span>() <span class="op">/</span> dd.population.<span class="bu">sum</span>())</span>
+<span id="cb35-5"><a aria-hidden="true" href="#cb35-5" tabindex="-1"></a>                .rename(<span class="st">'pop_coverage'</span>)</span>
+<span id="cb35-6"><a aria-hidden="true" href="#cb35-6" tabindex="-1"></a>                .reset_index()</span>
+<span id="cb35-7"><a aria-hidden="true" href="#cb35-7" tabindex="-1"></a>                .set_index(<span class="st">'PREF'</span>)</span>
+<span id="cb35-8"><a aria-hidden="true" href="#cb35-8" tabindex="-1"></a>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
 <p>The prefecture of Tokyo has many small islands (barely inhabited) which distort completely the shape of the region. Let’s get ride of those for the plots:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>jp_munis = pd.concat([jp_munis.query("PREF!='13'"),
-                      jp_munis.query("PREF=='13'")
-                              .query('geometry.bounds.miny &gt; 35')])
-</pre></div>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T13:33:57.706923Z","start_time":"2022-09-29T13:33:57.692412Z"}' data-execution_count="31">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a aria-hidden="true" href="#cb36-1" tabindex="-1"></a>jp_munis <span class="op">=</span> pd.concat([jp_munis.query(<span class="st">"PREF!='13'"</span>),</span>
+<span id="cb36-2"><a aria-hidden="true" href="#cb36-2" tabindex="-1"></a>                      jp_munis.query(<span class="st">"PREF=='13'"</span>)</span>
+<span id="cb36-3"><a aria-hidden="true" href="#cb36-3" tabindex="-1"></a>                              .query(<span class="st">'geometry.bounds.miny &gt; 35'</span>)])</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
+<section class="level4" id="population-map">
+<h4 class="anchored" data-anchor-id="population-map">Population map</h4>
+<div class="cell" data-code-folding="true" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a aria-hidden="true" href="#cb37-1" tabindex="-1"></a>(p9.ggplot(jp_munis.merge(jp_pops_full))</span>
+<span id="cb37-2"><a aria-hidden="true" href="#cb37-2" tabindex="-1"></a><span class="op">+</span> p9.geom_map(p9.aes(fill<span class="op">=</span><span class="st">'population'</span>), size<span class="op">=</span><span class="fl">.01</span>) </span>
+<span id="cb37-3"><a aria-hidden="true" href="#cb37-3" tabindex="-1"></a><span class="op">+</span> p9.geom_map(data<span class="op">=</span>prefecture_shapes, size<span class="op">=</span><span class="fl">.05</span>, alpha<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb37-4"><a aria-hidden="true" href="#cb37-4" tabindex="-1"></a><span class="op">+</span> p9.scale_fill_continuous(<span class="st">'Oranges'</span>, breaks<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">250_000</span>, <span class="dv">500_000</span>, <span class="dv">750_000</span>], labels<span class="op">=</span>[<span class="st">'0'</span>, <span class="st">'250k'</span>, <span class="st">'500k'</span>, <span class="st">'750k'</span>])</span>
+<span id="cb37-5"><a aria-hidden="true" href="#cb37-5" tabindex="-1"></a><span class="op">+</span> p9.scale_y_continuous(labels<span class="op">=</span>custom_format(<span class="st">'</span><span class="sc">{:0g}</span><span class="st">°N'</span>), limits<span class="op">=</span>(<span class="dv">30</span>, <span class="dv">45</span>))</span>
+<span id="cb37-6"><a aria-hidden="true" href="#cb37-6" tabindex="-1"></a><span class="op">+</span> p9.scale_x_continuous(labels<span class="op">=</span>custom_format(<span class="st">'</span><span class="sc">{:0g}</span><span class="st">°E'</span>), limits<span class="op">=</span>(<span class="dv">129</span>, <span class="fl">145.5</span>))</span>
+<span id="cb37-7"><a aria-hidden="true" href="#cb37-7" tabindex="-1"></a><span class="op">+</span> p9.theme_void()</span>
+<span id="cb37-8"><a aria-hidden="true" href="#cb37-8" tabindex="-1"></a><span class="op">+</span> p9.labs(fill<span class="op">=</span><span class="st">'Population (n)'</span>)</span>
+<span id="cb37-9"><a aria-hidden="true" href="#cb37-9" tabindex="-1"></a><span class="op">+</span> p9.theme(figure_size<span class="op">=</span>(<span class="dv">3</span>, <span class="dv">3</span>),</span>
+<span id="cb37-10"><a aria-hidden="true" href="#cb37-10" tabindex="-1"></a>           legend_key_size<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb37-11"><a aria-hidden="true" href="#cb37-11" tabindex="-1"></a>           legend_position<span class="op">=</span>(<span class="fl">.35</span>, <span class="fl">.75</span>),</span>
+<span id="cb37-12"><a aria-hidden="true" href="#cb37-12" tabindex="-1"></a>           legend_direction<span class="op">=</span><span class="st">'vertical'</span>,</span>
+<span id="cb37-13"><a aria-hidden="true" href="#cb37-13" tabindex="-1"></a>           legend_title<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">6</span>),</span>
+<span id="cb37-14"><a aria-hidden="true" href="#cb37-14" tabindex="-1"></a>           legend_text<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">4</span>, va<span class="op">=</span><span class="st">'baseline'</span>),)</span>
+<span id="cb37-15"><a aria-hidden="true" href="#cb37-15" tabindex="-1"></a>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img class="img-fluid" src="prefecture_weighted_averages_files/figure-html/cell-35-output-1.png"/></p>
 </div>
-</div>
-<div class="section" id="population-map">
-<h4><a class="toc-backref" href="#id16">Population map</a><a class="headerlink" href="#population-map" title="Permalink to this headline">¶</a></h4>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>(p9.ggplot(jp_munis.merge(jp_pops_full))
-+ p9.geom_map(p9.aes(fill='population'), size=.01) 
-+ p9.geom_map(data=prefecture_shapes, size=.05, alpha=0)
-+ p9.scale_fill_continuous('Oranges', breaks=[0, 250_000, 500_000, 750_000], labels=['0', '250k', '500k', '750k'])
-+ p9.scale_y_continuous(labels=custom_format('{:0g}°N'), limits=(30, 45))
-+ p9.scale_x_continuous(labels=custom_format('{:0g}°E'), limits=(129, 145.5))
-+ p9.theme_void()
-+ p9.labs(fill='Population (n)')
-+ p9.theme(figure_size=(3, 3),
-           legend_key_size=5,
-           legend_position=(.35, .75),
-           legend_direction='vertical',
-           legend_title=p9.element_text(size=6),
-           legend_text=p9.element_text(size=4, va='baseline'),)
-)
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/prefecture_weighted_averages_71_0.png" src="_images/prefecture_weighted_averages_71_0.png"/>
+<div class="cell-output cell-output-display" data-execution_count="32">
 
 </div>
 </div>
-</div>
-<div class="section" id="stations-map">
-<h4><a class="toc-backref" href="#id17">Stations map</a><a class="headerlink" href="#stations-map" title="Permalink to this headline">¶</a></h4>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>f = (p9.ggplot(jp_munis) 
-    + p9.geom_map(size=.01, fill='white') 
-    + p9.geom_map(data=prefecture_shapes, size=.05, alpha=0)
-    + p9.geom_point(p9.aes(x='longitude', y='latitude'), data=monitoring_stations, size=.3, stroke=0, alpha=.7, color='red')
-    + p9.scale_y_continuous(limits=(30, 45))
-    + p9.scale_x_continuous(limits=(129, 145.5))
-    + p9.guides(fill=False)
-    + p9.theme_void()
-    + p9.theme(figure_size=(3, 3),
-               dpi=600)
-).draw()
-
-f.savefig('../data/air_pollution/stations/doc/stations_map.png')
-f
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-
-<img alt="_images/prefecture_weighted_averages_73_1.png" src="_images/prefecture_weighted_averages_73_1.png"/>
+</section>
+<section class="level4" id="stations-map">
+<h4 class="anchored" data-anchor-id="stations-map">Stations map</h4>
+<div class="cell" data-code-folding="true" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a aria-hidden="true" href="#cb39-1" tabindex="-1"></a>f <span class="op">=</span> (p9.ggplot(jp_munis) </span>
+<span id="cb39-2"><a aria-hidden="true" href="#cb39-2" tabindex="-1"></a>    <span class="op">+</span> p9.geom_map(size<span class="op">=</span><span class="fl">.01</span>, fill<span class="op">=</span><span class="st">'white'</span>) </span>
+<span id="cb39-3"><a aria-hidden="true" href="#cb39-3" tabindex="-1"></a>    <span class="op">+</span> p9.geom_map(data<span class="op">=</span>prefecture_shapes, size<span class="op">=</span><span class="fl">.05</span>, alpha<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb39-4"><a aria-hidden="true" href="#cb39-4" tabindex="-1"></a>    <span class="op">+</span> p9.geom_point(p9.aes(x<span class="op">=</span><span class="st">'longitude'</span>, y<span class="op">=</span><span class="st">'latitude'</span>), data<span class="op">=</span>monitoring_stations, size<span class="op">=</span><span class="fl">.3</span>, stroke<span class="op">=</span><span class="dv">0</span>, alpha<span class="op">=</span><span class="fl">.7</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb39-5"><a aria-hidden="true" href="#cb39-5" tabindex="-1"></a>    <span class="op">+</span> p9.scale_y_continuous(limits<span class="op">=</span>(<span class="dv">30</span>, <span class="dv">45</span>))</span>
+<span id="cb39-6"><a aria-hidden="true" href="#cb39-6" tabindex="-1"></a>    <span class="op">+</span> p9.scale_x_continuous(limits<span class="op">=</span>(<span class="dv">129</span>, <span class="fl">145.5</span>))</span>
+<span id="cb39-7"><a aria-hidden="true" href="#cb39-7" tabindex="-1"></a>    <span class="op">+</span> p9.guides(fill<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb39-8"><a aria-hidden="true" href="#cb39-8" tabindex="-1"></a>    <span class="op">+</span> p9.theme_void()</span>
+<span id="cb39-9"><a aria-hidden="true" href="#cb39-9" tabindex="-1"></a>    <span class="op">+</span> p9.theme(figure_size<span class="op">=</span>(<span class="dv">3</span>, <span class="dv">3</span>),</span>
+<span id="cb39-10"><a aria-hidden="true" href="#cb39-10" tabindex="-1"></a>               dpi<span class="op">=</span><span class="dv">600</span>)</span>
+<span id="cb39-11"><a aria-hidden="true" href="#cb39-11" tabindex="-1"></a>).draw()</span>
+<span id="cb39-12"><a aria-hidden="true" href="#cb39-12" tabindex="-1"></a></span>
+<span id="cb39-13"><a aria-hidden="true" href="#cb39-13" tabindex="-1"></a>f.savefig(<span class="st">'../data/air_pollution/stations/doc/stations_map.png'</span>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="34">
+<p><img class="img-fluid" src="prefecture_weighted_averages_files/figure-html/cell-36-output-1.png"/></p>
 </div>
 </div>
+</section>
+<section class="level4" id="population-coverage-map">
+<h4 class="anchored" data-anchor-id="population-coverage-map">Population coverage map</h4>
+<div class="cell" data-executetime='{"end_time":"2022-09-29T14:17:39.032433Z","start_time":"2022-09-29T14:17:38.657444Z"}' data-execution_count="35">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a aria-hidden="true" href="#cb40-1" tabindex="-1"></a>stats_df <span class="op">=</span> defaultdict(<span class="bu">list</span>)</span>
+<span id="cb40-2"><a aria-hidden="true" href="#cb40-2" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">48</span>):</span>
+<span id="cb40-3"><a aria-hidden="true" href="#cb40-3" tabindex="-1"></a>    shape <span class="op">=</span> jp_munis.query(<span class="ss">f'PREF=="</span><span class="sc">{</span><span class="bu">str</span>(i)<span class="sc">.</span>zfill(<span class="dv">2</span>)<span class="sc">}</span><span class="ss">"'</span>)</span>
+<span id="cb40-4"><a aria-hidden="true" href="#cb40-4" tabindex="-1"></a>    stations <span class="op">=</span> monitoring_stations.query(<span class="ss">f'prefecture_code==</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb40-5"><a aria-hidden="true" href="#cb40-5" tabindex="-1"></a>    stats_df[<span class="st">'prefecture'</span>].append(prefectures_map[i].split(<span class="st">'-'</span>)[<span class="dv">0</span>])</span>
+<span id="cb40-6"><a aria-hidden="true" href="#cb40-6" tabindex="-1"></a>    stats_df[<span class="st">'prefecture_code'</span>].append(i)</span>
+<span id="cb40-7"><a aria-hidden="true" href="#cb40-7" tabindex="-1"></a>    stats_df[<span class="st">'n_stations'</span>].append(<span class="bu">len</span>(stations))</span>
+<span id="cb40-8"><a aria-hidden="true" href="#cb40-8" tabindex="-1"></a>    stats_df[<span class="st">'coverage'</span>].append((pop_coverage.loc[<span class="bu">str</span>(i).zfill(<span class="dv">2</span>)] <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">2</span>).values[<span class="dv">0</span>])</span>
+<span id="cb40-9"><a aria-hidden="true" href="#cb40-9" tabindex="-1"></a>    bounds <span class="op">=</span> shape.bounds.agg([<span class="st">'min'</span>, <span class="st">'max'</span>]).values</span>
+<span id="cb40-10"><a aria-hidden="true" href="#cb40-10" tabindex="-1"></a>    stats_df[<span class="st">'ar'</span>].append((bounds[<span class="dv">1</span>, <span class="dv">3</span>] <span class="op">-</span> bounds[<span class="dv">0</span>, <span class="dv">1</span>]) <span class="op">/</span> (bounds[<span class="dv">1</span>, <span class="dv">2</span>] <span class="op">-</span> bounds[<span class="dv">0</span>, <span class="dv">0</span>]))</span>
+<span id="cb40-11"><a aria-hidden="true" href="#cb40-11" tabindex="-1"></a>stats_df <span class="op">=</span> pd.DataFrame(stats_df)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
-<div class="section" id="population-coverage-map">
-<h4><a class="toc-backref" href="#id18">Population coverage map</a><a class="headerlink" href="#population-coverage-map" title="Permalink to this headline">¶</a></h4>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>stats_df = defaultdict(list)
-for i in range(1, 48):
-    shape = jp_munis.query(f'PREF=="{str(i).zfill(2)}"')
-    stations = monitoring_stations.query(f'prefecture_code=={i}')
-    stats_df['prefecture'].append(prefectures_map[i].split('-')[0])
-    stats_df['prefecture_code'].append(i)
-    stats_df['n_stations'].append(len(stations))
-    stats_df['coverage'].append((pop_coverage.loc[str(i).zfill(2)] * 100).round(2).values[0])
-    bounds = shape.bounds.agg(['min', 'max']).values
-    stats_df['ar'].append((bounds[1, 3] - bounds[0, 1]) / (bounds[1, 2] - bounds[0, 0]))
-stats_df = pd.DataFrame(stats_df)
-</pre></div>
+<p>To actually visualize the prefecture by prefecture population coverage, I generated a figure for each prefecture which was later on merged together in a single figure with Inkscape. Notice how in most cases, stations and population go together, as most of the <em>stationless</em> municipalities are usually those which are also lowly populated.</p>
+<div class="cell" data-code-folding="true" data-executetime='{"end_time":"2022-09-29T14:41:03.394533Z","start_time":"2022-09-29T14:39:56.244827Z"}'>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a aria-hidden="true" href="#cb41-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> tqdm(stats_df.sort_values(<span class="st">'ar'</span>).prefecture_code):</span>
+<span id="cb41-2"><a aria-hidden="true" href="#cb41-2" tabindex="-1"></a>    shape <span class="op">=</span> jp_munis.query(<span class="ss">f'PREF=="</span><span class="sc">{</span><span class="bu">str</span>(i)<span class="sc">.</span>zfill(<span class="dv">2</span>)<span class="sc">}</span><span class="ss">"'</span>)</span>
+<span id="cb41-3"><a aria-hidden="true" href="#cb41-3" tabindex="-1"></a>    stations <span class="op">=</span> monitoring_stations.query(<span class="ss">f'prefecture_code==</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb41-4"><a aria-hidden="true" href="#cb41-4" tabindex="-1"></a>    n_stations <span class="op">=</span> <span class="bu">len</span>(stations)</span>
+<span id="cb41-5"><a aria-hidden="true" href="#cb41-5" tabindex="-1"></a>    prefecture_name <span class="op">=</span> prefectures_map[i].split(<span class="st">'-'</span>)[<span class="dv">0</span>]</span>
+<span id="cb41-6"><a aria-hidden="true" href="#cb41-6" tabindex="-1"></a>    coverage <span class="op">=</span> (pop_coverage.loc[<span class="bu">str</span>(i).zfill(<span class="dv">2</span>)] <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">2</span>).values[<span class="dv">0</span>]</span>
+<span id="cb41-7"><a aria-hidden="true" href="#cb41-7" tabindex="-1"></a>    bounds <span class="op">=</span> shape.bounds.agg([<span class="st">'min'</span>, <span class="st">'max'</span>]).values</span>
+<span id="cb41-8"><a aria-hidden="true" href="#cb41-8" tabindex="-1"></a>    ar <span class="op">=</span> (bounds[<span class="dv">1</span>, <span class="dv">3</span>] <span class="op">-</span> bounds[<span class="dv">0</span>, <span class="dv">1</span>]) <span class="op">/</span> (bounds[<span class="dv">1</span>, <span class="dv">2</span>] <span class="op">-</span> bounds[<span class="dv">0</span>, <span class="dv">0</span>])</span>
+<span id="cb41-9"><a aria-hidden="true" href="#cb41-9" tabindex="-1"></a>    f <span class="op">=</span> (p9.ggplot(shape) </span>
+<span id="cb41-10"><a aria-hidden="true" href="#cb41-10" tabindex="-1"></a>                <span class="op">+</span> p9.geom_map(p9.aes(fill<span class="op">=</span><span class="st">'population'</span>), size<span class="op">=</span><span class="fl">.02</span>) </span>
+<span id="cb41-11"><a aria-hidden="true" href="#cb41-11" tabindex="-1"></a>                <span class="op">+</span> p9.geom_point(p9.aes(x<span class="op">=</span><span class="st">'longitude'</span>, y<span class="op">=</span><span class="st">'latitude'</span>),</span>
+<span id="cb41-12"><a aria-hidden="true" href="#cb41-12" tabindex="-1"></a>                                data<span class="op">=</span>stations, size<span class="op">=</span><span class="fl">.3</span>, stroke<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb41-13"><a aria-hidden="true" href="#cb41-13" tabindex="-1"></a>                <span class="op">+</span> p9.labs(x<span class="op">=</span><span class="st">''</span>, y<span class="op">=</span><span class="st">''</span>, fill<span class="op">=</span><span class="st">''</span>)</span>
+<span id="cb41-14"><a aria-hidden="true" href="#cb41-14" tabindex="-1"></a>                <span class="op">+</span> p9.guides(fill<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb41-15"><a aria-hidden="true" href="#cb41-15" tabindex="-1"></a>                <span class="op">+</span> p9.scale_fill_continuous(<span class="st">'Oranges'</span>)</span>
+<span id="cb41-16"><a aria-hidden="true" href="#cb41-16" tabindex="-1"></a>                <span class="op">+</span> p9.ggtitle(<span class="ss">f'</span><span class="sc">{</span>prefecture_name<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>n_stations<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>coverage<span class="sc">}</span><span class="ss">%)'</span>)</span>
+<span id="cb41-17"><a aria-hidden="true" href="#cb41-17" tabindex="-1"></a>                <span class="op">+</span> p9.theme_void()</span>
+<span id="cb41-18"><a aria-hidden="true" href="#cb41-18" tabindex="-1"></a>                <span class="op">+</span> p9.theme(aspect_ratio<span class="op">=</span>ar,</span>
+<span id="cb41-19"><a aria-hidden="true" href="#cb41-19" tabindex="-1"></a>                           figure_size<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">1</span>),</span>
+<span id="cb41-20"><a aria-hidden="true" href="#cb41-20" tabindex="-1"></a>                           dpi<span class="op">=</span><span class="dv">1000</span>,</span>
+<span id="cb41-21"><a aria-hidden="true" href="#cb41-21" tabindex="-1"></a>                           title<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">4</span>),)</span>
+<span id="cb41-22"><a aria-hidden="true" href="#cb41-22" tabindex="-1"></a></span>
+<span id="cb41-23"><a aria-hidden="true" href="#cb41-23" tabindex="-1"></a> ).save(<span class="ss">f'../data/doc/images/</span><span class="sc">{</span><span class="bu">str</span>(i)<span class="sc">.</span>zfill(<span class="dv">2</span>)<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>prefecture_name<span class="sc">}</span><span class="ss">.pdf'</span>,</span>
+<span id="cb41-24"><a aria-hidden="true" href="#cb41-24" tabindex="-1"></a>        bbox_inches<span class="op">=</span><span class="st">'tight'</span>, verbose<span class="op">=</span><span class="va">False</span>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-</div>
-<p>To actually visualize the prefecture by prefecture population coverage, I generated a figure for each prefecture which was
-later on merged together in a single figure with Inkscape. Notice how in most cases, stations and population go together, as most of the <em>stationless</em> municipalities are usually those which are also lowly populated.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-for i in tqdm(stats_df.sort_values('ar').prefecture_code):
-    shape = jp_munis.query(f'PREF=="{str(i).zfill(2)}"')
-    stations = monitoring_stations.query(f'prefecture_code=={i}')
-    n_stations = len(stations)
-    prefecture_name = prefectures_map[i].split('-')[0]
-    coverage = (pop_coverage.loc[str(i).zfill(2)] * 100).round(2).values[0]
-    bounds = shape.bounds.agg(['min', 'max']).values
-    ar = (bounds[1, 3] - bounds[0, 1]) / (bounds[1, 2] - bounds[0, 0])
-    f = (p9.ggplot(shape) 
-                + p9.geom_map(p9.aes(fill='population'), size=.02) 
-                + p9.geom_point(p9.aes(x='longitude', y='latitude'),
-                                data=stations, size=.3, stroke=0)
-                + p9.labs(x='', y='', fill='')
-                + p9.guides(fill=False)
-                + p9.scale_fill_continuous('Oranges')
-                + p9.ggtitle(f'{prefecture_name} ({n_stations}, {coverage}%)')
-                + p9.theme_void()
-                + p9.theme(aspect_ratio=ar,
-                           figure_size=(1, 1),
-                           dpi=1000,
-                           title=p9.element_text(size=4),)
-
- ).save(f'../data/doc/images/{str(i).zfill(2)}_{prefecture_name}.pdf', bbox_inches='tight', verbose=False)
-</pre></div>
+<div class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a aria-hidden="true" href="#cb42-1" tabindex="-1"></a>Image(<span class="st">'../data/doc/images/prefectures_vertical.png'</span>)</span></code><button class="code-copy-button" title="Copy to Clipboard"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="36">
+<p><img class="img-fluid" src="prefecture_weighted_averages_files/figure-html/cell-39-output-1.png"/></p>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 47/47 [00:27&lt;00:00,  1.74it/s]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>Image('../data/doc/images/prefectures_vertical.png')
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/prefecture_weighted_averages_78_0.png" src="_images/prefecture_weighted_averages_78_0.png"/>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-    <script type="text/x-thebe-config">
-    {
-        requestKernel: true,
-        binderOptions: {
-            repo: "binder-examples/jupyter-stacks-datascience",
-            ref: "master",
-        },
-        codeMirrorConfig: {
-            theme: "abcdef",
-            mode: "python"
-        },
-        kernelOptions: {
-            kernelName: "python3",
-            path: "./."
-        },
-        predefinedOutput: true
+</section>
+</section>
+</section>
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
     }
-    </script>
-    <script>kernelName = 'python3'</script>
-
-              </div>
-              
-            
-                <!-- Previous / next buttons -->
-<div class="prev-next-area"> 
-    <a class="left-prev" href="index.html" id="prev-link" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Japan’s environmental Data</p>
-        </div>
-    </a>
-</div>
-            
-        </div>
-    </div>
-    <footer class="footer">
-  <p>
-    
-      By Alejandro Fontal<br/>
-    
-        © Copyright 2022.<br/>
-  </p>
-</footer>
-</main>
-
-
-      </div>
-    </div>
-  
-  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
-
-  
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

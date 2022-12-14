@@ -1,0 +1,38 @@
+pre code {
+    font-size: 0.8em
+}
+
+.table {
+  font-size: 0.8em;
+}
+
+p {
+  text-align: justify;
+}
+
+figcaption.figure-caption {
+  font-size: 0.8em;
+  text-align: center;
+}
+
+summary {
+  font-size: 0.8em;
+  font-family: Georgia,Cambria,"Times New Roman",Times,serif
+}
+
+header {
+  font-family: Georgia,Cambria,"Times New Roman",Times,serif;
+}
+
+navbar {
+  font-family: Georgia,Cambria,"Times New Roman",Times,serif;
+}
+
+body {
+  font-family: Georgia,Cambria,"Times New Roman",Times,serif;
+}
+
+.lead {
+  font-family: Georgia,Cambria,"Times New Roman",Times,serif;
+  font-size: 1.275rem;
+}
