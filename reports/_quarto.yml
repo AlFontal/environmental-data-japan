@@ -12,8 +12,6 @@ website:
   favicon: assets/favicon.ico
 
   navbar:
-    logo: assets/logo.png
-
     right:
 
       - text: Home
@@ -49,7 +47,7 @@ website:
 
 format:
   html:
-    number-sections: true
+    number-sections: false
     highlight-style: github
     theme:
       light: litera
