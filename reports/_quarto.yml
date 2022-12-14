@@ -1,0 +1,63 @@
+project:
+  type: website
+  render:
+    - index.md
+    - prefecture_weighted_averages.ipynb
+
+execute: 
+  freeze: true  # We don't want to re-execute notebooks in every build
+
+website:
+  title: "Japan's Environmental Data"
+  favicon: assets/favicon.ico
+
+  navbar:
+    logo: assets/logo.png
+
+    right:
+
+      - text: Home
+        href: index.md
+      
+      - text: Reports
+        menu:
+          - text: "Prefecture Weighted Estimates"
+            href: prefecture_weighted_averages.ipynb
+
+      - text: About
+        menu:
+          - text: "This Site"
+            href: index.qmd
+          - text: "ISGlobal"
+            href: https://www.isglobal.org/en
+          - text: "Climate & Health Programme"
+            href: https://www.isglobal.org/en/-/clima-y-salud
+          - text: "HELICAL ITN"
+            href: https://www.helical-itn.eu/
+          - text: "Alejandro Fontal"
+            href: https://alfontal.github.io
+
+      - icon: github
+        menu: 
+        - text: "GitHub Repository"
+          href: https://github.com/AlFontal/environmental-data-japan
+        - text: "Raise an issue"
+          href: https://github.com/AlFontal/environmental-data-japan
+      - icon: envelope
+        href: mailto:alejandro.fontal.92@gmail.com
+        aria-label: Mail
+
+format:
+  html:
+    number-sections: true
+    highlight-style: github
+    theme:
+      light: litera
+    css: custom.css
+    toc: true
+    toc-title: "CONTENTS"
+    toc-location: right
+    code-tools:
+      source: true
+      toggle: true
+    code-summary: "Show Code"
